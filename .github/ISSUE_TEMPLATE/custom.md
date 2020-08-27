@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-# Assignee : @junhyeong32 
+# Assignee : @junhyeong32 @praconfi
 
 # Job Description
 > 작업 내용을 적어주세요
