@@ -1,0 +1,31 @@
+.flex_container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: center;
+    align-items: flex-start;
+    width: 110rem;
+    height: 5rem;
+    background-color: greenyellow;
+    font-size: 2em;
+    }
+
+.flex_item_1 {
+    order: 0;
+    flex: 0 1 auto;
+    align-self: auto;
+    border: 1px solid black;
+    }
+
+.flex-item_2 {
+    order: 0;
+    flex: 0 1 auto;
+    align-self: auto;
+    }
+
+.flex-item_3 {
+    order: 0;
+    flex: 0 1 auto;
+    align-self: auto;
+    }
