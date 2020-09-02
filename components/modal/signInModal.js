@@ -1,27 +1,15 @@
-import React from "react";
-import { Modal, Button, Space } from "antd";
-import { ExclamationCircleOutlined } from "@ant-design/icons";
-const { confirm } = Modal;
+import React, { useCallback,  } from "react";
+import { Modal, Button, Form } from "react-bootstrap";
+import { observable } from 'mobx';
+import { observer, useObserver, useLocalStore } from 'mobx-react';
+import { modalShowState, userState } from "../../store/homeStore/sign";
 
-function signInModal() {
-  confirm({
-    title: "Do you Want to delete these items?",
-    icon: <ExclamationCircleOutlined />,
-    content: "Some descriptions",
-    onOk() {
-      console.log("OK");
-    },
-    onCancel() {
-      console.log("Cancel");
-    },
-  });
+const signInModal = () => {
+ return(
+   <div></div>
+ )
 }
+  
 
-ReactDOM.render(
-  <Space>
-    <Button onClick={signInModal}>Confirm</Button>
-  </Space>,
-  mountNode
-);
 
 export default signInModal;
