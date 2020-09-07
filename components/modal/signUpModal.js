@@ -11,14 +11,14 @@ const signUpModal = () => {
       })
 
     const state = useLocalStore(() => ({
-        email : '',
-        passowrd : '',
-        username : '',
+            email : '',
+            password : '',
+            username : '',
         onChangeEmail(e) {
             this.email = e.target.value;
         },
         onChangePassword(e) {
-            this.passowrd =  e.target.value;
+            this.password =  e.target.value;
         },
         onChangeUsername(e) {
             this.username =  e.target.value;
@@ -26,7 +26,7 @@ const signUpModal = () => {
     }));
   
     const handleSubmit = useCallback(()=>{
-      return Axios.post('http://18.191.16.175:3000/sign/signup', {email, password, username})
+      return Axios.post('http://18.191.16.175:3000/sign/signup', {...state})
       .then((response) => {
         alert("회워가입을 축하합니다!")
         console.log(response)
@@ -35,8 +35,10 @@ const signUpModal = () => {
             password : state.password,
             username : state.username
         })
+        handleClose();
       })
       .catch((err) => {
+          console.log({email, password, username})
         console.log(err)
       })
     });
@@ -56,15 +58,15 @@ const signUpModal = () => {
                     <Form>
                     <Form.Group controlId="formBasicEmail">
                     <Form.Label>아이디</Form.Label>
-                    <Form.Control type="email" placeholder="Enter email" onChange={state.onChangeEmail}/>
+                    <Form.Control type="email" placeholder="Enter email" value={state.email} onChange={state.onChangeEmail}/>
                     </Form.Group>
                     <Form.Group controlId="formBasicPassword">
                     <Form.Label>비밀번호</Form.Label>
-                    <Form.Control type="password" placeholder="Password" onChange={state.onChangePassword}/>
+                    <Form.Control type="password" placeholder="Password"value={state.password} onChange={state.onChangePassword}/>
                     </Form.Group>
                     <Form.Group controlId="formBasicEmail">
                     <Form.Label>이름</Form.Label>
-                    <Form.Control type="username" placeholder="Enter username" onChange={state.onChangeUsername}/>
+                    <Form.Control type="username" placeholder="Enter username" value={state.username} onChange={state.onChangeUsername}/>
                     </Form.Group>
                     <Form.Group controlId="formBasicCheckbox">
                     <Form.Check type="checkbox" label="Remember Email" />
