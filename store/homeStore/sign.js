@@ -17,6 +17,7 @@ const userState = observable({
   },
   logOut() {
     this.data = null;
+    this.isLoggedIn = false;
   }
 });
 

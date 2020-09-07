@@ -3,17 +3,39 @@
   padding: 0 0.5rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 }
 
-.main {
+.flex_item1 {
   padding: 5rem 0;
-  flex: 1;
   display: flex;
-  flex-direction: column;
+  order: 0;
+  flex: 1 1 auto;
+  align-self: auto;
   justify-content: center;
   align-items: center;
+  width: 100vw;
+  height: 35em;
+}
+
+.flex_item2{
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
+  background-color: yellow;
+  width: 100vw;
+  text-align: center;
+}
+
+.flex_item3{
+  display: flex;
+  flex-wrap: wrap;
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
+  width: 100vw;
+  background-color: rebeccapurple;
 }
 
 .footer {
@@ -72,10 +94,7 @@
     Bitstream Vera Sans Mono, Courier New, monospace;
 }
 
-.flex_wrap{
-  display: flex;
-  flex-wrap: wrap;
-}
+
 
 .flex_child{
   flex: 0 1 auto;

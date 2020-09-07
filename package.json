@@ -39,6 +39,7 @@
     "@babel/plugin-proposal-decorators": "^7.10.5",
     "antd": "^4.6.2",
     "axios": "^0.20.0",
+    "babel-plugin-styled-components": "^1.11.1",
     "babel-preset-mobx": "^2.0.0",
     "babel-preset-react-app": "^9.1.2",
     "bootstrap": "^4.5.2",
