@@ -1,11 +1,16 @@
-import React from "react";
-import Nav from "../components/nav";
+import React, { useCallback } from "react";
 import styles from "../styles/Home.module.css";
-import Link from "next/link";
-
-
+import { modalShowState, userState } from "../store/homeStore/sign";
 
 const Home = () => {
+  const goToStartPage = useCallback(() => {
+    if(userState.isLoggedIn === false){
+      alert("로그인이 안되잇어요");
+      modalShowState.signInshow = true;
+    }else{
+     alert("로그인 됨")
+    }
+  })
   let imgList = [
     "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/%EC%95%84%EB%A6%84%EB%8B%A4%EC%9A%B4_%EA%BD%83.jpg/1200px-%EC%95%84%EB%A6%84%EB%8B%A4%EC%9A%B4_%EA%BD%83.jpg",
     "https://cdn.pixabay.com/photo/2018/10/16/02/27/blue-flower-dan-3750487_960_720.jpg",
@@ -17,16 +22,17 @@ const Home = () => {
 
   return (
     <div className={styles.container}>
-        <Nav />
-      <div className={styles.main}>
-      <button className={styles.title}>
-          Get Start
-        </button>
-        <form>사용방법 로그인하고 쓰세요~~~~~</form>
+      <div className={styles.flex_item1}>
+        <a className={styles.title} onClick={goToStartPage}>
+            Get Start
+        </a>
       </div>
-      <div className={styles.flex_wrap}>
-      {imgmapping}
-    </div>
+      <div className={styles.flex_item2}>
+          사용방법
+        </div>
+      <div className={styles.flex_item3}>
+        {imgmapping}
+      </div>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-
+import Nav from "../components/nav";
+import Link from "next/link";
 const Select1 = styled.select`
   min-width: 200px;
   border: none;
@@ -89,16 +90,33 @@ const Button2 = styled.button`
 `;
 
 const start = () => {
+  //   const eventOnChangeCombobox = () => {
+  //     const select1 = document.getElementById("select1");
+  //     let tempArr = [];
+  //     let count;
+  //     if (select1.value !== "선택해주세요") {
+  //       //선택창이 1이면 카운트의 값은 1
+  //       count = 3;
+  //     }
+  //     for (let i = 1; i < count; i++) {
+  //       tempArr.push(<Select2></Select2>);
+  //     }
+
+  //   };
+
   return (
     <div>
+      <Nav></Nav>
       <div>
-        <Select1>
+        <Select1 id="select1">
+          {" "}
+          {/*onChange={eventOnChangeCombobox*/}
           <option value="none">선택해주세요</option>
           <option value="초보자">초보자</option>
           <option value="경험자">경험자</option>
           <option value="숙련자">숙련자</option>
         </Select1>
-        <Select2>
+        <Select2 id="select2">
           <option value="none">선택해주세요</option>
           <option value="봄">봄</option>
           <option value="여름">여름</option>
@@ -113,7 +131,10 @@ const start = () => {
         </Select3>
         <Checker type="checkbox"></Checker>
       </div>
-      <Button1>새글작성</Button1>;
+      <Link href="/plantAdd">
+        <Button1>새글작성</Button1>
+      </Link>
+
       <div>
         <Imgcont1 src="https://i.pinimg.com/originals/22/bb/5f/22bb5f6e25c72c11db39805137df814f.png" />
         <Imgcont2 src="https://cdn.crowdpic.net/detail-thumb/thumb_d_5D88C4D76A6DC4C470D37780304C1F6C.jpg" />
