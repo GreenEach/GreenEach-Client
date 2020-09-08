@@ -102,12 +102,6 @@ const Send = styled.button`
   box-sizing: border-box;
 `;
 
-//1.파일선택 버튼을 누르고 파일선택 v
-//2.업로드 버튼을 누르면 선택된 파일의 이름이 List에 표출 v
-//3.업로드 버튼을 누르면 선택된 파일이 Content에 표출
-//4.Axios를 사용하여 서버DB로 보낸다 1)POST를 눌렀을때 제목과 콘텐츠와 함께 한번에 보낸다
-//                                 2)Upload를 눌렀을 때, 사진을 우선 보내고 난 후에 POST를 누르면 제목과 콘텐츠가 보내진다
-//                                 (두 번 보낼 필요가 없으니, 전자?)
 const BASE_URL = "http://localhost:3000/plantAdd";
 
 const start = () => {
