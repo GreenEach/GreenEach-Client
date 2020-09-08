@@ -102,142 +102,104 @@ const Send = styled.button`
   box-sizing: border-box;
 `;
 
-//1.파일선택 버튼을 누르고 파일선택 v
-//2.업로드 버튼을 누르면 선택된 파일의 이름이 List에 표출 v
-//3.업로드 버튼을 누르면 선택된 파일이 Content에 표출
-//4.Axios를 사용하여 서버DB로 보낸다 1)POST를 눌렀을때 제목과 콘텐츠와 함께 한번에 보낸다
-//                                 2)Upload를 눌렀을 때, 사진을 우선 보내고 난 후에 POST를 누르면 제목과 콘텐츠가 보내진다
-//                                 (두 번 보낼 필요가 없으니, 전자?)
 const BASE_URL = "http://localhost:3000/plantAdd";
 
 const start = () => {
-  const [contents, setContent] = useState("");
-  const [uploadedImg, setUploadedImg] = useState({
-    fileName: "",
-    img: "",
-  });
-  const [uploadedText, setUploadedText] = useState({
+  const state = useLocalStore(() => ({
+    img: null,
     title: "",
     content: "",
     level: "",
     season: "",
     category: "",
-  });
-  // img title content level season category
+    onAddedImg(e) {
+      this.img = e.target.value;
+    },
+    onChangeTitle(e) {
+      this.title = e.target.value;
+    },
+    onChangeContent(e) {
+      this.content = e.target.value;
+    },
+    onChangeLevel(e) {
+      this.level = e.target.value;
+    },
+    onChangeSeason(e) {
+      this.season = e.target.value;
+    },
+    onChangeCategory(e) {
+      this.category = e.target.value;
+    },
+  }));
+
   const onChange = (e) => {
     setContent(e.target.files[0]);
   };
-  const onSubmit = (e) => {
+
+  const onClick = (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("img", contents);
-    formData.append("text", contents);
-    formData.append("text", contents);
+    formData.append("img", state.img);
+    formData.append("content", state.content);
+    formData.append("title", state.title);
+    formData.append("level", state.level);
+    formData.append("season", state.season);
     axios
       .post("http://localhost:3000/content", formData)
       .then((res) => {
-        const { fileName, title, content } = res.data;
-        console.log(fileName, title, content);
-        setUploadedText({
-          title,
-          content,
-        });
-        setUploadedImg({
-          fileName,
+        const { img, title, content, level, season, category } = res.data;
+        console.log(img, title, content, level, season, category);
+        onChangeTitle({ title });
+        onChangeContent({ content });
+        onChangeLevel({ level });
+        onChangeSeason({ season });
+        onChangeCategory({ category });
+        onAddedImg({
           img: `${BASE_URL}/img/${fileName}`,
         });
         alert("컨텐츠가 업로드 되었습니다.");
       })
       .catch((err) => {
-        console.error(err);
+        alert("컨텐츠 업로드에 실패했습니다.");
       });
   };
-  return (
-    <div>
-      <Nav></Nav>
-      <Container> </Container>
-      <form onSubmit={onSubmit}>
-        <File type="file" name="file" onChange={onChange}></File>
-        <List />
-        <Select1 onChange={onChange}>
-          <option value="none">선택해주세요</option>
-          <option value="초보자">초보자</option>
-          {/* onChange state 값을 .... */}
-          <option value="경험자">경험자</option>
-          <option value="숙련자">숙련자</option>
-        </Select1>
-        <Select2 onChange={onChange}>
-          <option value="none">선택해주세요</option>
-          <option value="봄">봄</option>
-          <option value="여름">여름</option>
-          <option value="가을">가을</option>
-          <option value="겨울">겨울</option>
-        </Select2>
-        <Title onSubmit={onChange}></Title>
-        <Content onSubmit={onChange}></Content>
-        {uploadedImg ? (
-          <>
-            <img src={uploadedImg.img} alt="" />
-            <h3>{uploadedImg.fileName}</h3>
-          </>
-        ) : (
-          "Cant resolve"
-        )}
-        <Send type="submit">POST!</Send>
-      </form>
-    </div>
-  );
+  return useObserver(() => {
+    return (
+      <div>
+        <Nav></Nav>
+        <Container> </Container>
+        <form>
+          <File type="file" name="file" onChange={state.onAddedImg}></File>
+          <List />
+          <Select1 onChange={state.onChangeLevel}>
+            <option value="none">선택해주세요</option>
+            <option value="초보자">초보자</option>
+            <option value="경험자">경험자</option>
+            <option value="숙련자">숙련자</option>
+          </Select1>
+          <Select2 onChange={state.onChangeSeason}>
+            <option value="none">선택해주세요</option>
+            <option value="봄">봄</option>
+            <option value="여름">여름</option>
+            <option value="가을">가을</option>
+            <option value="겨울">겨울</option>
+          </Select2>
+          <Title onChange={state.onChangeTitle}></Title>
+          <Content onChange={state.onChangeContent}></Content>
+          {/* {onAddedImg ? (
+            <>
+              <img src={onAddedImg.img} alt="" />
+            </>
+          ) : (
+            "Cant resolve"
+          )} */}
+          <Send type="submit" onClick={onClick}>
+            POST!
+          </Send>
+        </form>
+      </div>
+    );
+  });
 };
 
 export default start;
-
-// const start = () => {
-//   const state = useLocalStore(() => ({
-//     selectedFile: null,
-//     title: "",
-//     content: "",
-//     img: null,
-//   }));
-
-//   const handleFileInput = (e) => {
-//     state.selectedFile = e.target.files[0];
-//   };
-
-//   const handlePost = async () => {
-//     const formData = new FormData();
-//     formData.append("file", formData);
-//     await axios.post("http://121.137.150.214:3000/", formData);
-//   };
-//   return (
-//     <div>
-//       <Nav></Nav>
-//       <Container> </Container>
-//       <File
-//         type="file"
-//         name="file"
-//         onChange=""
-//         onClick={handleFileInput}
-//       ></File>
-
-//       <List />
-//       <Select1>
-//         <option value="none">선택해주세요</option>
-//         <option value="초보자">초보자</option>
-//         <option value="경험자">경험자</option>
-//         <option value="숙련자">숙련자</option>
-//       </Select1>
-//       <Select2>
-//         <option value="none">선택해주세요</option>
-//         <option value="봄">봄</option>
-//         <option value="여름">여름</option>
-//         <option value="가을">가을</option>
-//         <option value="겨울">겨울</option>
-//       </Select2>
-//       <Title></Title>
-//       <Content></Content>
-//       <Send onClick={handlePost}>POST!</Send>
-//     </div>
-//   );
-// };
-
-// export default start;
