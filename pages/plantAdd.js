@@ -111,9 +111,9 @@ const start = () => {
     content: "",
     level: "",
     season: "",
-    category: "",
+    category: "상추",
     onAddedImg(e) {
-      this.img = e.target.value;
+      this.img = e.target.files[0];
     },
     onChangeTitle(e) {
       this.title = e.target.value;
@@ -127,39 +127,44 @@ const start = () => {
     onChangeSeason(e) {
       this.season = e.target.value;
     },
-    onChangeCategory(e) {
-      this.category = e.target.value;
-    },
   }));
-
-  const onChange = (e) => {
-    setContent(e.target.files[0]);
-  };
-
+  // const onChange = (e) => {
+  //   setContent(e.target.files[0]);
+  // };
   const onClick = (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("img", state.img);
-    formData.append("content", state.content);
-    formData.append("title", state.title);
-    formData.append("level", state.level);
-    formData.append("season", state.season);
+
+    const Data = new FormData();
+
+    Data.append("img", state.img);
+    Data.append("content", state.content);
+    Data.append("title", state.title);
+    Data.append("level", state.level);
+    Data.append("season", state.season);
+
+    console.log(Data.get("img"));
+    console.log(Data.get("content"));
+    console.log(Data.get("title"));
+    console.log(Data.get("level"));
+    console.log(Data.get("season"));
+    console.log(Data.get("category"));
+
     axios
-      .post("http://localhost:3000/content", formData)
+      .post("http://18.191.16.175:3000/content", Data, {
+        headers: {
+          token: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Indvd0BtYWlsLmNvbSIsImlkIjoxLCJpYXQiOjE1OTk1NTcxNjB9.GnjkaTcMFyKBx4JbVNikYGOr6PAFHN_Kies-0WcDC1o`,
+        },
+      })
       .then((res) => {
+        console.log(res);
         const { img, title, content, level, season, category } = res.data;
         console.log(img, title, content, level, season, category);
-        onChangeTitle({ title });
-        onChangeContent({ content });
-        onChangeLevel({ level });
-        onChangeSeason({ season });
-        onChangeCategory({ category });
-        onAddedImg({
-          img: `${BASE_URL}/img/${fileName}`,
-        });
-        alert("컨텐츠가 업로드 되었습니다.");
+        if (res.status !== 200) {
+          alert("컨텐츠가 업로드 되었습니다.");
+        }
       })
       .catch((err) => {
+        console.log(err);
         alert("컨텐츠 업로드에 실패했습니다.");
       });
   };
@@ -173,16 +178,16 @@ const start = () => {
           <List />
           <Select1 onChange={state.onChangeLevel}>
             <option value="none">선택해주세요</option>
-            <option value="초보자">초보자</option>
-            <option value="경험자">경험자</option>
-            <option value="숙련자">숙련자</option>
+            <option value="easy">초보자</option>
+            <option value="normal">경험자</option>
+            <option value="hard">숙련자</option>
           </Select1>
           <Select2 onChange={state.onChangeSeason}>
-            <option value="none">선택해주세요</option>
-            <option value="봄">봄</option>
-            <option value="여름">여름</option>
-            <option value="가을">가을</option>
-            <option value="겨울">겨울</option>
+            <option value="any">선택해주세요</option>
+            <option value="spring">봄</option>
+            <option value="summer">여름</option>
+            <option value="fall">가을</option>
+            <option value="winter">겨울</option>
           </Select2>
           <Title onChange={state.onChangeTitle}></Title>
           <Content onChange={state.onChangeContent}></Content>
@@ -190,7 +195,7 @@ const start = () => {
             <>
               <img src={onAddedImg.img} alt="" />
             </>
-          ) : (
+          ) : (  //미리보기작업중
             "Cant resolve"
           )} */}
           <Send type="submit" onClick={onClick}>
