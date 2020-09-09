@@ -164,21 +164,20 @@ const start = ({ cookies }) => {
   };
 
   const thumbnail = (e) => {
-    document.querySelector(".thumbImg").src = URL.createObjectURL(
-      e.target.files[0] //이미지의 url생성
-    );
-    document.querySelector(".thumbImg").height = 150;
-    document.querySelector(".thumbImg").width = 150;
-    document.querySelector(".thumbImg").style.display = "block";
-    document.querySelector(".thumbImg").onload = function () {
+    let thumbImg = document.querySelector(".thumbImg");
+    thumbImg.src = URL.createObjectURL(e.target.files[0]); //이미지의 url생성
+    thumbImg.height = 150;
+    thumbImg.width = 150;
+    thumbImg.style.display = "block";
+    thumbImg.onload = function () {
       URL.revokeObjectURL(document.querySelector(".thumbImg").src); //생성된 url삭제
     };
     document.querySelector(".delButton").style.display = "block";
   };
 
   const thumbDel = (e) => {
-    let preview = e.target.previousElementSibling; //직전요소의 이벤트 객체 = 생성된 썸네일
-    preview.src = "";
+    let thumbImg = e.target.previousElementSibling; //직전요소의 이벤트 객체 = 생성된 썸네일
+    thumbImg.src = "";
     document.querySelector(".delButton").style.display = "none";
     document.querySelector(".thumbImg").style.display = "none";
   };
