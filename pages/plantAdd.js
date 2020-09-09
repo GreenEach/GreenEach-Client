@@ -152,7 +152,7 @@ const start = () => {
     axios
       .post("http://18.191.16.175:3000/content", Data, {
         headers: {
-          token: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Indvd0BtYWlsLmNvbSIsImlkIjoxLCJpYXQiOjE1OTk1NTcxNjB9.GnjkaTcMFyKBx4JbVNikYGOr6PAFHN_Kies-0WcDC1o`,
+          token: cookies.get("userInfo"),
         },
       })
       .then((res) => {

@@ -1,5 +1,6 @@
 const { observable, action, autorun } = require("mobx");
 
+
 const modalShowState = observable({
   signUpshow : false,  
   signInshow : false
@@ -7,7 +8,7 @@ const modalShowState = observable({
 
 const userState = observable({
   isLoggedIn : false,
-  data: null,
+  data : null,
   signIn(data){
     this.isLoggedIn = true;
     this.data = data;

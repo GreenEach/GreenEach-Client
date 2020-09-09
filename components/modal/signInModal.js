@@ -7,10 +7,6 @@ import Axios from "axios";
 import { Cookies, withCookies } from "react-cookie";
 
 const signInModal = ({ cookies }) => {
- 
-  // console.log(cookies.get("userInfo"));
-  // TODO: 쿠키를 가져와서, 이메일, 아이디 구하고 signIn
-   
   const handleClose = useCallback(() => {
     modalShowState.signInshow = false
   })
@@ -18,6 +14,8 @@ const signInModal = ({ cookies }) => {
   const state = useLocalStore(() => ({
     email : '',
     id : '',
+    password : '',
+    isLoggedIn : false,
     onChangeEmail(e) {
       this.email = e.target.value;
     },
@@ -25,7 +23,6 @@ const signInModal = ({ cookies }) => {
       this.password =  e.target.value;
     }
   }));
-  
   
 const handleLogin = useCallback(() => {
   if(!state.email){
@@ -37,7 +34,6 @@ const handleLogin = useCallback(() => {
     {
       ...state
     },
-      { withCredentials: true }
     )
      .then((response) => {
         console.log(response)
@@ -46,19 +42,17 @@ const handleLogin = useCallback(() => {
         // userInfo는 JWT 토큰 이므로 파싱해서 email, id를 구한다.
         // 그걸로 signIn 한다.
         cookies.set("userInfo", response.data.token, { path : '/' })
-
         let base64Url = cookies.get("userInfo").split('.')[1];
         let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
         let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
-        
-        userState.signIn({
-          email : JSON.parse(jsonPayload).email,
-          id : JSON.parse(jsonPayload).id,
-        })
+              
+          userState.signIn({
+            email : JSON.parse(jsonPayload).email,
+            id : JSON.parse(jsonPayload).id
+          })
         handleClose();
-        console.log(JSON.parse(jsonPayload))
       })
       .catch((err) => {
         console.log(err)

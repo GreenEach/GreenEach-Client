@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { observable } from "mobx";
+import { observable, get } from "mobx";
 import { useObserver } from "mobx-react"
 import Link from "next/link";
 import SignUp from './modal/signUpModal'
@@ -7,8 +7,15 @@ import SignIn from './modal/signInModal'
 import { modalShowState, userState } from "../store/homeStore/sign"
 import styles from "../styles/Nav.module.css";
 import Axios from "axios"
+import { Cookies, withCookies, removeCookie } from "react-cookie";
 
-const nav = () => {
+const nav = ({cookies}) => {
+  if(cookies.get("userInfo")){
+    userState.isLoggedIn = true;
+  }else{
+    userState.isLoggedIn = false;
+  }
+
   const signUpModalOpen = useCallback(() => {
     modalShowState.signUpshow = true;
   })
@@ -18,21 +25,17 @@ const nav = () => {
   })
 
   const logOut = useCallback(() => {
-    if(userState.data === null){
-      console.log(userState.data)
-    }else{
-      return Axios.post('http://18.191.16.175:3000/sign/signout')
-      .then((response) => {
-       console.log(response)
-       alert("로그아웃 되었습니다.")
-       userState.logOut();
-       })
-       .catch((err) => {
-         console.log(err)
-       }),[userState.data]
+     return Axios.post('http://18.191.16.175:3000/sign/signout',{}, 
+      {headers: {token: cookies.get("userInfo")} }
+    )
+    .then((response) => {
+      cookies.remove("userInfo");
+      alert("로그아웃 되었습니다.")
+      console.log(response)
+    })
     }
-    
-  }, [])
+    )
+
   return useObserver(() => {
     return(
     <div className={styles.flex_container}>
@@ -67,4 +70,4 @@ const nav = () => {
   });
 };
 
-export default nav;
+export default withCookies(nav);
