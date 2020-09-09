@@ -1,10 +1,11 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { useObserver, useLocalStore } from 'mobx-react'
 import Nav from "../components/nav";
 import Link from "next/link";
 import ImageGallery from 'react-image-gallery';
 import styled from "styled-components"
 import { commentClick } from '../store/plant'
+import axios from 'axios';
 
 const expectedRes = [
   {
@@ -60,13 +61,29 @@ const expectedRes = [
     ]
   }
 ]
-
+const state = {
+  contentId: 3
+}
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InByYWNvbmZpQGdtYWlsLmNvbSIsImlkIjozLCJpYXQiOjE1OTkzOTU3NDJ9.RviXSvWRNx_52lkLyZXnBCYl8LTylpGSIRKxcXSSL9Y"
 const Plant = () => {
+  const [photoArr, setPhotoArr] = useState([]);
+  const [comments, setcomments] = useState([]);
+  const fetchContentDetail = async () => {
+    const result = await axios.post('http://18.191.16.175:3000/content/detail', { ...state }, { headers: { token: token } })
+    setPhotoArr(JSON.parse(result.data[0].photoUrl))
+    console.log(result.data[0].comments)
+  }
+  useEffect(() => {
+    console.log('useEffectTest');
+    fetchContentDetail()
+  }, [])
+
+
   // 스토어에서 해당 content의 사진들 가져오기
   const plantArr = expectedRes[0].photoUrl;
 
   // 사진들이 담긴 배열을 라이브러리 양식에 맞게 mapping
-  const sliderArr = plantArr.map((plant, id) => {
+  const sliderArr = photoArr.map((plant, id) => {
     return ({
       id: id,
       original: plant,
@@ -74,7 +91,7 @@ const Plant = () => {
     })
   })
 
-  //스토어에서 해당 content의 댓글들 가져오기
+  //스토어에서 해당 cont.photoUrlent의 댓글들 가져오기
   const commentArr = expectedRes[0].comments;
 
   const commentMap = commentArr.map((com) =>
@@ -101,7 +118,7 @@ const Plant = () => {
       // 상단부 사진슬라이더와 수정,삭제버튼
       <>
         <div className="plantpage__top">
-          <Nav />
+          <Nav></Nav>
           <div className="slider__button">
             <ImageGallery items={sliderArr} showFullscreenButton={false} />
             <div className="plant__buttons">
