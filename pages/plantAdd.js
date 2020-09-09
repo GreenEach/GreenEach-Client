@@ -4,7 +4,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { observer, useObserver, useLocalStore } from "mobx-react";
 import FormData from "form-data";
-// import { handlePost } from "../store/upload";
+import { Cookies, withCookies } from "react-cookie";
 
 const Container = styled.div`
   position: absolute;
@@ -101,10 +101,14 @@ const Send = styled.button`
   border: 1px solid #000000;
   box-sizing: border-box;
 `;
+const Delete = styled.a`
+  display: none;
+`;
+const Thumb = styled.img`
+  display: none;
+`;
 
-const BASE_URL = "http://localhost:3000/plantAdd";
-
-const start = () => {
+const start = ({ cookies }) => {
   const state = useLocalStore(() => ({
     img: null,
     title: "",
@@ -128,9 +132,7 @@ const start = () => {
       this.season = e.target.value;
     },
   }));
-  // const onChange = (e) => {
-  //   setContent(e.target.files[0]);
-  // };
+
   const onClick = (e) => {
     e.preventDefault();
 
@@ -141,13 +143,8 @@ const start = () => {
     Data.append("title", state.title);
     Data.append("level", state.level);
     Data.append("season", state.season);
-
-    console.log(Data.get("img"));
-    console.log(Data.get("content"));
-    console.log(Data.get("title"));
-    console.log(Data.get("level"));
-    console.log(Data.get("season"));
-    console.log(Data.get("category"));
+    Data.append("category", state.category);
+    // console.log(Data.get("img"));
 
     axios
       .post("http://18.191.16.175:3000/content", Data, {
@@ -156,10 +153,7 @@ const start = () => {
         },
       })
       .then((res) => {
-        console.log(res);
-        const { img, title, content, level, season, category } = res.data;
-        console.log(img, title, content, level, season, category);
-        if (res.status !== 200) {
+        if (res.status === 200) {
           alert("컨텐츠가 업로드 되었습니다.");
         }
       })
@@ -168,20 +162,57 @@ const start = () => {
         alert("컨텐츠 업로드에 실패했습니다.");
       });
   };
+
+  const thumbnail = (e) => {
+    let thumbImg = document.querySelector(".thumbImg");
+    thumbImg.src = URL.createObjectURL(e.target.files[0]); //이미지의 url생성
+    thumbImg.height = 150;
+    thumbImg.width = 150;
+    thumbImg.style.display = "block";
+    thumbImg.onload = function () {
+      URL.revokeObjectURL(document.querySelector(".thumbImg").src); //생성된 url삭제
+    };
+    document.querySelector(".delButton").style.display = "block";
+  };
+
+  const thumbDel = (e) => {
+    let thumbImg = e.target.previousElementSibling; //직전요소의 이벤트 객체 = 생성된 썸네일
+    thumbImg.src = "";
+    document.querySelector(".delButton").style.display = "none";
+    document.querySelector(".thumbImg").style.display = "none";
+  };
+
   return useObserver(() => {
     return (
       <div>
         <Nav></Nav>
+
         <Container> </Container>
+
         <form>
-          <File type="file" name="file" onChange={state.onAddedImg}></File>
+          <File
+            accept="image/jpeg, image/jpg, image/png"
+            type="file"
+            name="file"
+            className="IMG"
+            onChange={(state.onAddedImg, thumbnail)}
+          ></File>
+
           <List />
+
+          <Thumb src="" className="thumbImg" />
+
+          <Delete className="delButton" onClick={thumbDel}>
+            썸네일삭제
+          </Delete>
+
           <Select1 onChange={state.onChangeLevel}>
             <option value="none">선택해주세요</option>
             <option value="easy">초보자</option>
             <option value="normal">경험자</option>
             <option value="hard">숙련자</option>
           </Select1>
+
           <Select2 onChange={state.onChangeSeason}>
             <option value="any">선택해주세요</option>
             <option value="spring">봄</option>
@@ -189,15 +220,11 @@ const start = () => {
             <option value="fall">가을</option>
             <option value="winter">겨울</option>
           </Select2>
+
           <Title onChange={state.onChangeTitle}></Title>
+
           <Content onChange={state.onChangeContent}></Content>
-          {/* {onAddedImg ? (
-            <>
-              <img src={onAddedImg.img} alt="" />
-            </>
-          ) : (  //미리보기작업중
-            "Cant resolve"
-          )} */}
+
           <Send type="submit" onClick={onClick}>
             POST!
           </Send>
@@ -206,5 +233,4 @@ const start = () => {
     );
   });
 };
-
-export default start;
+export default withCookies(start);
