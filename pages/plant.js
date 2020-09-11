@@ -5,108 +5,42 @@ import Link from "next/link";
 import ImageGallery from 'react-image-gallery';
 import styled from "styled-components"
 import { commentClick } from '../store/plant'
-import axios from 'axios';
+import axios from 'axios'
+import { useRouter } from 'next/router'
+import { plantListStore } from '../store/plantList'
+import { Cookies, withCookies } from "react-cookie";
+import Comment from '../components/comment'
 
-const expectedRes = [
-  {
-    "id": 1,
-    "title": "token test",
-    "content": "jinchuu",
-    "level": "high",
-    "season": "spring",
-    "category": "potato",
-    "photoUrl": ['https://user-images.githubusercontent.com/64571546/91794251-8cfd3080-ec55-11ea-94ac-0327ad8e7342.png', 'https://user-images.githubusercontent.com/64571546/91794251-8cfd3080-ec55-11ea-94ac-0327ad8e7342.png', 'https://user-images.githubusercontent.com/64571546/91794251-8cfd3080-ec55-11ea-94ac-0327ad8e7342.png', 'https://user-images.githubusercontent.com/64571546/91794251-8cfd3080-ec55-11ea-94ac-0327ad8e7342.png'],
-    "createdAt": "2020-09-02T11:41:53.000Z",
-    "updatedAt": "2020-09-02T11:41:53.000Z",
-    "User": {
-      "username": "jinchuu"
-    },
-    "comments": [
-      {
-        "id": 1,
-        "comment": "comment is...",
-        "photoUrl": 'https://user-images.githubusercontent.com/64571546/91794251-8cfd3080-ec55-11ea-94ac-0327ad8e7342.png',
-        "createdAt": "2020-09-02T13:32:27.000Z",
-        "User": {
-          "username": "jinchuu"
-        }
-      },
-      {
-        "id": 2,
-        "comment": "comment2 is...",
-        "photoUrl": 'https://user-images.githubusercontent.com/64571546/91794251-8cfd3080-ec55-11ea-94ac-0327ad8e7342.png',
-        "createdAt": "2020-09-02T13:32:39.000Z",
-        "User": {
-          "username": "jinchuu"
-        }
-      },
-      {
-        "id": 3,
-        "comment": "yo",
-        "photoUrl": 'https://user-images.githubusercontent.com/64571546/91794251-8cfd3080-ec55-11ea-94ac-0327ad8e7342.png',
-        "createdAt": "2020-09-02T13:55:23.000Z",
-        "User": {
-          "username": "test"
-        }
-      },
-      {
-        "id": 4,
-        "comment": "yo yo",
-        "photoUrl": 'https://user-images.githubusercontent.com/64571546/91794251-8cfd3080-ec55-11ea-94ac-0327ad8e7342.png',
-        "createdAt": "2020-09-02T13:55:29.000Z",
-        "User": {
-          "username": "test"
-        }
-      },
-    ]
-  }
-]
-const state = {
-  contentId: 3
-}
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InByYWNvbmZpQGdtYWlsLmNvbSIsImlkIjozLCJpYXQiOjE1OTkzOTU3NDJ9.RviXSvWRNx_52lkLyZXnBCYl8LTylpGSIRKxcXSSL9Y"
-const Plant = () => {
+const Plant = ({ cookies }) => {
+
   const [photoArr, setPhotoArr] = useState([]);
   const [comments, setcomments] = useState([]);
+  const [id, setId] = useState(1);
+
   const fetchContentDetail = async () => {
-    const result = await axios.post('http://18.191.16.175:3000/content/detail', { ...state }, { headers: { token: token } })
+    let id = plantListStore.listId;
+    const result = await axios.post('http://18.191.16.175:3000/content/detail', { contentId: Number(id) }, { headers: { token: cookies.get('userInfo') } })
     setPhotoArr(JSON.parse(result.data[0].photoUrl))
-    console.log(result.data[0].comments)
+    setcomments(result.data[0].Comments)
   }
   useEffect(() => {
-    console.log('useEffectTest');
     fetchContentDetail()
+    console.log(comments);
   }, [])
 
-
-  // 스토어에서 해당 content의 사진들 가져오기
-  const plantArr = expectedRes[0].photoUrl;
-
-  // 사진들이 담긴 배열을 라이브러리 양식에 맞게 mapping
   const sliderArr = photoArr.map((plant, id) => {
     return ({
       id: id,
       original: plant,
-      thumbnail: plant,
+      thumbnail: plant
     })
   })
 
-  //스토어에서 해당 cont.photoUrlent의 댓글들 가져오기
-  const commentArr = expectedRes[0].comments;
-
-  const commentMap = commentArr.map((com) =>
-    <div>
-      <div className="comment__list" onClick={toggle}>
-        <div className="comment__userinfo">
-          <div>{com.id}</div>
-          <div></div>
-        </div>
-        <div>{com.comment}</div>
-        <img className="comment__photo" src={com.photoUrl} alt="사진" ></img>
-        <button>삭제</button>
-      </div>
-    </div>
-  )
+  const commentMap = comments.map((com) => {
+    return (
+      <Comment com={com} key={com.id} />
+    )
+  })
 
   // comment를 클릭하면 넓어지는 부분을 위한 토글메소드
   const toggle = useCallback(() => {
@@ -117,8 +51,8 @@ const Plant = () => {
     return (
       // 상단부 사진슬라이더와 수정,삭제버튼
       <>
+        <div>{plantListStore.id}</div>
         <div className="plantpage__top">
-          <Nav></Nav>
           <div className="slider__button">
             <ImageGallery items={sliderArr} showFullscreenButton={false} />
             <div className="plant__buttons">
@@ -136,29 +70,23 @@ const Plant = () => {
           {/*하단 comment 부분 */}
           <div className="plantpage__bottom">
             <div className="create__comment">
+              <div className="mainDescription">식물에 대한 설명설명 엄청 긴 설명</div>
               <input type="text" placeholder="comment" autoFocus></input>
               <input type="file"></input>
               <button>등록</button>
             </div>
-            {commentMap}
+            <div>
+              {commentMap}
+            </div>
 
-            {
-              commentClick.isClick ? (
-                <div>하이</div>
-              ) : (
-                  <div className="comment__list" onClick={toggle}>
-                    <div className="comment__userinfo">
-                      <div>id</div>
-                      <div>작성날짜</div>
-                    </div>
-                    <div>댓글내용</div>
-                    <img className="comment__photo" src="https://user-images.githubusercontent.com/64571546/91794251-8cfd3080-ec55-11ea-94ac-0327ad8e7342.png" alt="사진" ></img>
-                    <button>삭제</button>
-                  </div>
-                )
-            }
           </div>
           <style jsx="true">{`
+          .plantpage__bottom{
+            border: solid, 10px
+          }
+              .mainDescription{
+                padding : 15vh;
+              }
               .plantpage__bottom {
                   margin-top: 5vh;
                   font-size: 2vw;
@@ -195,4 +123,4 @@ const Plant = () => {
 
 }
 
-export default Plant;
+export default withCookies(Plant);

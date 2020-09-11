@@ -5,27 +5,31 @@ import axios from 'axios';
 import styled from "styled-components";
 import styles from '../styles/plantList.module.css';
 import { useObserver } from 'mobx-react'
+import { plantListStore } from '../store/plantList'
+import { Cookies, withCookies } from "react-cookie";
 
 const state = {
     level: 'normal',
     season: 'summer',
     category: 'flower'
 }
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InByYWNvbmZpQGdtYWlsLmNvbSIsImlkIjozLCJpYXQiOjE1OTkzOTU3NDJ9.RviXSvWRNx_52lkLyZXnBCYl8LTylpGSIRKxcXSSL9Y"
 
-const PlantList = () => {
+const PlantList = ({ cookies }) => {
     const [lists, setLists] = useState([])
-    const SpecificContent = async () => {
-        const result = await axios.post('http://18.191.16.175:3000/content/specific', { ...state }, { headers: { token: token } })
-        setLists(result.data)
 
+    const SpecificContent = async () => {
+        const result = await axios.post('http://18.191.16.175:3000/content/specific', { ...state }, { headers: { token: cookies.get('userInfo') } })
+        setLists(result.data)
     }
+
     useEffect(() => {
-        console.log('useEffectTest');
         SpecificContent()
     }, [])
 
-    console.log(lists)
+    const setItemHandler = (e) => {
+        plantListStore.setId(e.target.getAttribute('value'))
+    }
+
     return useObserver(() => {
         return (
             <div>
@@ -36,12 +40,16 @@ const PlantList = () => {
                 </div>
                 <div className={styles.lists}>
                     {lists.map((list, id) =>
-                        <Link href='plant' key={id}>
-                            <div className={styles.list} >
-                                <img className={styles.list__photo} width="250px" height="250px" src={JSON.parse(list.photoUrl)[0]}   ></img >
-                                <div className={styles.list__description} >
-                                    <h3 >{list.title}</h3>
-                                    <span >{list.content}</span>
+                        <Link href={`/plant?id=${list.id}`} key={id} >
+                            <div  >
+                                <div className={styles.list}  >
+                                    <img className={styles.list__photo} width="250px" height="250px" src={JSON.parse(list.photoUrl)[0]} ></img >
+                                    <div className={styles.list__description} value={list.id} onClick={setItemHandler}  >
+                                        {list.id}
+                                        <h3 value={list.id} onClick={setItemHandler}>{list.title}</h3>
+                                        <span >{list.content}</span>
+
+                                    </div>
                                 </div>
                             </div>
                         </Link>
@@ -53,4 +61,4 @@ const PlantList = () => {
 
 }
 
-export default PlantList;
+export default withCookies(PlantList);
