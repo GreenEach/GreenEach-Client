@@ -26,7 +26,7 @@ const Plant = ({ cookies }) => {
   const [isMyComment, setIsMycomment] = useState(false);
 
   // 쿠키에서 가져온 토큰에서 email을 가져오는 부분
-  let base64Url = cookies.get("userInfo").split(".")[1];
+  let base64Url = cookies.get("userInfo")[1]; /*.split(".")*/
   let base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
   let jsonPayload = decodeURIComponent(
     atob(base64)
