@@ -11,6 +11,12 @@ import { plantListStore } from "../store/plantList";
 import { Cookies, withCookies } from "react-cookie";
 import Comment from "../components/comment";
 import FormData from "form-data";
+const Delete = styled.a`
+  display: none;
+`;
+const Thumb = styled.img`
+  display: none;
+`;
 
 const Plant = ({ cookies }) => {
   const [photoArr, setPhotoArr] = useState([]);
@@ -30,12 +36,6 @@ const Plant = ({ cookies }) => {
       })
       .join("")
   );
-  const Delete = styled.a`
-    display: none;
-  `;
-  const Thumb = styled.img`
-    display: none;
-  `;
   const writer = JSON.parse(jsonPayload).email;
 
   const fetchContentDetail = async () => {
