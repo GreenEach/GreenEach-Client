@@ -1,73 +1,78 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { useObserver, useLocalStore } from 'mobx-react'
+import { useObserver, useLocalStore } from "mobx-react";
 import Nav from "../components/nav";
 import Link from "next/link";
-import ImageGallery from 'react-image-gallery';
-import styled from "styled-components"
-import { commentClick } from '../store/plant'
-import axios from 'axios'
-import { useRouter } from 'next/router'
-import { plantListStore } from '../store/plantList'
+import ImageGallery from "react-image-gallery";
+import styled from "styled-components";
+import { commentClick } from "../store/plant";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { plantListStore } from "../store/plantList";
 import { Cookies, withCookies } from "react-cookie";
-import Comment from '../components/comment'
+import Comment from "../components/comment";
 import FormData from "form-data";
 
 const Plant = ({ cookies }) => {
-
   const [photoArr, setPhotoArr] = useState([]);
   const [comments, setcomments] = useState([]);
   const [id, setId] = useState(1);
   const [isMyContent, setIsMyContent] = useState(false);
-  const [isMyComment, setIsMycomment] = useState(false)
+  const [isMyComment, setIsMycomment] = useState(false);
 
   // 쿠키에서 가져온 토큰에서 email을 가져오는 부분
-  let base64Url = cookies.get("userInfo").split('.')[1];
-  let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  let jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
-    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-  }).join(''));
+  let base64Url = cookies.get("userInfo").split(".")[1];
+  let base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+  let jsonPayload = decodeURIComponent(
+    atob(base64)
+      .split("")
+      .map(function (c) {
+        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+      })
+      .join("")
+  );
   const Delete = styled.a`
-  display: none;
-`;
+    display: none;
+  `;
   const Thumb = styled.img`
-  display: none;
-`;
+    display: none;
+  `;
   const writer = JSON.parse(jsonPayload).email;
-
 
   const fetchContentDetail = async () => {
     let id = plantListStore.listId;
-    const result = await axios.post('http://18.191.16.175:3000/content/detail', { contentId: Number(id) }, { headers: { token: cookies.get('userInfo') } })
+    const result = await axios.post(
+      "http://greeneachdomain.tk:3000/content/detail",
+      { contentId: Number(id) },
+      { headers: { token: cookies.get("userInfo") } }
+    );
 
-    setPhotoArr(JSON.parse(result.data[0].photoUrl))
-    setcomments(result.data[0].Comments)
+    setPhotoArr(JSON.parse(result.data[0].photoUrl));
+    setcomments(result.data[0].Comments);
     if (writer === result.data[0].User.email) {
-      setIsMyContent(true)
+      setIsMyContent(true);
     }
-  }
+  };
   useEffect(() => {
-    fetchContentDetail()
+    fetchContentDetail();
     console.log(comments);
-  }, [])
+  }, []);
 
   const sliderArr = photoArr.map((plant, id) => {
-    return ({
+    return {
       id: id,
       original: plant,
-      thumbnail: plant
-    })
-  })
+      thumbnail: plant,
+    };
+  });
 
   const commentMap = comments.map((com) => {
-    return (
-      <Comment com={com} key={com.id} writer={writer} />
-    )
-  })
+    return <Comment com={com} key={com.id} writer={writer} />;
+  });
 
   // comment를 클릭하면 넓어지는 부분을 위한 토글메소드
   const toggle = useCallback(() => {
     commentClick.toggle();
-  })
+  });
   //comment와 img의 기본상태를 생성해주는 스토어
   const state = useLocalStore(() => ({
     img: null,
@@ -133,26 +138,28 @@ const Plant = ({ cookies }) => {
           <div className="slider__button">
             <ImageGallery items={sliderArr} showFullscreenButton={false} />
 
-            {isMyContent ? (<div className="plant__buttons" >
-              <div>
-                <Link href="/plantAdd">
-                  <button className="gallery__button">수정</button>
-                </Link>
+            {isMyContent ? (
+              <div className="plant__buttons">
+                <div>
+                  <Link href="/plantAdd">
+                    <button className="gallery__button">수정</button>
+                  </Link>
+                </div>
+                <div>
+                  <button className="gallery__button">삭제</button>
+                </div>
               </div>
-              <div>
-                <button className="gallery__button">삭제</button>
-              </div>
-            </div>) : (
-                <>
-                </>
-              )
-            }
+            ) : (
+              <></>
+            )}
           </div>
 
           {/*하단 comment 부분 */}
           <div className="plantpage__bottom">
             <div className="create__comment">
-              <div className="mainDescription">식물에 대한 설명설명 엄청 긴 설명</div>
+              <div className="mainDescription">
+                식물에 대한 설명설명 엄청 긴 설명
+              </div>
               <form>
                 <input
                   type="text"
@@ -169,25 +176,23 @@ const Plant = ({ cookies }) => {
               </form>
               <button>등록</button>
             </div>
-            <div>
-              {commentMap}
-            </div>
-
+            <div>{commentMap}</div>
           </div>
-          <style jsx="true">{`
-          .plantpage__bottom{
-            border: solid, 10px
-          }
-              .mainDescription{
-                padding : 15vh;
+          <style jsx="true">
+            {`
+              .plantpage__bottom {
+                border: solid, 10px;
+              }
+              .mainDescription {
+                padding: 15vh;
               }
               .plantpage__bottom {
-                  margin-top: 5vh;
-                  font-size: 2vw;
-                 text-align: center;
+                margin-top: 5vh;
+                font-size: 2vw;
+                text-align: center;
               }
-              
-              .comment__list{
+
+              .comment__list {
                 width: 50vw;
                 display: flex;
                 text-align: center;
@@ -195,26 +200,24 @@ const Plant = ({ cookies }) => {
                 margin: auto;
                 margin-top: 5vh;
               }
-  
+
               input {
                 width: 25vw;
               }
-             
-              .comment__userinfo{
-                font-size : 2vh;
+
+              .comment__userinfo {
+                font-size: 2vh;
               }
-  
-              .comment__photo{
-                height : 5vh;
+
+              .comment__photo {
+                height: 5vh;
               }
-              `}
+            `}
           </style>
-        </div >
+        </div>
       </>
-    )
-  })
-
-
-}
+    );
+  });
+};
 
 export default withCookies(Plant);
