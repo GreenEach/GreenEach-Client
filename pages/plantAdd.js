@@ -115,9 +115,10 @@ const start = ({ cookies }) => {
     content: "",
     level: "",
     season: "",
-    category: "상추",
+
     onAddedImg(e) {
       this.img = e.target.files[0];
+      thumbnail(e);
     },
     onChangeTitle(e) {
       this.title = e.target.value;
@@ -143,14 +144,15 @@ const start = ({ cookies }) => {
     Data.append("title", state.title);
     Data.append("level", state.level);
     Data.append("season", state.season);
-    Data.append("category", state.category);
-    // console.log(Data.get("img"));
+    console.log(Data.get("img"));
+    console.log(Data.get("content"));
+    console.log(Data.get("title"));
+    console.log(Data.get("level"));
+    console.log(Data.get("season"));
 
     axios
-      .post("http://18.191.16.175:3000/content", Data, {
-        headers: {
-          token: cookies.get("userInfo"),
-        },
+      .post("http://greeneachdomain.tk:3000/content", Data, {
+        headers: { token: cookies.get("userInfo") },
       })
       .then((res) => {
         if (res.status === 200) {
@@ -170,7 +172,7 @@ const start = ({ cookies }) => {
     thumbImg.width = 150;
     thumbImg.style.display = "block";
     thumbImg.onload = function () {
-      URL.revokeObjectURL(document.querySelector(".thumbImg").src); //생성된 url삭제
+      URL.revokeObjectURL(document.querySelector(".thumbImg").src); //썸네일이 출력되면 생성된 url삭제
     };
     document.querySelector(".delButton").style.display = "block";
   };
@@ -185,8 +187,6 @@ const start = ({ cookies }) => {
   return useObserver(() => {
     return (
       <div>
-        <Nav></Nav>
-
         <Container> </Container>
 
         <form>
@@ -195,13 +195,12 @@ const start = ({ cookies }) => {
             type="file"
             name="file"
             className="IMG"
-            onChange={(state.onAddedImg, thumbnail)}
+            onChange={state.onAddedImg}
           ></File>
 
-          <List />
-
-          <Thumb src="" className="thumbImg" />
-
+          <List>
+            <Thumb src="" className="thumbImg" />
+          </List>
           <Delete className="delButton" onClick={thumbDel}>
             썸네일삭제
           </Delete>
