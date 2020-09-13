@@ -26,7 +26,9 @@ const signUpModal = () => {
   }));
 
   const handleSubmit = useCallback(() => {
-    return Axios.post("http://18.191.16.175:3000/sign/signup", { ...state })
+    return Axios.post("http://greeneachdomain.tk:3000/sign/signup", {
+      ...state,
+    })
       .then((response) => {
         alert("회원가입을 축하합니다!");
         console.log(response);

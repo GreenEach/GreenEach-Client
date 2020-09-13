@@ -32,16 +32,16 @@ const myPage = ({cookies}) => {
     },
     onChangePassword2(e) {
       this.password2 = e.target.value;
-    }
+    },
   }));
 
   const userInfoUpdate = useCallback(() => {
     if (!state.username) {
       alert("이메일을 입력해주세요.")
     } else if (!state.password) {
-      alert("패스워드를 입력해주세요.")
+      alert("패스워드를 입력해주세요.");
     } else if (!state.password2) {
-      alert("패스워드2를 입력해주세요.")
+      alert("패스워드2를 입력해주세요.");
     } else {
       return Axios.post('http://18.191.16.175:3000/sign/mypage',
         {
@@ -54,8 +54,8 @@ const myPage = ({cookies}) => {
           console.log(response)
         })
         .catch((err) => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     }
   })
 
@@ -100,13 +100,25 @@ const myPage = ({cookies}) => {
             </Form.Group>
             <Form.Group controlId="formBasicPassword">
               <Form.Label>비밀번호</Form.Label>
-              <Form.Control type="password" placeholder="Password" value={state.password} onChange={state.onChangePassword} />
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                value={state.password}
+                onChange={state.onChangePassword}
+              />
             </Form.Group>
             <Form.Group controlId="formBasicPassword">
               <Form.Label>비밀번호 확인</Form.Label>
-              <Form.Control type="password" placeholder="Password" value={state.password2} onChange={state.onChangePassword2} />
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                value={state.password2}
+                onChange={state.onChangePassword2}
+              />
             </Form.Group>
-            <Button variant="primary" onClick={userInfoUpdate}>변경하기</Button>
+            <Button variant="primary" onClick={userInfoUpdate}>
+              변경하기
+            </Button>
           </Form>
         </div>
       </div>

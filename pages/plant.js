@@ -1,171 +1,198 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { useObserver, useLocalStore } from 'mobx-react'
+import { useObserver, useLocalStore } from "mobx-react";
 import Nav from "../components/nav";
 import Link from "next/link";
-import ImageGallery from 'react-image-gallery';
-import styled from "styled-components"
-import { commentClick } from '../store/plant'
-import axios from 'axios';
+import ImageGallery from "react-image-gallery";
+import styled from "styled-components";
+import { commentClick } from "../store/plant";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { plantListStore } from "../store/plantList";
+import { Cookies, withCookies } from "react-cookie";
+import Comment from "../components/comment";
+import FormData from "form-data";
+const Delete = styled.a`
+  display: none;
+`;
+const Thumb = styled.img`
+  display: none;
+`;
 
-const expectedRes = [
-  {
-    "id": 1,
-    "title": "token test",
-    "content": "jinchuu",
-    "level": "high",
-    "season": "spring",
-    "category": "potato",
-    "photoUrl": ['https://user-images.githubusercontent.com/64571546/91794251-8cfd3080-ec55-11ea-94ac-0327ad8e7342.png', 'https://user-images.githubusercontent.com/64571546/91794251-8cfd3080-ec55-11ea-94ac-0327ad8e7342.png', 'https://user-images.githubusercontent.com/64571546/91794251-8cfd3080-ec55-11ea-94ac-0327ad8e7342.png', 'https://user-images.githubusercontent.com/64571546/91794251-8cfd3080-ec55-11ea-94ac-0327ad8e7342.png'],
-    "createdAt": "2020-09-02T11:41:53.000Z",
-    "updatedAt": "2020-09-02T11:41:53.000Z",
-    "User": {
-      "username": "jinchuu"
-    },
-    "comments": [
-      {
-        "id": 1,
-        "comment": "comment is...",
-        "photoUrl": 'https://user-images.githubusercontent.com/64571546/91794251-8cfd3080-ec55-11ea-94ac-0327ad8e7342.png',
-        "createdAt": "2020-09-02T13:32:27.000Z",
-        "User": {
-          "username": "jinchuu"
-        }
-      },
-      {
-        "id": 2,
-        "comment": "comment2 is...",
-        "photoUrl": 'https://user-images.githubusercontent.com/64571546/91794251-8cfd3080-ec55-11ea-94ac-0327ad8e7342.png',
-        "createdAt": "2020-09-02T13:32:39.000Z",
-        "User": {
-          "username": "jinchuu"
-        }
-      },
-      {
-        "id": 3,
-        "comment": "yo",
-        "photoUrl": 'https://user-images.githubusercontent.com/64571546/91794251-8cfd3080-ec55-11ea-94ac-0327ad8e7342.png',
-        "createdAt": "2020-09-02T13:55:23.000Z",
-        "User": {
-          "username": "test"
-        }
-      },
-      {
-        "id": 4,
-        "comment": "yo yo",
-        "photoUrl": 'https://user-images.githubusercontent.com/64571546/91794251-8cfd3080-ec55-11ea-94ac-0327ad8e7342.png',
-        "createdAt": "2020-09-02T13:55:29.000Z",
-        "User": {
-          "username": "test"
-        }
-      },
-    ]
-  }
-]
-const state = {
-  contentId: 3
-}
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InByYWNvbmZpQGdtYWlsLmNvbSIsImlkIjozLCJpYXQiOjE1OTkzOTU3NDJ9.RviXSvWRNx_52lkLyZXnBCYl8LTylpGSIRKxcXSSL9Y"
-const Plant = () => {
+const Plant = ({ cookies }) => {
   const [photoArr, setPhotoArr] = useState([]);
   const [comments, setcomments] = useState([]);
+  const [id, setId] = useState(1);
+  const [isMyContent, setIsMyContent] = useState(false);
+  const [isMyComment, setIsMycomment] = useState(false);
+
+  // 쿠키에서 가져온 토큰에서 email을 가져오는 부분
+  let base64Url = cookies.get("userInfo").split(".")[1];
+  let base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+  let jsonPayload = decodeURIComponent(
+    atob(base64)
+      .split("")
+      .map(function (c) {
+        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+      })
+      .join("")
+  );
+  const writer = JSON.parse(jsonPayload).email;
+
   const fetchContentDetail = async () => {
-    const result = await axios.post('http://18.191.16.175:3000/content/detail', { ...state }, { headers: { token: token } })
-    setPhotoArr(JSON.parse(result.data[0].photoUrl))
-    console.log(result.data[0].comments)
-  }
+    let id = plantListStore.listId;
+    const result = await axios.post(
+      "http://greeneachdomain.tk:3000/content/detail",
+      { contentId: Number(id) },
+      { headers: { token: cookies.get("userInfo") } }
+    );
+
+    setPhotoArr(JSON.parse(result.data[0].photoUrl));
+    setcomments(result.data[0].Comments);
+    if (writer === result.data[0].User.email) {
+      setIsMyContent(true);
+    }
+  };
   useEffect(() => {
-    console.log('useEffectTest');
-    fetchContentDetail()
-  }, [])
+    fetchContentDetail();
+    console.log(comments);
+  }, []);
 
-
-  // 스토어에서 해당 content의 사진들 가져오기
-  const plantArr = expectedRes[0].photoUrl;
-
-  // 사진들이 담긴 배열을 라이브러리 양식에 맞게 mapping
   const sliderArr = photoArr.map((plant, id) => {
-    return ({
+    return {
       id: id,
       original: plant,
       thumbnail: plant,
-    })
-  })
+    };
+  });
 
-  //스토어에서 해당 cont.photoUrlent의 댓글들 가져오기
-  const commentArr = expectedRes[0].comments;
-
-  const commentMap = commentArr.map((com) =>
-    <div>
-      <div className="comment__list" onClick={toggle}>
-        <div className="comment__userinfo">
-          <div>{com.id}</div>
-          <div></div>
-        </div>
-        <div>{com.comment}</div>
-        <img className="comment__photo" src={com.photoUrl} alt="사진" ></img>
-        <button>삭제</button>
-      </div>
-    </div>
-  )
+  const commentMap = comments.map((com) => {
+    return <Comment com={com} key={com.id} writer={writer} />;
+  });
 
   // comment를 클릭하면 넓어지는 부분을 위한 토글메소드
   const toggle = useCallback(() => {
     commentClick.toggle();
-  })
-
+  });
+  //comment와 img의 기본상태를 생성해주는 스토어
+  const state = useLocalStore(() => ({
+    img: null,
+    comment: "",
+    contentId: 6,
+    commentImg(e) {
+      this.img = e.target.files[0];
+      thumbnail(e);
+    },
+    inputComment(e) {
+      this.comment = e.target.value;
+    },
+  }));
+  //파일 선택시 이미지 상태값 변화
+  //onClick 등록 코멘트와 이미지의 상태값을 전송
+  const contentSubmit = (e) => {
+    console.log("e=", e);
+    e.preventDefault();
+    const Data = new FormData();
+    Data.append("img", state.img);
+    Data.append("comment", state.comment);
+    Data.append("contentId", state.contentId);
+    console.log("img=", Data.get("img"));
+    console.log("comment=", Data.get("comment"));
+    console.log("contentId=", Data.get("contentId"));
+    axios
+      .post("http://greeneachdomain.tk:3000/comment", Data, {
+        headers: { token: cookies.get("userInfo") },
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          alert("댓글이 등록되었습니다.");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("댓글 등록에 실패했습니다.");
+      });
+  };
+  const thumbnail = (e) => {
+    let thumbImg = document.querySelector(".thumbImg");
+    thumbImg.src = URL.createObjectURL(e.target.files[0]); //이미지의 url생성
+    thumbImg.height = 150;
+    thumbImg.width = 150;
+    thumbImg.style.display = "block";
+    thumbImg.onload = function () {
+      URL.revokeObjectURL(document.querySelector(".thumbImg").src); //썸네일이 출력되면 생성된 url삭제
+    };
+    document.querySelector(".delButton").style.display = "block";
+  };
+  const thumbDel = (e) => {
+    let thumbImg = e.target.previousElementSibling; //직전요소의 이벤트 객체 = 생성된 썸네일
+    thumbImg.src = "";
+    document.querySelector(".delButton").style.display = "none";
+    document.querySelector(".thumbImg").style.display = "none";
+  };
   return useObserver(() => {
     return (
       // 상단부 사진슬라이더와 수정,삭제버튼
       <>
+        <div>{plantListStore.id}</div>
         <div className="plantpage__top">
-          <Nav></Nav>
           <div className="slider__button">
             <ImageGallery items={sliderArr} showFullscreenButton={false} />
-            <div className="plant__buttons">
-              <div>
-                <Link href="/plantAdd">
-                  <button className="gallery__button">수정</button>
-                </Link>
+
+            {isMyContent ? (
+              <div className="plant__buttons">
+                <div>
+                  <Link href="/plantAdd">
+                    <button className="gallery__button">수정</button>
+                  </Link>
+                </div>
+                <div>
+                  <button className="gallery__button">삭제</button>
+                </div>
               </div>
-              <div>
-                <button className="gallery__button">삭제</button>
-              </div>
-            </div>
+            ) : (
+              <></>
+            )}
           </div>
 
           {/*하단 comment 부분 */}
           <div className="plantpage__bottom">
             <div className="create__comment">
-              <input type="text" placeholder="comment" autoFocus></input>
-              <input type="file"></input>
+              <div className="mainDescription">
+                식물에 대한 설명설명 엄청 긴 설명
+              </div>
+              <form>
+                <input
+                  type="text"
+                  placeholder="comment"
+                  autoFocus
+                  onChange={state.inputComment}
+                ></input>
+                <input type="file" onChange={state.commentImg}></input>
+                <button onClick={contentSubmit}>등록</button>
+                <Thumb src="" className="thumbImg" />
+                <Delete className="delButton" onClick={thumbDel}>
+                  썸네일삭제
+                </Delete>
+              </form>
               <button>등록</button>
             </div>
-            {commentMap}
-
-            {
-              commentClick.isClick ? (
-                <div>하이</div>
-              ) : (
-                  <div className="comment__list" onClick={toggle}>
-                    <div className="comment__userinfo">
-                      <div>id</div>
-                      <div>작성날짜</div>
-                    </div>
-                    <div>댓글내용</div>
-                    <img className="comment__photo" src="https://user-images.githubusercontent.com/64571546/91794251-8cfd3080-ec55-11ea-94ac-0327ad8e7342.png" alt="사진" ></img>
-                    <button>삭제</button>
-                  </div>
-                )
-            }
+            <div>{commentMap}</div>
           </div>
-          <style jsx="true">{`
+          <style jsx="true">
+            {`
               .plantpage__bottom {
-                  margin-top: 5vh;
-                  font-size: 2vw;
-                 text-align: center;
+                border: solid, 10px;
               }
-              
-              .comment__list{
+              .mainDescription {
+                padding: 15vh;
+              }
+              .plantpage__bottom {
+                margin-top: 5vh;
+                font-size: 2vw;
+                text-align: center;
+              }
+
+              .comment__list {
                 width: 50vw;
                 display: flex;
                 text-align: center;
@@ -173,26 +200,24 @@ const Plant = () => {
                 margin: auto;
                 margin-top: 5vh;
               }
-  
+
               input {
                 width: 25vw;
               }
-             
-              .comment__userinfo{
-                font-size : 2vh;
+
+              .comment__userinfo {
+                font-size: 2vh;
               }
-  
-              .comment__photo{
-                height : 5vh;
+
+              .comment__photo {
+                height: 5vh;
               }
-              `}
+            `}
           </style>
-        </div >
+        </div>
       </>
-    )
-  })
+    );
+  });
+};
 
-
-}
-
-export default Plant;
+export default withCookies(Plant);
