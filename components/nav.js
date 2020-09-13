@@ -9,8 +9,9 @@ import styles from "../styles/Nav.module.css";
 import Axios from "axios";
 import { Cookies, withCookies, removeCookie } from "react-cookie";
 
-const nav = ({ cookies }) => {
-  if (cookies.get("userInfo")) {
+const nav = ({cookies}) => {
+  console.log(cookies.get("userInfo"));
+  if(cookies.get("userInfo")){
     userState.isLoggedIn = true;
   } else {
     userState.isLoggedIn = false;

@@ -8,7 +8,7 @@ const Home = () => {
       alert("로그인이 안되잇어요");
       modalShowState.signInshow = true;
     }else{
-     alert("로그인 됨")
+     
     }
   })
   let imgList = [
@@ -23,12 +23,21 @@ const Home = () => {
   return (
     <div className={styles.container}>
       <div className={styles.flex_item1}>
-        <a className={styles.title} onClick={goToStartPage}>
+        <a className={styles.start_btn} href="/start">
             Get Start
         </a>
       </div>
       <div className={styles.flex_item2}>
-          사용방법
+          <div className={styles.flex_item2_item}>
+            로그인을 해주세요!<br />
+            로그인 후 이용하 실 수 있습니다!
+          </div>
+          <div className={styles.flex_item2_item}>
+            get start
+          </div>
+          <div className={styles.flex_item2_item}>
+            내가 키우고 싶은 식물을 한 눈에!
+          </div>
         </div>
       <div className={styles.flex_item3}>
         {imgmapping}
