@@ -7,15 +7,25 @@ import { modalShowState, userState } from "../store/homeStore/sign";
 import { observable } from "mobx";
 
 import Axios from "axios";
+import { Cookies, withCookies } from "react-cookie";
+import { resolveHref } from "next/dist/next-server/lib/router/router";
 
-const myPage = () => {
+const myPage = ({cookies}) => {
+  // console.log(cookies.get("userInfo"))
+  // let base64Url = cookies.get("userInfo").split('.')[1];
+  // let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  // let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+  //   return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  // }).join(''));
+        
+  // let tokenEmail = JSON.parse(jsonPayload).email
   const state = useLocalStore(() => ({
     email: '',
     password: '',
     password2: '',
     username: '',
-    onChangeEmail(e) {
-      this.email = e.target.value;
+    onChangeUserName(e) {
+      this.username = e.target.value;
     },
     onChangePassword(e) {
       this.password = e.target.value;
@@ -26,42 +36,45 @@ const myPage = () => {
   }));
 
   const userInfoUpdate = useCallback(() => {
-    if (!state.email) {
+    if (!state.username) {
       alert("이메일을 입력해주세요.")
     } else if (!state.password) {
       alert("패스워드를 입력해주세요.")
     } else if (!state.password2) {
       alert("패스워드2를 입력해주세요.")
     } else {
-      return Axios.post('http://18.191.16.175:3000/sign/mypage:patch',
+      return Axios.post('http://18.191.16.175:3000/sign/mypage',
         {
           ...state
         },
+        {headers:{token : cookies.get("userInfo") }},
       )
         .then((response) => {
+          alert("회원정보가 변경되었습니다.")
           console.log(response)
-          alert("로그인 되었습니다!")
-          // TODO: userInfo를 키로 쿠키를 가져온다.
-          // userInfo는 JWT 토큰 이므로 파싱해서 email, id를 구한다.
-          // 그걸로 signIn 한다.
-          cookies.set("userInfo", response.data.token, { path: '/' })
-          let base64Url = cookies.get("userInfo").split('.')[1];
-          let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-          let jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-          }).join(''));
-
-          userState.signIn({
-            email: JSON.parse(jsonPayload).email,
-            id: JSON.parse(jsonPayload).id
-          })
-          handleClose();
         })
         .catch((err) => {
           console.log(err)
         })
     }
   })
+
+  
+      Axios.post('http://18.191.16.175:3000/sign/mypage',
+        {},
+        {headers:{token : cookies.get("userInfo") }},
+      )
+        .then((response) => {
+          // console.log(response)
+          console.log(response.data[0].Contents)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+
+        
+ 
+
   return useObserver(() => {
     return (
       <div className={styles.flex_container}>
@@ -78,11 +91,12 @@ const myPage = () => {
           <Form className={styles.form_css}>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>이름</Form.Label>
-              <Form.Label type="username">{userState.data}</Form.Label>
+              <Form.Control type="username" placeholder="Enter username" value={state.username} onChange={state.onChangeUserName} />
             </Form.Group>
             <Form.Group controlId="formBasicEmail">
-              <Form.Label>이메일</Form.Label>
-              <Form.Control type="email" placeholder="Enter email" value={state.email} onChange={state.onChangeEmail} />
+              <Form.Label>email</Form.Label><br></br>
+              <Form.Label>email</Form.Label>
+              {/* {mEmail} */}
             </Form.Group>
             <Form.Group controlId="formBasicPassword">
               <Form.Label>비밀번호</Form.Label>
@@ -100,4 +114,4 @@ const myPage = () => {
   });
 };
 
-export default myPage;
+export default withCookies(myPage);
