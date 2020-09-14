@@ -24,7 +24,8 @@ const Plant = ({ cookies }) => {
   const [id, setId] = useState(1);
   const [isMyContent, setIsMyContent] = useState(false);
   const [isMyComment, setIsMycomment] = useState(false);
-
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
   // 쿠키에서 가져온 토큰에서 email을 가져오는 부분
   let base64Url = cookies.get('userInfo').split('.')[1];
   let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -46,6 +47,8 @@ const Plant = ({ cookies }) => {
       { headers: { token: cookies.get('userInfo') } }
     );
 
+    setTitle(result.data[0].title)
+    setContent(result.data[0].content)
     setPhotoArr(JSON.parse(result.data[0].photoUrl));
     setcomments(result.data[0].Comments);
     if (writer === result.data[0].User.email) {
@@ -76,15 +79,12 @@ const Plant = ({ cookies }) => {
     );
   });
 
-  // comment를 클릭하면 넓어지는 부분을 위한 토글메소드
-  const toggle = useCallback(() => {
-    commentClick.toggle();
-  });
+
   //comment와 img의 기본상태를 생성해주는 스토어
   const state = useLocalStore(() => ({
     img: null,
     comment: '',
-    contentId: 6,
+    contentId: Number(plantListStore.listId),
     commentImg(e) {
       this.img = e.target.files[0];
       thumbnail(e);
@@ -158,15 +158,16 @@ const Plant = ({ cookies }) => {
                 </div>
               </div>
             ) : (
-              <></>
-            )}
+                <></>
+              )}
           </div>
 
           {/*하단 comment 부분 */}
           <div className='plantpage__bottom'>
             <div className='create__comment'>
+              <div>{title}</div>
               <div className='mainDescription'>
-                식물에 대한 설명설명 엄청 긴 설명
+                {content}
               </div>
               <form>
                 <input
@@ -182,7 +183,7 @@ const Plant = ({ cookies }) => {
                   썸네일삭제
                 </Delete>
               </form>
-              <button>등록</button>
+
             </div>
             <div>{commentMap}</div>
           </div>
