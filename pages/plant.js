@@ -24,13 +24,14 @@ const Plant = ({ cookies }) => {
   const [id, setId] = useState(1);
   const [isMyContent, setIsMyContent] = useState(false);
   const [isMyComment, setIsMycomment] = useState(false);
-
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
   // 쿠키에서 가져온 토큰에서 email을 가져오는 부분
-  let base64Url = cookies.get("userInfo"); /*.split(".")*/
+  let base64Url = cookies.get("userInfo").split(".")[1];
   let base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
   let jsonPayload = decodeURIComponent(
     atob(base64)
-      // .split("")
+      .split("")
       .map(function (c) {
         return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
       })
@@ -46,6 +47,8 @@ const Plant = ({ cookies }) => {
       { headers: { token: cookies.get("userInfo") } }
     );
 
+    setTitle(result.data[0].title);
+    setContent(result.data[0].content);
     setPhotoArr(JSON.parse(result.data[0].photoUrl));
     setcomments(result.data[0].Comments);
     if (writer === result.data[0].User.email) {
@@ -65,19 +68,22 @@ const Plant = ({ cookies }) => {
     };
   });
 
-  const commentMap = comments.map((com) => {
-    return <Comment com={com} key={com.id} writer={writer} />;
+  const commentMap = comments.reverse().map((com) => {
+    return (
+      <Comment
+        com={com}
+        key={com.id}
+        writer={writer}
+        cookies={cookies.get("userInfo")}
+      />
+    );
   });
 
-  // comment를 클릭하면 넓어지는 부분을 위한 토글메소드
-  const toggle = useCallback(() => {
-    commentClick.toggle();
-  });
   //comment와 img의 기본상태를 생성해주는 스토어
   const state = useLocalStore(() => ({
     img: null,
     comment: "",
-    contentId: 6,
+    contentId: Number(plantListStore.listId),
     commentImg(e) {
       this.img = e.target.files[0];
       thumbnail(e);
@@ -105,6 +111,7 @@ const Plant = ({ cookies }) => {
       .then((res) => {
         if (res.status === 200) {
           alert("댓글이 등록되었습니다.");
+          fetchContentDetail();
         }
       })
       .catch((err) => {
@@ -157,9 +164,8 @@ const Plant = ({ cookies }) => {
           {/*하단 comment 부분 */}
           <div className="plantpage__bottom">
             <div className="create__comment">
-              <div className="mainDescription">
-                식물에 대한 설명설명 엄청 긴 설명
-              </div>
+              <div>{title}</div>
+              <div className="mainDescription">{content}</div>
               <form>
                 <input
                   type="text"
@@ -174,7 +180,6 @@ const Plant = ({ cookies }) => {
                   썸네일삭제
                 </Delete>
               </form>
-              <button>등록</button>
             </div>
             <div>{commentMap}</div>
           </div>
