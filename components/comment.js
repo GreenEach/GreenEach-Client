@@ -35,14 +35,14 @@ const Comment = ({ com, writer, cookies }) => {
   };
 
   //댓글삭제요청 함수
-  // const deleteCommentHandler = () => {
-  //   axios({
-  //     url: 'http://greeneachdomain.tk:3000/comment',
-  //     method: 'delete',
-  //     data: { commentId: com.id },
-  //     headers: { token: cookies }
-  //   })
-  // }
+  const deleteCommentHandler = () => {
+    axios({
+      url: "http://greeneachdomain.tk:3000/comment",
+      method: "delete",
+      data: { commentId: com.id },
+      headers: { token: cookies },
+    });
+  };
 
   // comment를 클릭하면 넓어지는 부분을 위한 토글메소드
   useEffect(() => {
