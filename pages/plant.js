@@ -131,8 +131,11 @@ const Plant = ({ cookies }) => {
   const thumbDel = (e) => {
     let thumbImg = e.target.previousElementSibling; //직전요소의 이벤트 객체 = 생성된 썸네일
     thumbImg.src = "";
+    document.querySelector(".thumbImg").value = "";
+    document.querySelector(".thumbImgInput").value = "";
     document.querySelector(".delButton").style.display = "none";
     document.querySelector(".thumbImg").style.display = "none";
+    alert("사진을 다시 선택해주세요");
   };
   return useObserver(() => {
     return (
@@ -169,7 +172,11 @@ const Plant = ({ cookies }) => {
                   autoFocus
                   onChange={state.inputComment}
                 ></input>
-                <input type="file" onChange={state.commentImg}></input>
+                <input
+                  type="file"
+                  onChange={state.commentImg}
+                  className="thumbImgInput"
+                ></input>
                 <button onClick={contentSubmit}>등록</button>
                 <Thumb src="" className="thumbImg" />
                 <Delete className="delButton" onClick={thumbDel}>
