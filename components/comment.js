@@ -37,7 +37,7 @@ const Comment = ({ com, writer, cookies }) => {
   //댓글삭제요청 함수
   const deleteCommentHandler = () => {
     axios({
-      url: "http://greeneachdomain.tk:3000/comment",
+      url: "https://greeneachdomain.tk:443/comment",
       method: "delete",
       data: { commentId: com.id },
       headers: { token: cookies },
