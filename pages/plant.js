@@ -22,22 +22,11 @@ const Plant = ({ cookies }) => {
   const [photoArr, setPhotoArr] = useState([]);
   const [comments, setcomments] = useState([]);
   const [id, setId] = useState(1);
+  const [email, setEmail] = useState('');
   const [isMyContent, setIsMyContent] = useState(false);
   const [isMyComment, setIsMycomment] = useState(false);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  // 쿠키에서 가져온 토큰에서 email을 가져오는 부분
-  let base64Url = cookies.get('userInfo').split('.')[1];
-  let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  let jsonPayload = decodeURIComponent(
-    atob(base64)
-      .split('')
-      .map(function (c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      })
-      .join('')
-  );
-  const writer = JSON.parse(jsonPayload).email;
 
   const fetchContentDetail = async () => {
     let id = plantListStore.listId;
@@ -46,12 +35,12 @@ const Plant = ({ cookies }) => {
       { contentId: Number(id) },
       { headers: { token: cookies.get('userInfo') } }
     );
-
-    setTitle(result.data[0].title)
-    setContent(result.data[0].content)
-    setPhotoArr(JSON.parse(result.data[0].photoUrl));
-    setcomments(result.data[0].Comments);
-    if (writer === result.data[0].User.email) {
+    setEmail(result.data.currentUser)
+    setTitle(result.data.contentInfo[0].title)
+    setContent(result.data.contentInfo[0].content)
+    setPhotoArr(JSON.parse(result.data.contentInfo[0].photoUrl));
+    setcomments(result.data.contentInfo[0].Comments);
+    if (result.data.currentUser === result.data.contentInfo[0].User.email) {
       setIsMyContent(true);
     }
   };
@@ -73,7 +62,7 @@ const Plant = ({ cookies }) => {
       <Comment
         com={com}
         key={com.id}
-        writer={writer}
+        writer={email}
         cookies={cookies.get('userInfo')}
       />
     );
@@ -149,8 +138,9 @@ const Plant = ({ cookies }) => {
             {isMyContent ? (
               <div className='plant__buttons'>
                 <div>
-                  <Link href='/plantAdd'>
-                    <button className='gallery__button'>수정</button>
+                  <Link href='/plantupdate' >
+                    <button className='gallery__button' value={plantListStore.id}
+                    >수정</button>
                   </Link>
                 </div>
                 <div>
