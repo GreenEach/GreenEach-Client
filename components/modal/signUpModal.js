@@ -26,7 +26,7 @@ const signUpModal = () => {
   }));
 
   const handleSubmit = useCallback(() => {
-    return Axios.post("http://greeneachdomain.tk:3000/sign/signup", {
+    return Axios.post("https://greeneachdomain.tk:443/sign/signup", {
       ...state,
     })
       .then((response) => {

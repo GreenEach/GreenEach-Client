@@ -1,170 +1,318 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { plantListStore } from '../store/plantList'
-import { commentClick } from '../store/plant'
-const Comment = ({ com, writer }) => {
-  const [isMine, setIsMine] = useState(false);
-  const [isClick, setIsClick] = useState(true)
+import { plantListStore } from "../store/plantList";
+import { commentClick } from "../store/plant";
+import axios from "axios";
+import Link from "next/link";
 
-  let yearMonthDay = (com.createdAt).substring(0, 10)
-  let hour = (com.createdAt).substring(11, 13)
-  let min = (com.createdAt).substring(14, 16)
+const Comment = ({ com, writer, cookies }) => {
+  const [isMine, setIsMine] = useState(false);
+  const [isClick, setIsClick] = useState(false);
+  const [isReviseMode, setIsReviseMode] = useState(false);
+  const [placeHolder, setPlaceHolder] = useState(com.comment);
+
+  let yearMonthDay = com.createdAt.substring(0, 10);
+  let hour = com.createdAt.substring(11, 13);
+  let min = com.createdAt.substring(14, 16);
 
   const handleHour = (hour) => {
     if (Number(hour) + 9 > 24) {
-      let fixedHour = '0' + ((Number(hour) + 9) - 24)
+      let fixedHour = "0" + (Number(hour) + 9 - 24);
       return fixedHour;
     } else {
-      return (Number(hour) + 9) + '';
+      return Number(hour) + 9 + "";
     }
-  }
+  };
 
+  const patchCommentHandler = () => {
+    axios
+      .patch(
+        "http://greeneachdomain.tk:3000/comment",
+        { comment: placeHolder, commentId: com.id },
+        { headers: { token: cookies } }
+      )
+      .then((data) => console.log(data))
+      .catch((error) => console.log(error));
+  };
 
+  //댓글삭제요청 함수
+  const deleteCommentHandler = () => {
+    axios({
+      url: "https://greeneachdomain.tk:443/comment",
+      method: "delete",
+      data: { commentId: com.id },
+      headers: { token: cookies },
+    });
+  };
 
   // comment를 클릭하면 넓어지는 부분을 위한 토글메소드
   useEffect(() => {
     if (writer === com.User.email) {
       setIsMine(true);
     }
-    console.log(isMine)
-  }
-
-  )
-  return (
-    isMine ? (isClick ? (
+  });
+  return isMine ? ( // 내가 쓴 글 (true)
+    isClick ? ( // 클릭된 상태 (true)
       <div onClick={() => setIsClick(!isClick)}>
-        <div className="comment__list" >
+        <div className="comment__list">
           <div className="comment__userinfo">
             <div>{com.User.username}</div>
-            <div>{yearMonthDay}일{handleHour(hour)}시{min}분</div>
+            <div>
+              {yearMonthDay}일{hour}시{min}분
+            </div>
           </div>
           <div>{com.comment}</div>
-          <img className="comment__photo" src={JSON.parse(com.photoUrl)[0]} alt="사진" ></img>
-
           <button>수정</button>
+          <button onClick={deleteCommentHandler}>삭제</button>
+        </div>
+        <img
+          className="tglcomment__photo"
+          src={JSON.parse(com.photoUrl)[0]}
+          alt="사진"
+        ></img>
+        <style jsx="true">
+          {`
+            .tglcomment__photo {
+              max-width: 600px;
+            }
+            .plantpage__bottom {
+              border: solid, 10px;
+            }
+            .mainDescription {
+              padding: 15vh;
+            }
+            .plantpage__bottom {
+              margin-top: 5vh;
+              font-size: 2vw;
+              text-align: center;
+            }
+
+            .comment__list {
+              width: 50vw;
+              display: flex;
+              text-align: center;
+              justify-content: space-between;
+              margin: auto;
+              margin-top: 5vh;
+            }
+
+            input {
+              width: 25vw;
+            }
+
+            .comment__userinfo {
+              font-size: 2vh;
+            }
+
+            .comment__photo {
+              height: 5vh;
+            }
+          `}
+        </style>
+      </div>
+    ) : // 내가 쓴 글(true), 클릭된 상태(false) 수정 모드(true)
+    isReviseMode ? (
+      <div>
+        <div className="comment__list">
+          <div className="comment__userinfo">
+            <div>{com.User.username}</div>
+            <div>
+              {yearMonthDay}일{hour}시{min}분
+            </div>
+          </div>
+          <input
+            type="text"
+            value={placeHolder}
+            onChange={(e) => setPlaceHolder(e.target.value)}
+          ></input>
+          <img
+            className="comment__photo"
+            src={JSON.parse(com.photoUrl)[0]}
+            alt="사진"
+          ></img>
+          <Link onClick={() => patchCommentHandler()} href="/plantList">
+            <button onClick={() => patchCommentHandler()}>완료</button>
+          </Link>
+          <button onClick={() => setIsReviseMode(!isReviseMode)}>취소</button>
+        </div>
+        <style jsx="true">
+          {`
+            .tglcomment__photo {
+              max-width: 600px;
+            }
+            .plantpage__bottom {
+              border: solid, 10px;
+            }
+            .mainDescription {
+              padding: 15vh;
+            }
+            .plantpage__bottom {
+              margin-top: 5vh;
+              font-size: 2vw;
+              text-align: center;
+            }
+
+            .comment__list {
+              width: 50vw;
+              display: flex;
+              text-align: center;
+              justify-content: space-between;
+              margin: auto;
+              margin-top: 5vh;
+            }
+
+            input {
+              width: 25vw;
+            }
+
+            .comment__userinfo {
+              font-size: 2vh;
+            }
+
+            .comment__photo {
+              height: 5vh;
+            }
+          `}
+        </style>
+      </div>
+    ) : (
+      // 내가 쓴 글(true) 클릭된 상태(false) 수정 모드(false)
+      <div>
+        <div className="comment__list">
+          <div
+            onClick={() => setIsClick(!isClick)}
+            className="comment__userinfo"
+          >
+            <div>{com.User.username}</div>
+            <div>
+              {yearMonthDay}일{hour}시{min}분
+            </div>
+          </div>
+          <div onClick={() => setIsClick(!isClick)}>{com.comment}</div>
+          <img
+            onClick={() => setIsClick(!isClick)}
+            className="comment__photo"
+            src={JSON.parse(com.photoUrl)[0]}
+            alt="사진"
+          ></img>
+          <button onClick={() => setIsReviseMode(!isReviseMode)}>수정</button>
           <button>삭제</button>
         </div>
+        <style jsx="true">
+          {`
+            .tglcomment__photo {
+              max-width: 600px;
+            }
+            .plantpage__bottom {
+              border: solid, 10px;
+            }
+            .mainDescription {
+              padding: 15vh;
+            }
+            .plantpage__bottom {
+              margin-top: 5vh;
+              font-size: 2vw;
+              text-align: center;
+            }
+
+            .comment__list {
+              width: 50vw;
+              display: flex;
+              text-align: center;
+              justify-content: space-between;
+              margin: auto;
+              margin-top: 5vh;
+            }
+
+            input {
+              width: 25vw;
+            }
+
+            .comment__userinfo {
+              font-size: 2vh;
+            }
+
+            .comment__photo {
+              height: 5vh;
+            }
+          `}
+        </style>
       </div>
-    ) :
-      (
-        <div onClick={() => setIsClick(!isClick)} >
-          <div className="comment__list" >
-            <div className="comment__userinfo">
-              <div>{com.User.username}</div>
-              <div>{yearMonthDay}일{hour}시{min}분</div>
-            </div>
-            <div>{com.comment}</div>
-            <button>수정</button>
-            <button>삭제</button>
+    )
+  ) : isClick ? (
+    <div onClick={() => setIsClick(!isClick)}>
+      <div className="comment__list">
+        <div className="comment__userinfo">
+          <div>{com.User.username}</div>
+          <div>
+            {yearMonthDay}일{hour}시{min}분
           </div>
-          <img className="tglcomment__photo" src={JSON.parse(com.photoUrl)[0]} alt="사진" ></img>
-          <style jsx="true">{`
-          .tglcomment__photo{
+        </div>
+        <div>{com.comment}</div>
+      </div>
+      <img
+        className="tglcomment__photo"
+        src={JSON.parse(com.photoUrl)[0]}
+        alt="사진"
+      ></img>
+    </div>
+  ) : (
+    <div onClick={() => setIsClick(!isClick)}>
+      <div className="comment__list">
+        <div className="comment__userinfo">
+          <div>{com.User.username}</div>
+          <div>
+            {yearMonthDay}일{hour}시{min}분
+          </div>
+        </div>
+        <div>{com.comment}</div>
+        <img
+          className="comment__photo"
+          src={JSON.parse(com.photoUrl)[0]}
+          alt="사진"
+        ></img>
+      </div>
+
+      <style jsx="true">
+        {`
+          .tglcomment__photo {
             max-width: 600px;
           }
-          .plantpage__bottom{
-            border: solid, 10px
+          .plantpage__bottom {
+            border: solid, 10px;
           }
-              .mainDescription{
-                padding : 15vh;
-              }
-              .plantpage__bottom {
-                  margin-top: 5vh;
-                  font-size: 2vw;
-                 text-align: center;
-              }
-              
-              .comment__list{
-                width: 50vw;
-                display: flex;
-                text-align: center;
-                justify-content: space-between;
-                margin: auto;
-                margin-top: 5vh;
-              }
-  
-              input {
-                width: 25vw;
-              }
-             
-              .comment__userinfo{
-                font-size : 2vh;
-              }
-  
-              .comment__photo{
-                height : 5vh;
-              }
-              `}
-          </style>
-        </div >
-      )) : (
-        isClick ? (
-          <div onClick={() => setIsClick(!isClick)}>
-            <div className="comment__list" >
-              <div className="comment__userinfo">
-                <div>{com.User.username}</div>
-                <div>{yearMonthDay}일{handleHour(hour)}시{min}분</div>
-              </div>
-              <div>{com.comment}</div>
-              <img className="comment__photo" src={JSON.parse(com.photoUrl)[0]} alt="사진" ></img>
-            </div>
-          </div>
-        ) :
-          (
-            <div onClick={() => setIsClick(!isClick)} >
-              <div className="comment__list" >
-                <div className="comment__userinfo">
-                  <div>{com.User.username}</div>
-                  <div>{yearMonthDay}일{hour}시{min}분</div>
-                </div>
-                <div>{com.comment}</div>
-              </div>
-              <img className="tglcomment__photo" src={JSON.parse(com.photoUrl)[0]} alt="사진" ></img>
-              <style jsx="true">{`
-              .tglcomment__photo{
-                max-width: 600px;
-              }
-              .plantpage__bottom{
-                border: solid, 10px
-              }
-                  .mainDescription{
-                    padding : 15vh;
-                  }
-                  .plantpage__bottom {
-                      margin-top: 5vh;
-                      font-size: 2vw;
-                     text-align: center;
-                  }
-                  
-                  .comment__list{
-                    width: 50vw;
-                    display: flex;
-                    text-align: center;
-                    justify-content: space-between;
-                    margin: auto;
-                    margin-top: 5vh;
-                  }
-      
-                  input {
-                    width: 25vw;
-                  }
-                 
-                  .comment__userinfo{
-                    font-size : 2vh;
-                  }
-      
-                  .comment__photo{
-                    height : 5vh;
-                  }
-                  `}
-              </style>
-            </div >
-          )
+          .mainDescription {
+            padding: 15vh;
+          }
+          .plantpage__bottom {
+            margin-top: 5vh;
+            font-size: 2vw;
+            text-align: center;
+          }
 
+          .comment__list {
+            width: 50vw;
+            display: flex;
+            text-align: center;
+            justify-content: space-between;
+            margin: auto;
+            margin-top: 5vh;
+          }
 
+          input {
+            width: 25vw;
+          }
 
-      )
+          .comment__userinfo {
+            font-size: 2vh;
+          }
 
-  )
-}
+          .comment__photo {
+            height: 5vh;
+          }
+        `}
+      </style>
+    </div>
+  );
+};
 
 export default Comment;
