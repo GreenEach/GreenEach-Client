@@ -5,11 +5,11 @@
     justify-content: space-around;
     align-content: center;
     align-items: center;
-    width: auto;
-    height: auto;
+    width: 100vw;
+    height: 4rem;
     background-color: rgb(2, 132, 102);
     font-size: 1em;
-    height: 3rem;
+    position: fixed;
     }
 
 .flex_item1 {
@@ -32,3 +32,8 @@
         align-items: stretch;
         width: 20em;
     }
+
+.logo{
+    
+    height: 3em;
+}

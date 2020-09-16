@@ -19,7 +19,6 @@ const greenEach = ({ Component }) => {
   return (
     <>
      <Nav />
-     <SignIn />
       <Head>
         <title>GreenEach</title>
       </Head>

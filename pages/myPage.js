@@ -1,29 +1,20 @@
 import React, { useCallback } from "react";
-import styled from "styled-components";
 import styles from "../styles/myPage.module.css";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { observer, useObserver, useLocalStore } from "mobx-react";
-import { modalShowState, userState } from "../store/homeStore/sign";
-import { observable } from "mobx";
-
 import Axios from "axios";
 import { Cookies, withCookies } from "react-cookie";
-import { resolveHref } from "next/dist/next-server/lib/router/router";
+
+
 
 const myPage = ({cookies}) => {
-  // console.log(cookies.get("userInfo"))
-  // let base64Url = cookies.get("userInfo").split('.')[1];
-  // let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  // let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-  //   return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-  // }).join(''));
-        
-  // let tokenEmail = JSON.parse(jsonPayload).email
   const state = useLocalStore(() => ({
     email: '',
     password: '',
     password2: '',
     username: '',
+    contents: null,
+    comments: null,
     onChangeUserName(e) {
       this.username = e.target.value;
     },
@@ -34,6 +25,14 @@ const myPage = ({cookies}) => {
       this.password2 = e.target.value;
     },
   }));
+
+  // let base64Url = cookies.get("userInfo").split('.')[1];
+  // let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  // let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+  //   return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  // }).join(''));
+
+  // state.email = JSON.parse(jsonPayload).email
 
   const userInfoUpdate = useCallback(() => {
     if (!state.username) {
@@ -60,31 +59,33 @@ const myPage = ({cookies}) => {
   })
 
   
-      Axios.post('http://18.191.16.175:3000/sign/mypage',
-        {},
-        {headers:{token : cookies.get("userInfo") }},
-      )
-        .then((response) => {
-          // console.log(response)
-          console.log(response.data[0].Contents)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+  Axios.post('http://18.191.16.175:3000/sign/mypage',
+    {},
+    {headers:{token : cookies.get("userInfo") }},
+  )
+    .then((response) => {
+      // console.log(response.data)
+      for(let i = 0; i < response.data[0].Contents[0].title.length; i++){
+        state.contents =  response.data[0].Contents[i].title
+        state.comments = response.data[0].Comments[i]
+      }
 
-        
- 
+    })
+    .catch((err) => {
+      console.log(err)
+    })
 
   return useObserver(() => {
     return (
       <div className={styles.flex_container}>
         <div className={styles.flex_item1}>
-          <div>
-            내가 쓴 글<div>2222222</div>
+          <div >
+            내가 쓴 글
+            <div className={styles.item1_contents}>{state.contents}</div>
           </div>
-          <div>
+          <div >
             내가 쓴 댓글
-            <div>3333333</div>
+            <div className={styles.item1_comments}>{state.comments}</div>
           </div>
         </div>
         <div className={styles.flex_item2}>
@@ -95,7 +96,7 @@ const myPage = ({cookies}) => {
             </Form.Group>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>email</Form.Label><br></br>
-              <Form.Label>email</Form.Label>
+              <Form.Label>{state.email}</Form.Label>
               {/* {mEmail} */}
             </Form.Group>
             <Form.Group controlId="formBasicPassword">

@@ -40,7 +40,6 @@ const signUpModal = () => {
         handleClose();
       })
       .catch((err) => {
-        console.log({ email, password, username });
         console.log(err);
       });
   });
