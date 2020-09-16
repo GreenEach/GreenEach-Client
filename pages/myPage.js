@@ -7,7 +7,7 @@ import { Cookies, withCookies } from "react-cookie";
 
 
 
-const myPage = ({cookies}) => {
+const myPage = ({ cookies }) => {
   const state = useLocalStore(() => ({
     email: '',
     password: '',
@@ -46,7 +46,7 @@ const myPage = ({cookies}) => {
         {
           ...state
         },
-        {headers:{token : cookies.get("userInfo") }},
+        { headers: { token: cookies.get("userInfo") } },
       )
         .then((response) => {
           alert("회원정보가 변경되었습니다.")
@@ -58,16 +58,15 @@ const myPage = ({cookies}) => {
     }
   })
 
-  
+
   Axios.post('http://18.191.16.175:3000/sign/mypage',
     {},
-    {headers:{token : cookies.get("userInfo") }},
+    { headers: { token: cookies.get("userInfo") } },
   )
     .then((response) => {
-      // console.log(response.data)
-      for(let i = 0; i < response.data[0].Contents[0].title.length; i++){
-        state.contents =  response.data[0].Contents[i].title
-        state.comments = response.data[0].Comments[i]
+      console.log(response.data[0].Comments)
+      for (let i = 0; i < response.data[0].Contents[0].title.length; i++) {
+        state.contents = response.data[0].Contents[i].title
       }
 
     })
