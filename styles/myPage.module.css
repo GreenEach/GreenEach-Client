@@ -21,6 +21,14 @@
     
     }
 
+.item1_contents{
+    border: 1px solid green;
+}
+
+.item1_comments{
+    border: 1px solid peru;
+}
+
 .flex_item2{
     border: 1px solid black;
     order: 0;
