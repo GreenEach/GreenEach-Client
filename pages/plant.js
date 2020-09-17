@@ -17,26 +17,15 @@ const Delete = styled.a`
 const Thumb = styled.img`
   display: none;
 `;
-
 const Plant = ({ cookies }) => {
   const [photoArr, setPhotoArr] = useState([]);
   const [comments, setcomments] = useState([]);
   const [id, setId] = useState(1);
+  const [email, setEmail] = useState('');
   const [isMyContent, setIsMyContent] = useState(false);
   const [isMyComment, setIsMycomment] = useState(false);
-
-  // 쿠키에서 가져온 토큰에서 email을 가져오는 부분
-  let base64Url = cookies.get("userInfo").split(".")[1];
-  let base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-  let jsonPayload = decodeURIComponent(
-    atob(base64)
-      .split("")
-      .map(function (c) {
-        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-      })
-      .join("")
-  );
-  const writer = JSON.parse(jsonPayload).email;
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
 
   const fetchContentDetail = async () => {
     let id = plantListStore.listId;
@@ -45,10 +34,12 @@ const Plant = ({ cookies }) => {
       { contentId: Number(id) },
       { headers: { token: cookies.get("userInfo") } }
     );
-
-    setPhotoArr(JSON.parse(result.data[0].photoUrl));
-    setcomments(result.data[0].Comments);
-    if (writer === result.data[0].User.email) {
+    setEmail(result.data.currentUser)
+    setTitle(result.data.contentInfo[0].title)
+    setContent(result.data.contentInfo[0].content)
+    setPhotoArr(JSON.parse(result.data.contentInfo[0].photoUrl));
+    setcomments(result.data.contentInfo[0].Comments);
+    if (result.data.currentUser === result.data.contentInfo[0].User.email) {
       setIsMyContent(true);
     }
   };
@@ -56,7 +47,6 @@ const Plant = ({ cookies }) => {
     fetchContentDetail();
     console.log(comments);
   }, []);
-
   const sliderArr = photoArr.map((plant, id) => {
     return {
       id: id,
@@ -64,20 +54,21 @@ const Plant = ({ cookies }) => {
       thumbnail: plant,
     };
   });
-
-  const commentMap = comments.map((com) => {
-    return <Comment com={com} key={com.id} writer={writer} />;
-  });
-
-  // comment를 클릭하면 넓어지는 부분을 위한 토글메소드
-  const toggle = useCallback(() => {
-    commentClick.toggle();
+  const commentMap = comments.reverse().map((com) => {
+    return (
+      <Comment
+        com={com}
+        key={com.id}
+        writer={email}
+        cookies={cookies.get('userInfo')}
+      />
+    );
   });
   //comment와 img의 기본상태를 생성해주는 스토어
   const state = useLocalStore(() => ({
     img: null,
     comment: "",
-    contentId: 6,
+    contentId: Number(plantListStore.listId),
     commentImg(e) {
       this.img = e.target.files[0];
       thumbnail(e);
@@ -105,6 +96,7 @@ const Plant = ({ cookies }) => {
       .then((res) => {
         if (res.status === 200) {
           alert("댓글이 등록되었습니다.");
+          fetchContentDetail();
         }
       })
       .catch((err) => {
@@ -126,8 +118,11 @@ const Plant = ({ cookies }) => {
   const thumbDel = (e) => {
     let thumbImg = e.target.previousElementSibling; //직전요소의 이벤트 객체 = 생성된 썸네일
     thumbImg.src = "";
+    document.querySelector(".thumbImg").value = "";
+    document.querySelector(".thumbImgInput").value = "";
     document.querySelector(".delButton").style.display = "none";
     document.querySelector(".thumbImg").style.display = "none";
+    alert("사진을 다시 선택해주세요");
   };
   return useObserver(() => {
     return (
@@ -137,12 +132,12 @@ const Plant = ({ cookies }) => {
         <div className="plantpage__top">
           <div className="slider__button">
             <ImageGallery items={sliderArr} showFullscreenButton={false} />
-
             {isMyContent ? (
               <div className="plant__buttons">
                 <div>
-                  <Link href="/plantAdd">
-                    <button className="gallery__button">수정</button>
+                  <Link href='/plantupdate' >
+                    <button className='gallery__button' value={plantListStore.id}
+                    >수정</button>
                   </Link>
                 </div>
                 <div>
@@ -150,16 +145,14 @@ const Plant = ({ cookies }) => {
                 </div>
               </div>
             ) : (
-              <></>
-            )}
+                <></>
+              )}
           </div>
-
           {/*하단 comment 부분 */}
           <div className="plantpage__bottom">
             <div className="create__comment">
-              <div className="mainDescription">
-                식물에 대한 설명설명 엄청 긴 설명
-              </div>
+              <div>{title}</div>
+              <div className="mainDescription">{content}</div>
               <form>
                 <input
                   type="text"
@@ -167,14 +160,17 @@ const Plant = ({ cookies }) => {
                   autoFocus
                   onChange={state.inputComment}
                 ></input>
-                <input type="file" onChange={state.commentImg}></input>
+                <input
+                  type="file"
+                  onChange={state.commentImg}
+                  className="thumbImgInput"
+                ></input>
                 <button onClick={contentSubmit}>등록</button>
                 <Thumb src="" className="thumbImg" />
                 <Delete className="delButton" onClick={thumbDel}>
                   썸네일삭제
                 </Delete>
               </form>
-              <button>등록</button>
             </div>
             <div>{commentMap}</div>
           </div>
@@ -191,7 +187,6 @@ const Plant = ({ cookies }) => {
                 font-size: 2vw;
                 text-align: center;
               }
-
               .comment__list {
                 width: 50vw;
                 display: flex;
@@ -200,15 +195,12 @@ const Plant = ({ cookies }) => {
                 margin: auto;
                 margin-top: 5vh;
               }
-
               input {
                 width: 25vw;
               }
-
               .comment__userinfo {
                 font-size: 2vh;
               }
-
               .comment__photo {
                 height: 5vh;
               }
@@ -219,5 +211,4 @@ const Plant = ({ cookies }) => {
     );
   });
 };
-
 export default withCookies(Plant);

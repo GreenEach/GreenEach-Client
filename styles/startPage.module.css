@@ -1,0 +1,40 @@
+.container {
+    min-height: 20vh;
+    padding: 0 0.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+  
+  .flex_select1 {
+    order: 0;
+    flex: 0 1 auto;
+    align-self: auto;
+    justify-content: center;
+    align-items: center;
+    background-color: blue;
+   
+  }
+  
+  .flex_select2{
+    order: 0;
+    flex: 0 1 auto;
+    align-self: auto;
+    background-color: yellow;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+  
+  .flex_select3{
+    display: flex;
+    flex-wrap: wrap;
+    order: 0;
+    flex: 0 1 auto;
+    align-self: auto;
+    background-color: rebeccapurple;
+  }

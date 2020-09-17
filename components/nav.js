@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { observable, get } from "mobx";
-import { useObserver } from "mobx-react";
+import { useObserver, useLocalStore } from "mobx-react";
 import Link from "next/link";
 import SignUp from "./modal/signUpModal";
 import SignIn from "./modal/signInModal";
@@ -9,11 +9,15 @@ import styles from "../styles/Nav.module.css";
 import Axios from "axios";
 import { Cookies, withCookies, removeCookie } from "react-cookie";
 
-const nav = ({ cookies }) => {
-  if (cookies.get("userInfo")) {
-    userState.isLoggedIn = true;
+const nav = ({cookies}) => {
+  const state = useLocalStore(() => ({
+    isLoggedIn: false
+  }));
+
+  if(cookies.get("userInfo")){
+    state.isLoggedIn = true;
   } else {
-    userState.isLoggedIn = false;
+    state.isLoggedIn = false;
   }
 
   const signUpModalOpen = useCallback(() => {
@@ -26,7 +30,7 @@ const nav = ({ cookies }) => {
 
   const logOut = useCallback(() => {
     return Axios.post(
-      "http://greeneachdomain.tk:3000/sign/signout",
+      "https://greeneachdomain.tk:443/sign/signout",
       {},
       { headers: { token: cookies.get("userInfo") } }
     ).then((response) => {
@@ -40,10 +44,9 @@ const nav = ({ cookies }) => {
     return (
       <div className={styles.flex_container}>
         <a href="/">
-          Logo
-          {/* <Link href="/start" /> */}
+          <img src="greenEachLogo (1).png" className={styles.logo} ></img>
         </a>
-        {!userState.isLoggedIn ? (
+        {!state.isLoggedIn ? (
           <div className={styles.flex_item3}>
             <div className={styles.flex_item1}>
               <a onClick={signUpModalOpen}>SignUp</a>
@@ -60,7 +63,7 @@ const nav = ({ cookies }) => {
               <a onClick={logOut}>LogOut</a>
             </div>
             <div className={styles.flex_item2}>
-              <a href="/myPage">MyPage</a>
+             <Link href="/myPage"><a>myPage</a></Link>
             </div>
           </div>
         )}
