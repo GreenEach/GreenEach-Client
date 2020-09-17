@@ -17,14 +17,13 @@
   align-items: center;
   width: 100vw;
   height: 45em;
-  background-image: url("/bg.png");
+  background-image: url('/bg.png');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  
 }
 
-.flex_item2{
+.flex_item2 {
   order: 0;
   flex: 0 1 auto;
   align-self: auto;
@@ -34,35 +33,57 @@
   display: flex;
   height: auto;
   flex-direction: column;
-  
 }
 
-.flex_item3{
+.flex_item3 {
   display: flex;
-  flex-wrap: wrap;
+  justify-content: space-between;
   order: 0;
   flex: 0 1 auto;
   align-self: auto;
   width: 100vw;
-  background-color: rebeccapurple;
+  
 }
 
-.flex_item2_container{
+.flex_item2_container {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   margin-top: 2rem;
 }
 
-.flex_item2_container2{
+.flex_item2_container2 {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   font-size: 1.3rem;
-  margin-bottom: 3rem;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
 }
 
-.flex_item2_item{
+.child1{
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
+  margin-left: 2.6rem;
+  }
+
+.child2 {
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
+  margin-left: 5.2rem;
+  }
+
+.child3 {
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
+  margin-left: 2.7rem;
+  }
+
+
+.flex_item2_item {
   text-align: left;
   border: 1px solid black;
   border-radius: 70rem;
@@ -71,15 +92,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  
 }
 
-.benefit{
+.benefit {
   margin-top: 3rem;
   font-size: 2rem;
 }
 
-.icon{
+.icon {
   width: 8em;
 }
 
@@ -90,16 +110,16 @@
   justify-content: center;
 }
 
-.image{
+.image {
   width: 5rem;
   height: 5rem;
 }
-.a{
+
+.a {
   font-size: large;
 }
 
 /* add default color for animation start  */
-
 
 /* toggle this class */
 
@@ -107,13 +127,11 @@
   background-color: salmon;
 }
 
-
 /* toggle class bg-animate-color */
 
 .bg-animate-color {
-  animation: random-bg .5s linear infinite;
+  animation: random-bg 0.5s linear infinite;
 }
-
 
 /* add animation to bg color  */
 
@@ -130,9 +148,9 @@
   /* change bg color to get different hues    */
   background-color: rgb(129, 255, 192);
   color: white;
-  padding: 2.5em 4em;
+  padding: 1.5em 2em;
   border: none;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
   border-radius: 5px;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -140,10 +158,11 @@
   align-self: center;
   cursor: pointer;
   font-weight: bold;
+  font-size: 2em;
 }
 
 .start_btn:hover {
-  animation: random-bg .5s linear infinite, grow 1300ms ease infinite;
+  animation: random-bg 0.5s linear infinite, grow 1300ms ease infinite;
 }
 
 .start-fun {
@@ -171,9 +190,7 @@
   }
 }
 
-
-
-.flex_child{
+.flex_child {
   flex: 0 1 auto;
   flex: 1 1 auto;
   width: 20rem;
