@@ -37,12 +37,12 @@
 
 .flex_item3 {
   display: flex;
-  flex-wrap: wrap;
+  justify-content: space-between;
   order: 0;
   flex: 0 1 auto;
   align-self: auto;
   width: 100vw;
-  background-color: rebeccapurple;
+  
 }
 
 .flex_item2_container {
@@ -57,8 +57,31 @@
   flex-direction: row;
   justify-content: space-evenly;
   font-size: 1.3rem;
-  margin-bottom: 3rem;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
 }
+
+.child1{
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
+  margin-left: 2.6rem;
+  }
+
+.child2 {
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
+  margin-left: 5.2rem;
+  }
+
+.child3 {
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
+  margin-left: 2.7rem;
+  }
+
 
 .flex_item2_item {
   text-align: left;
@@ -91,6 +114,7 @@
   width: 5rem;
   height: 5rem;
 }
+
 .a {
   font-size: large;
 }
