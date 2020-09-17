@@ -6,9 +6,7 @@ import { observer, useObserver, useLocalStore } from 'mobx-react';
 import FormData from 'form-data';
 import { Cookies, withCookies } from 'react-cookie';
 import { plantListStore } from '../store/plantList';
-
-
-
+import Link from 'next/link';
 
 const Container = styled.div`
   position: absolute;
@@ -113,12 +111,6 @@ const Thumb = styled.img`
 `;
 
 const start = ({ cookies }) => {
-
-
-
-
-
-
   const [photoArr, setPhotoArr] = useState([]);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -132,9 +124,9 @@ const start = ({ cookies }) => {
       { headers: { token: cookies.get('userInfo') } }
     );
 
-    setTitle(result.data.contentInfo[0].title)
-    setContent(result.data.contentInfo[0].content)
-  }
+    setTitle(result.data.contentInfo[0].title);
+    setContent(result.data.contentInfo[0].content);
+  };
 
   // 수정하는 요청
   const fetchContentUpdate = async () => {
@@ -144,15 +136,14 @@ const start = ({ cookies }) => {
       { contentId: Number(id) },
       { headers: { token: cookies.get('userInfo') } }
     );
-    setTitle(result.data.contentInfo[0].title)
-    setContent(result.data.contentInfo[0].content)
+    setTitle(result.data.contentInfo[0].title);
+    setContent(result.data.contentInfo[0].content);
     setPhotoArr(JSON.parse(result.data.contentInfo[0].photoUrl));
   };
 
   useEffect(() => {
-    fetchContentDetail()
+    fetchContentDetail();
   }, []);
-
 
   const state = useLocalStore(() => ({
     img: null,
@@ -191,7 +182,7 @@ const start = ({ cookies }) => {
     Data.append('title', title);
     Data.append('level', state.level);
     Data.append('season', state.season);
-    Data.append('contentId', Number(id))
+    Data.append('contentId', Number(id));
     console.log(Data.get('img'));
     console.log(Data.get('content'));
     console.log(Data.get('title'));
@@ -204,13 +195,23 @@ const start = ({ cookies }) => {
       })
       .then((res) => {
         if (res.status === 200) {
-          alert('컨텐츠가 업로드 되었습니다.');
+          // alert('컨텐츠가 업로드 되었습니다.');
+          window.location = '/plantList';
         }
       })
       .catch((err) => {
         console.log(err);
         alert('컨텐츠 업로드에 실패했습니다.');
       });
+  };
+
+  const deleteContentHandler = () => {
+    axios({
+      url: 'http://greeneachdomain.tk:3000/content',
+      method: 'delete',
+      data: { contentId: Number(id) },
+      headers: { token: cookies.get('userInfo') },
+    });
   };
 
   const thumbnail = (e) => {
@@ -270,10 +271,15 @@ const start = ({ cookies }) => {
             <option value='winter'>겨울</option>
           </Select2>
 
-          <Title onChange={(e) => setTitle(e.target.value)} value={title}></Title>
+          <Title
+            onChange={(e) => setTitle(e.target.value)}
+            value={title}
+          ></Title>
 
-          <Content onChange={(e) => setContent(e.target.value)} value={content}></Content>
-
+          <Content
+            onChange={(e) => setContent(e.target.value)}
+            value={content}
+          ></Content>
           <Send type='submit' onClick={onClick}>
             Update
           </Send>
