@@ -52,6 +52,7 @@
     "react-bootstrap": "^1.3.0",
     "react-cookie": "^4.0.3",
     "react-dom": "16.13.1",
+    "react-google-login": "^5.1.21",
     "react-hooks": "^1.0.1",
     "react-image-gallery": "^1.0.8",
     "styled-components": "^5.1.1"
