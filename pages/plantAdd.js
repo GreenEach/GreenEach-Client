@@ -124,7 +124,6 @@ const Thumb4 = styled.img`
 `;
 const Delete5 = styled.div`
   display: none;
-  top: ;
 `;
 const Thumb5 = styled.img`
   display: none;
@@ -203,7 +202,7 @@ const start = ({ cookies }) => {
       Data.append("season", state.season);
       console.log(Data.get("img", state.img));
       axios
-        .post("http://greeneachdomain.tk:3000/content", Data, {
+        .post("https://greeneachdomain.tk/content", Data, {
           headers: { token: cookies.get("userInfo") },
         })
         .then((res) => {

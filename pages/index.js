@@ -16,9 +16,9 @@ const Home = ({ cookies }) => {
   const state = useLocalStore(() => ({
     img: []
   }));
-  
+
   const getImage = () => {
-    Axios.get('http://18.191.16.175:3000/content/random', {
+    Axios.get('https://greeneachdomain.tk/content/random', {
       headers: { token: cookies.get("userInfo") },
     }
     )
@@ -35,9 +35,9 @@ const Home = ({ cookies }) => {
   }, [])
 
   let imgmapping = state.img.map((data) => {
-    
-      <img src={data} className={styles.image}></img>
-   
+
+    <img src={data} className={styles.image}></img>
+
   })
   console.log("img map = ", imgmapping)
   return useObserver(() => {

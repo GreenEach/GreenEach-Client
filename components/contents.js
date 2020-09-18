@@ -36,9 +36,6 @@ const Content = ({ list, href }) => {
             <h3 value={list.id} onClick={setItemHandler}>
               {list.title}{' '}
             </h3>
-            <span value={list.id} onClick={setItemHandler}>
-              {list.content}
-            </span>
           </div>
         </div>
       </div>
