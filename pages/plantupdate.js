@@ -119,7 +119,7 @@ const start = ({ cookies }) => {
   const fetchContentDetail = async () => {
     let id = plantListStore.listId;
     const result = await axios.post(
-      'http://greeneachdomain.tk:3000/content/detail',
+      'https://greeneachdomain.tk/content/detail',
       { contentId: Number(id) },
       { headers: { token: cookies.get('userInfo') } }
     );
@@ -132,7 +132,7 @@ const start = ({ cookies }) => {
   const fetchContentUpdate = async () => {
     let id = plantListStore.listId;
     const result = await axios.patch(
-      'http://greeneachdomain.tk:3000/content',
+      'https://greeneachdomain.tk/content',
       { contentId: Number(id) },
       { headers: { token: cookies.get('userInfo') } }
     );
@@ -190,7 +190,7 @@ const start = ({ cookies }) => {
     console.log(Data.get('season'));
 
     axios
-      .patch('http://greeneachdomain.tk:3000/content', Data, {
+      .patch('https://greeneachdomain.tk/content', Data, {
         headers: { token: cookies.get('userInfo') },
       })
       .then((res) => {
@@ -207,7 +207,7 @@ const start = ({ cookies }) => {
 
   const deleteContentHandler = () => {
     axios({
-      url: 'http://greeneachdomain.tk:3000/content',
+      url: 'https://greeneachdomain.tk/content',
       method: 'delete',
       data: { contentId: Number(id) },
       headers: { token: cookies.get('userInfo') },
@@ -236,53 +236,52 @@ const start = ({ cookies }) => {
   return useObserver(() => {
     return (
       <div>
-        <Container> </Container>
 
         <form enctype='multipart/form-data'>
-          <File
+          <input
             accept='image/jpeg, image/jpg, image/png'
             type='file'
             name='file'
             className='IMG'
             onChange={state.onAddedImg}
             multiple
-          ></File>
+          ></input>
 
-          <List>
-            <Thumb src='' className='thumbImg' />
+          <div>
+            <img src='' className='thumbImg' />
             사진을 새로 올려주세요
-          </List>
-          <Delete className='delButton' onClick={thumbDel}>
+          </div>
+          <a className='delButton' onClick={thumbDel}>
             썸네일삭제
-          </Delete>
+          </a>
 
-          <Select1 onChange={state.onChangeLevel}>
+          <select onChange={state.onChangeLevel}>
             <option value='none'>선택해주세요</option>
             <option value='easy'>초보자</option>
             <option value='normal'>경험자</option>
             <option value='hard'>숙련자</option>
-          </Select1>
+          </select>
 
-          <Select2 onChange={state.onChangeSeason}>
+          <select onChange={state.onChangeSeason}>
             <option value='any'>선택해주세요</option>
             <option value='spring'>봄</option>
             <option value='summer'>여름</option>
             <option value='fall'>가을</option>
             <option value='winter'>겨울</option>
-          </Select2>
+          </select>
 
-          <Title
+          <textarea
             onChange={(e) => setTitle(e.target.value)}
             value={title}
-          ></Title>
+          ></textarea>
 
-          <Content
+          <textarea
             onChange={(e) => setContent(e.target.value)}
             value={content}
-          ></Content>
-          <Send type='submit' onClick={onClick}>
+          ></textarea>
+          <button type='submit' onClick={onClick}>
             Update
-          </Send>
+          </button>
         </form>
       </div>
     );

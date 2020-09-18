@@ -42,7 +42,7 @@ const myPage = ({ cookies }) => {
     } else if (!state.password2) {
       alert("패스워드2를 입력해주세요.");
     } else {
-      return Axios.post('http://18.191.16.175:3000/sign/mypage',
+      return Axios.post('https://greeneachdomain.tk/sign/mypage',
         {
           ...state
         },
@@ -59,7 +59,7 @@ const myPage = ({ cookies }) => {
   })
 
 
-  Axios.post('http://18.191.16.175:3000/sign/mypage',
+  Axios.post('https://greeneachdomain.tk/sign/mypage',
     {},
     { headers: { token: cookies.get("userInfo") } },
   )
