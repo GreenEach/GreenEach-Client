@@ -30,7 +30,7 @@ const nav = ({cookies}) => {
 
   const logOut = useCallback(() => {
     return Axios.post(
-      "https://greeneachdomain.tk:443/sign/signout",
+      "http://18.191.16.175:3000/sign/signout",
       {},
       { headers: { token: cookies.get("userInfo") } }
     ).then((response) => {

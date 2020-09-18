@@ -15,7 +15,7 @@ const greenEach = ({ Component }) => {
 
   return (
     <>
-      {/* <Nav /> */}
+      <Nav />
       <Head>
         <script
           src="https://kit.fontawesome.com/c6bb511901.js"

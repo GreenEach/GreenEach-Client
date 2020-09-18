@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import styles from "../styles/myPage.module.css";
 import { Button, Form } from "react-bootstrap";
 import { observer, useObserver, useLocalStore } from "mobx-react";
@@ -13,8 +13,8 @@ const myPage = ({ cookies }) => {
     password: '',
     password2: '',
     username: '',
-    contents: null,
-    comments: null,
+    contents: [],
+    comments: [],
     onChangeUserName(e) {
       this.username = e.target.value;
     },
@@ -26,13 +26,13 @@ const myPage = ({ cookies }) => {
     },
   }));
 
-  // let base64Url = cookies.get("userInfo").split('.')[1];
-  // let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  // let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-  //   return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-  // }).join(''));
+  let base64Url = cookies.get("userInfo").split('.')[1];
+  let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(''));
 
-  // state.email = JSON.parse(jsonPayload).email
+  state.email = JSON.parse(jsonPayload).email
 
   const userInfoUpdate = useCallback(() => {
     if (!state.username) {
@@ -58,33 +58,63 @@ const myPage = ({ cookies }) => {
     }
   })
 
+  const getCommentsContents = () =>{
+    Axios.post('http://18.191.16.175:3000/sign/mypage',
+      {},
+      { headers: { token: cookies.get("userInfo") } },
+    )
+      .then((response) => {
+        let contentsArr = []
+        let commentsArr = []
+        console.log("data.response = ",response.data[0].Comments)
+        //response.data[0].Contents.length
+        for (let i = 0; i < response.data[0].Contents.length; i++) {
+          contentsArr.push(response.data[0].Contents[i].title); 
+        }
 
-  Axios.post('http://18.191.16.175:3000/sign/mypage',
-    {},
-    { headers: { token: cookies.get("userInfo") } },
-  )
-    .then((response) => {
-      console.log(response.data[0].Comments)
-      for (let i = 0; i < response.data[0].Contents[0].title.length; i++) {
-        state.contents = response.data[0].Contents[i].title
-      }
+        for(let j = 0; j < response.data[0].Comments.length; j++){
+          commentsArr.push(response.data[0].Comments[j].comment)
+        }
 
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+        state.contents = contentsArr;
+        state.comments = commentsArr;
+        
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+        
+  }
 
+    useEffect(() => {
+      getCommentsContents()
+    }, [])
+
+ // console.log("contents ==", state.contents.length,"comments == ",state.comments.length)
+  const map = () => {
+    for(let i = 0; i < state.contents.length; i++){
+      
+    }
+  }
   return useObserver(() => {
     return (
       <div className={styles.flex_container}>
         <div className={styles.flex_item1}>
           <div >
             내가 쓴 글
-            <div className={styles.item1_contents}>{state.contents}</div>
+            <div className={styles.item1_contents}>
+              <div>{state.contents[0]}</div>
+              <div>{state.contentyts[1]}</div>
+              {state.contents[2]}
+            </div>
           </div>
           <div >
             내가 쓴 댓글
-            <div className={styles.item1_comments}>{state.comments}</div>
+            <div className={styles.item1_comments}>
+              <div>{state.comments[0]}</div>
+              <div>{state.comments[1]}</div>
+              
+            </div>
           </div>
         </div>
         <div className={styles.flex_item2}>
@@ -94,9 +124,8 @@ const myPage = ({ cookies }) => {
               <Form.Control type="username" placeholder="Enter username" value={state.username} onChange={state.onChangeUserName} />
             </Form.Group>
             <Form.Group controlId="formBasicEmail">
-              <Form.Label>email</Form.Label><br></br>
-              <Form.Label>{state.email}</Form.Label>
-              {/* {mEmail} */}
+            <Form.Label>email</Form.Label>
+              <Form.Control placeholder={state.email} value={state.username}  />
             </Form.Group>
             <Form.Group controlId="formBasicPassword">
               <Form.Label>비밀번호</Form.Label>
