@@ -9,7 +9,11 @@ import Link from "next/link";
 import styles from "../styles/plantAdd.module.css";
 import { Steps } from "antd";
 import { Select } from "antd";
-
+import Jumbotron from "react-bootstrap/Jumbotron";
+import InputGroup from "react-bootstrap/InputGroup";
+import FormControl from "react-bootstrap/FormControl";
+import Loading from "../components/loading";
+import Col from "react-bootstrap/Col";
 // const background = styled.div;
 // const Container = styled.div`
 //   width: 745px;
@@ -63,7 +67,6 @@ const List = styled.div`
 //   top: 294px;
 // `;
 const Title = styled.textarea`
-  width: 4ㄴ21px;
   height: 55px;
   display: flex;
   left: 591px;
@@ -73,6 +76,7 @@ const Title = styled.textarea`
   border: 1px solid #000000;
   box-sizing: border-box;
   font-size: 30px;
+  width: 40vw;
 `;
 const Content = styled.textarea`
   width: 721px;
@@ -368,69 +372,84 @@ const start = ({ cookies }) => {
     document.querySelector(".delButton4").style.display = "block";
     alert("마지막 이미지가 삭제되었습니다.");
   };
+  const date = new Date();
 
   return useObserver(() => {
     return (
       <div className={styles.Container}>
-        <form enctype="multipart/form-data">
-          <File
-            accept="image/jpeg, image/jpg, image/png"
-            type="file"
-            name="file"
-            className="IMG"
-            id={styles.IMG}
-            onChange={state.onAddedImg}
-            multiple
-          ></File>
-          <div>
-            <Thumb1 src="" className="thumbImg1" />
-            <Thumb2 src="" className="thumbImg2" />
-            <Thumb3 src="" className="thumbImg3" />
-            <Thumb4 src="" className="thumbImg4" />
-            <Thumb5 src="" className="thumbImg5" />
-          </div>
-          <Delete1 className="delButton1" onClick={thumbDel1}>
-            선택취소1
-          </Delete1>
-          <Delete2 className="delButton2" onClick={thumbDel2}>
-            선택취소2
-          </Delete2>
-          <Delete3 className="delButton3" onClick={thumbDel3}>
-            선택취소3
-          </Delete3>
-          <Delete4 className="delButton4" onClick={thumbDel4}>
-            선택취소4
-          </Delete4>
-          <Delete5 className="delButton5" onClick={thumbDel5}>
-            선택취소5
-          </Delete5>
+        <div className={styles.bothContainer}>
+          <img className={styles.leftSide} src={"../public/bg.png"}></img>
+          <div className={styles.contentContainer}>
+            <Jumbotron className={styles.Jumbotron}>
+              <h1>Lets, GreenEach!</h1>
 
-          <Select
-            onChange={(value) => state.onChangeLevel(value)}
-            className={styles.Select1}
-          >
-            <Option value="disabled" disabled>
-              선택해주세요
-            </Option>
-            <Option value="easy">초보자</Option>
-            <Option value="normal">경험자</Option>
-            <Option value="hard">숙련자</Option>
-          </Select>
-          <Select
-            onChange={(value) => state.onChangeSeason(value)}
-            className={styles.Select2}
-          >
-            <Option value="disabled" disabled>
-              선택해주세요
-            </Option>
-            <Option value="any">사계절</Option>
-            <Option value="spring">봄</Option>
-            <Option value="summer">여름</Option>
-            <Option value="fall">가을</Option>
-            <Option value="winter">겨울</Option>
-          </Select>
-
-          {/* <Select1 onChange={state.onChangeLevel} className={styles.Select1}>
+              <p> </p>
+              <h5>
+                그린이치에서 여러분들의 식물을 모두와 공유해보세요! 그린이치에서
+                여러분들의 식물을 모두와 공유해보세요!
+              </h5>
+              <p></p>
+              <p>
+                <button variant="primary">Learn more</button>
+              </p>
+            </Jumbotron>
+            <form enctype="multipart/form-data">
+              <File
+                accept="image/jpeg, image/jpg, image/png"
+                type="file"
+                name="file"
+                className="IMG"
+                id={styles.IMG}
+                onChange={state.onAddedImg}
+                multiple
+              ></File>
+              <div>
+                <Thumb1 src="" className="thumbImg1" />
+                <Thumb2 src="" className="thumbImg2" />
+                <Thumb3 src="" className="thumbImg3" />
+                <Thumb4 src="" className="thumbImg4" />
+                <Thumb5 src="" className="thumbImg5" />
+              </div>
+              <Delete1 className="delButton1" onClick={thumbDel1}>
+                선택취소1
+              </Delete1>
+              <Delete2 className="delButton2" onClick={thumbDel2}>
+                선택취소2
+              </Delete2>
+              <Delete3 className="delButton3" onClick={thumbDel3}>
+                선택취소3
+              </Delete3>
+              <Delete4 className="delButton4" onClick={thumbDel4}>
+                선택취소4
+              </Delete4>
+              <Delete5 className="delButton5" onClick={thumbDel5}>
+                선택취소5
+              </Delete5>
+              <Select
+                onChange={(value) => state.onChangeLevel(value)}
+                className={styles.Select1}
+              >
+                <Option value="disabled" disabled>
+                  선택해주세요
+                </Option>
+                <Option value="easy">초보자</Option>
+                <Option value="normal">경험자</Option>
+                <Option value="hard">숙련자</Option>
+              </Select>
+              <Select
+                onChange={(value) => state.onChangeSeason(value)}
+                className={styles.Select2}
+              >
+                <Option value="disabled" disabled>
+                  선택해주세요
+                </Option>
+                <Option value="any">사계절</Option>
+                <Option value="spring">봄</Option>
+                <Option value="summer">여름</Option>
+                <Option value="fall">가을</Option>
+                <Option value="winter">겨울</Option>
+              </Select>
+              {/* <Select1 onChange={state.onChangeLevel} className={styles.Select1}>
             <option value="none">선택해주세요</option>
             <option value="easy">초보자</option>
             <option value="normal">경험자</option>
@@ -443,40 +462,67 @@ const start = ({ cookies }) => {
             <option value="fall">가을</option>
             <option value="winter">겨울</option>
           </Select2> */}
-          <Title onChange={state.onChangeTitle}></Title>
-          <Content onChange={state.onChangeContent}></Content>
-
-          <Send
+              {/* <Title onChange={state.onChangeTitle}></Title> */}
+              <InputGroup size="lg">
+                <InputGroup.Prepend>
+                  <InputGroup.Text
+                    id="inputGroup-sizing-lg"
+                    onChange={state.onChangeTitle}
+                  >
+                    Title
+                  </InputGroup.Text>
+                </InputGroup.Prepend>
+                <Col sm={30}>
+                  <FormControl
+                    className={styles.form_control}
+                    aria-label="Large"
+                    aria-describedby="inputGroup-sizing-sm"
+                  />
+                </Col>
+              </InputGroup>
+              <Content onChange={state.onChangeContent}></Content>
+              <Loading
+                className={styles.create_button}
+                type="submit"
+                onClick={() => onClick}
+              ></Loading>
+              {/*Select적용한것처럼다시해보기<ㅡ보류*/}
+              {/* <Send
             className={styles.create_button}
             type="submit"
             onClick={onClick}
           >
             POST!
-          </Send>
-          <Steps
-            className={styles.Step}
-            current={progress}
-            status={error}
-            // direction="vertical"
-          >
-            <Step
-              title="In Progress"
-              // subTitle={currentTime}
-              description="게시글을 작성해주세요."
-            />
-            <Step
-              title="Finished"
-              // subTitle={currentTime}
-              description="POST버튼을 눌러주세요."
-            />
+          </Send> */}{" "}
+              <div className={styles.step2}>
+                <Steps
+                  size="larger"
+                  className={styles.Step}
+                  current={progress}
+                  status={error}
+                  // direction="vertical"
+                >
+                  <Step
+                    title="In Progress"
+                    subTitle=""
+                    description="게시글을 작성해주세요."
+                  />
+                  <Step
+                    title="Finished"
+                    subTitle=""
+                    description="POST버튼을 눌러주세요."
+                  />
 
-            <Step
-              title="Waiting"
-              // subTitle={currentTime}
-              description="데이터를 전송중입니다."
-            />
-          </Steps>
-        </form>
+                  <Step
+                    title="Waiting"
+                    subTitle=""
+                    description="데이터를 전송중입니다."
+                  />
+                </Steps>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     );
   });
