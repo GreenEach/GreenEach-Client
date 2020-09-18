@@ -5,6 +5,7 @@ import { observer, useObserver, useLocalStore } from "mobx-react";
 import { modalShowState, userState } from "../../store/homeStore/sign";
 import Axios from "axios";
 import { Cookies, withCookies } from "react-cookie";
+import SocialLogin from "../googleLogin";
 
 const signInModal = ({ cookies }) => {
   const handleClose = useCallback(() => {
@@ -112,6 +113,7 @@ const signInModal = ({ cookies }) => {
           >
             SignIn
           </Button>
+          <SocialLogin></SocialLogin>
         </Modal.Footer>
       </Modal>
     );
