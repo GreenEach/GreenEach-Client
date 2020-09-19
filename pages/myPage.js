@@ -5,8 +5,6 @@ import { observer, useObserver, useLocalStore } from "mobx-react";
 import Axios from "axios";
 import { Cookies, withCookies } from "react-cookie";
 
-
-
 const myPage = ({ cookies }) => {
   const state = useLocalStore(() => ({
     email: '',
@@ -42,7 +40,7 @@ const myPage = ({ cookies }) => {
     } else if (!state.password2) {
       alert("패스워드2를 입력해주세요.");
     } else {
-      return Axios.post('http://18.191.16.175:3000/sign/mypage',
+      return Axios.post('https://greeneachdomain.tk/sign/mypage',
         {
           ...state
         },
@@ -66,14 +64,23 @@ const myPage = ({ cookies }) => {
       .then((response) => {
         let contentsArr = []
         let commentsArr = []
-        console.log("data.response = ",response.data[0].Comments)
-        //response.data[0].Contents.length
+        console.log("data.response = ",response.data[0])
+       //업뎃 시간, 카테고리(레벨, 시즌) [[title, ]]
         for (let i = 0; i < response.data[0].Contents.length; i++) {
-          contentsArr.push(response.data[0].Contents[i].title); 
+          contentsArr.push(
+            [response.data[0].Contents[i].title,
+            response.data[0].Contents[i].level,
+            response.data[0].Contents[i].season,
+            response.data[0].Contents[i].updatedAt]
+          ); 
         }
 
         for(let j = 0; j < response.data[0].Comments.length; j++){
-          commentsArr.push(response.data[0].Comments[j].comment)
+          commentsArr.push(
+            [response.data[0].Comments[j].comment,
+            response.data[0].Comments[j].updatedAt]
+            
+           );
         }
 
         state.contents = contentsArr;
@@ -90,65 +97,88 @@ const myPage = ({ cookies }) => {
       getCommentsContents()
     }, [])
 
- // console.log("contents ==", state.contents.length,"comments == ",state.comments.length)
-  const map = () => {
-    for(let i = 0; i < state.contents.length; i++){
-      
-    }
+ 
+  const contentsList = () =>{
+   return state.contents.map(
+      (data, i) =>
+        (
+         
+        <div className={styles.contentsList}> {console.log(data)}{i+1}{"."}{data}</div>
+        )
+    )
   }
+
+  useEffect(() => {
+    contentsList()
+  }, [])
+
+    const commentsList = () =>{
+      return state.comments.map(
+          (data, i) => 
+            (
+            <div className={styles.comentssList}>{i+1}{"."}{data}</div>
+            )
+        )
+    }
+
+    useEffect(() => {
+      commentsList()
+    }, [])
+  
+
   return useObserver(() => {
     return (
       <div className={styles.flex_container}>
-        <div className={styles.flex_item1}>
-          <div >
-            내가 쓴 글
-            <div className={styles.item1_contents}>
-              <div>{state.contents[0]}</div>
-              <div>{state.contentyts[1]}</div>
-              {state.contents[2]}
+         <div className={styles.flex_item2}>
+           <div className={styles.userInfoUpdateContainer}>
+             <div className={styles.userInfoUpdateTitle}>
+              email {state.email}
+             </div>
+             <div>
+              <Form>
+              <Form.Group  controlId="formBasicEmail">
+                <Form.Label>이름</Form.Label>
+                <Form.Control type="username" placeholder="username" value={state.username} onChange={state.onChangeUserName} />
+              </Form.Group>
+              <Form.Group controlId="formBasicPassword">
+                <Form.Label>비밀번호</Form.Label>
+                <Form.Control
+                  type="password"
+                  placeholder="Password"
+                  value={state.password}
+                  onChange={state.onChangePassword}
+                />
+              </Form.Group>
+              <Form.Group controlId="formBasicPassword">
+                <Form.Label>비밀번호 확인</Form.Label>
+                <Form.Control
+                  type="password"
+                  placeholder="Password"
+                  value={state.password2}
+                  onChange={state.onChangePassword2}
+                />
+              </Form.Group>
+              <Button variant="primary" onClick={userInfoUpdate}>
+                변경하기
+              </Button>
+            </Form>
+              </div>
             </div>
-          </div>
-          <div >
-            내가 쓴 댓글
-            <div className={styles.item1_comments}>
-              <div>{state.comments[0]}</div>
-              <div>{state.comments[1]}</div>
-              
-            </div>
-          </div>
         </div>
-        <div className={styles.flex_item2}>
-          <Form className={styles.form_css}>
-            <Form.Group controlId="formBasicEmail">
-              <Form.Label>이름</Form.Label>
-              <Form.Control type="username" placeholder="Enter username" value={state.username} onChange={state.onChangeUserName} />
-            </Form.Group>
-            <Form.Group controlId="formBasicEmail">
-            <Form.Label>email</Form.Label>
-              <Form.Control placeholder={state.email} value={state.username}  />
-            </Form.Group>
-            <Form.Group controlId="formBasicPassword">
-              <Form.Label>비밀번호</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Password"
-                value={state.password}
-                onChange={state.onChangePassword}
-              />
-            </Form.Group>
-            <Form.Group controlId="formBasicPassword">
-              <Form.Label>비밀번호 확인</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Password"
-                value={state.password2}
-                onChange={state.onChangePassword2}
-              />
-            </Form.Group>
-            <Button variant="primary" onClick={userInfoUpdate}>
-              변경하기
-            </Button>
-          </Form>
+
+        <div className={styles.flex_item1}>
+          <div className={styles.contentsContainer}>
+            <div className={styles.title}>내가 쓴 글</div>
+            <div className={styles.item1_contents}>
+              {contentsList()}
+            </div>
+          </div>
+          <div className={styles.commentsContainer}>
+             <div className={styles.title}>내가 쓴 댓글</div>
+            <div className={styles.item1_comments}>
+              {commentsList()}
+            </div>
+          </div>
         </div>
       </div>
     );

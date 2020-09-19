@@ -9,12 +9,12 @@ import styles from "../styles/Nav.module.css";
 import Axios from "axios";
 import { Cookies, withCookies, removeCookie } from "react-cookie";
 
-const nav = ({cookies}) => {
+const nav = ({ cookies }) => {
   const state = useLocalStore(() => ({
     isLoggedIn: false
   }));
 
-  if(cookies.get("userInfo")){
+  if (cookies.get("userInfo")) {
     state.isLoggedIn = true;
   } else {
     state.isLoggedIn = false;
@@ -30,7 +30,7 @@ const nav = ({cookies}) => {
 
   const logOut = useCallback(() => {
     return Axios.post(
-      "http://18.191.16.175:3000/sign/signout",
+      "https://greeneachdomain.tk/sign/signout",
       {},
       { headers: { token: cookies.get("userInfo") } }
     ).then((response) => {
@@ -58,15 +58,15 @@ const nav = ({cookies}) => {
             </div>
           </div>
         ) : (
-          <div className={styles.flex_item3}>
-            <div className={styles.flex_item1}>
-              <a onClick={logOut}>LogOut</a>
+            <div className={styles.flex_item3}>
+              <div className={styles.flex_item1}>
+                <a onClick={logOut}>LogOut</a>
+              </div>
+              <div className={styles.flex_item2}>
+                <Link href="/myPage"><a>myPage</a></Link>
+              </div>
             </div>
-            <div className={styles.flex_item2}>
-             <Link href="/myPage"><a>myPage</a></Link>
-            </div>
-          </div>
-        )}
+          )}
       </div>
     );
   });

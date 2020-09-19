@@ -26,7 +26,7 @@ const signUpModal = () => {
   }));
 
   const handleSubmit = useCallback(() => {
-    return Axios.post("http://greeneachdomain.tk:3000/sign/signup", {
+    return Axios.post("https://greeneachdomain.tk/sign/signup", {
       ...state,
     })
       .then((response) => {
@@ -41,6 +41,7 @@ const signUpModal = () => {
       })
       .catch((err) => {
         console.log(err);
+        alert("이미 회원가입 되어있는 이메일 입니다")
       });
   });
   return useObserver(() => {

@@ -5,6 +5,7 @@ import { observer, useObserver, useLocalStore } from "mobx-react";
 import { modalShowState, userState } from "../../store/homeStore/sign";
 import Axios from "axios";
 import { Cookies, withCookies } from "react-cookie";
+import SocialLogin from "../googleLogin";
 
 const signInModal = ({ cookies }) => {
   const handleClose = useCallback(() => {
@@ -30,7 +31,7 @@ const signInModal = ({ cookies }) => {
     } else if (!state.password) {
       alert("패스워드를 입력해주세요.");
     } else {
-      return Axios.post("http://greeneachdomain.tk:3000/sign/signin", {
+      return Axios.post("https://greeneachdomain.tk/sign/signin", {
         ...state,
       })
         .then((response) => {
@@ -112,6 +113,7 @@ const signInModal = ({ cookies }) => {
           >
             SignIn
           </Button>
+          <SocialLogin/>
         </Modal.Footer>
       </Modal>
     );

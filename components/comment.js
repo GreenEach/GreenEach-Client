@@ -26,18 +26,18 @@ const Comment = ({ com, writer, cookies }) => {
   const patchCommentHandler = () => {
     axios
       .patch(
-        "http://greeneachdomain.tk:3000/comment",
+        "https://greeneachdomain.tk/comment",
         { comment: placeHolder, commentId: com.id },
         { headers: { token: cookies } }
       )
-      .then((data) => console.log(data))
+      .then((data) => (window.location = "/plantList"))
       .catch((error) => console.log(error));
   };
 
   //댓글삭제요청 함수
   const deleteCommentHandler = () => {
     axios({
-      url: "https://greeneachdomain.tk:443/comment",
+      url: "https://greeneachdomain.tk/comment",
       method: "delete",
       data: { commentId: com.id },
       headers: { token: cookies },
@@ -57,12 +57,15 @@ const Comment = ({ com, writer, cookies }) => {
           <div className="comment__userinfo">
             <div>{com.User.username}</div>
             <div>
-              {yearMonthDay}일{hour}시{min}분
+              {yearMonthDay}일 {"" + hour}시 {"" + min}분
             </div>
           </div>
-          <div>{com.comment}</div>
-          <button>수정</button>
-          <button onClick={deleteCommentHandler}>삭제</button>
+          <div className="comComment">{com.comment}</div>
+          <div className="clickSpace"></div>
+          <button onClick={() => setIsReviseMode(!isReviseMode)}>수정</button>
+          {/* <Link onClick={() => deleteCommentHandler()} href='/plantList'> */}
+          <button onClick={() => deleteCommentHandler()}>삭제</button>
+          {/* </Link> */}
         </div>
         <img
           className="tglcomment__photo"
@@ -71,6 +74,9 @@ const Comment = ({ com, writer, cookies }) => {
         ></img>
         <style jsx="true">
           {`
+            .comComment {
+              width: 40vw;
+            }
             .tglcomment__photo {
               max-width: 600px;
             }
@@ -116,13 +122,14 @@ const Comment = ({ com, writer, cookies }) => {
           <div className="comment__userinfo">
             <div>{com.User.username}</div>
             <div>
-              {yearMonthDay}일{hour}시{min}분
+              {yearMonthDay}일 {"" + hour}시 {"" + min}분
             </div>
           </div>
           <input
             type="text"
             value={placeHolder}
             onChange={(e) => setPlaceHolder(e.target.value)}
+            className="comComment"
           ></input>
           <img
             className="comment__photo"
@@ -136,6 +143,9 @@ const Comment = ({ com, writer, cookies }) => {
         </div>
         <style jsx="true">
           {`
+            .comComment {
+              width: 40vw;
+            }
             .tglcomment__photo {
               max-width: 600px;
             }
@@ -184,10 +194,12 @@ const Comment = ({ com, writer, cookies }) => {
           >
             <div>{com.User.username}</div>
             <div>
-              {yearMonthDay}일{hour}시{min}분
+              {yearMonthDay}일 {"" + hour}시 {"" + min}분
             </div>
           </div>
-          <div onClick={() => setIsClick(!isClick)}>{com.comment}</div>
+          <div className="comComment" onClick={() => setIsClick(!isClick)}>
+            {com.comment}
+          </div>
           <img
             onClick={() => setIsClick(!isClick)}
             className="comment__photo"
@@ -195,10 +207,15 @@ const Comment = ({ com, writer, cookies }) => {
             alt="사진"
           ></img>
           <button onClick={() => setIsReviseMode(!isReviseMode)}>수정</button>
-          <button>삭제</button>
+          <Link onClick={() => deleteCommentHandler()} href="/plantList">
+            <button onClick={() => deleteCommentHandler()}>삭제</button>
+          </Link>
         </div>
         <style jsx="true">
           {`
+            .comComment {
+              width: 40vw;
+            }
             .tglcomment__photo {
               max-width: 600px;
             }
@@ -230,7 +247,11 @@ const Comment = ({ com, writer, cookies }) => {
             .comment__userinfo {
               font-size: 2vh;
             }
-
+            .clickSpace {
+              background-color: transparent;
+              min-height: 5vh;
+              min-width: 5vw;
+            }
             .comment__photo {
               height: 5vh;
             }
@@ -244,16 +265,65 @@ const Comment = ({ com, writer, cookies }) => {
         <div className="comment__userinfo">
           <div>{com.User.username}</div>
           <div>
-            {yearMonthDay}일{hour}시{min}분
+            {yearMonthDay}일 {"" + hour}시 {"" + min}분
           </div>
         </div>
-        <div>{com.comment}</div>
+        <div className="comComment">{com.comment}</div>
+        <div className="clickSpace"></div>
+        <div className="trans"></div>
+        <div className="trans"></div>
       </div>
       <img
         className="tglcomment__photo"
         src={JSON.parse(com.photoUrl)[0]}
         alt="사진"
       ></img>
+
+      <style jsx="true">
+        {`
+          .trans {
+            min-width: 6vh;
+          }
+          .comComment {
+            width: 40vw;
+          }
+          .tglcomment__photo {
+            max-width: 600px;
+          }
+          .plantpage__bottom {
+            border: solid, 10px;
+          }
+          .mainDescription {
+            padding: 15vh;
+          }
+          .plantpage__bottom {
+            margin-top: 5vh;
+            font-size: 2vw;
+            text-align: center;
+          }
+
+          .comment__list {
+            width: 50vw;
+            display: flex;
+            text-align: center;
+            justify-content: space-between;
+            margin: auto;
+            margin-top: 5vh;
+          }
+
+          input {
+            width: 25vw;
+          }
+
+          .comment__userinfo {
+            font-size: 2vh;
+          }
+
+          .comment__photo {
+            height: 5vh;
+          }
+        `}
+      </style>
     </div>
   ) : (
     <div onClick={() => setIsClick(!isClick)}>
@@ -261,19 +331,27 @@ const Comment = ({ com, writer, cookies }) => {
         <div className="comment__userinfo">
           <div>{com.User.username}</div>
           <div>
-            {yearMonthDay}일{hour}시{min}분
+            {yearMonthDay}일 {"" + hour}시 {"" + min}분
           </div>
         </div>
-        <div>{com.comment}</div>
+        <div className="comComment">{com.comment}</div>
         <img
           className="comment__photo"
           src={JSON.parse(com.photoUrl)[0]}
           alt="사진"
         ></img>
+        <div className="trans"></div>
+        <div className="trans"></div>
       </div>
 
       <style jsx="true">
         {`
+          .trans {
+            min-width: 6vh;
+          }
+          .comComment {
+            width: 40vw;
+          }
           .tglcomment__photo {
             max-width: 600px;
           }

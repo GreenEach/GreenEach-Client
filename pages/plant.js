@@ -41,7 +41,7 @@ const Plant = ({ cookies }) => {
   const fetchContentDetail = async (coolId) => {
     // let id = plantListStore.listId;
     const result = await axios.post(
-      'http://greeneachdomain.tk:3000/content/detail',
+      'https://greeneachdomain.tk/content/detail',
       { contentId: coolId },
       { headers: { token: cookies.get('userInfo') } }
     );
@@ -58,7 +58,7 @@ const Plant = ({ cookies }) => {
   const deleteContentHandler = () => {
     let id = plantListStore.listId;
     axios({
-      url: 'http://greeneachdomain.tk:3000/content',
+      url: 'https://greeneachdomain.tk/content',
       method: 'delete',
       data: { contentId: Number(id) },
       headers: { token: cookies.get('userInfo') },
@@ -122,13 +122,15 @@ const Plant = ({ cookies }) => {
     console.log('comment=', Data.get('comment'));
     console.log('contentId=', Data.get('contentId'));
     axios
-      .post('http://greeneachdomain.tk:3000/comment', Data, {
+      .post('https://greeneachdomain.tk/comment', Data, {
         headers: { token: cookies.get('userInfo') },
       })
       .then((res) => {
         if (res.status === 200) {
           alert('댓글이 등록되었습니다.');
-          fetchContentDetail();
+          getIdPromise.then((passedData) => {
+            fetchContentDetail(passedData);
+          });
         }
       })
       .catch((err) => {
@@ -188,13 +190,13 @@ const Plant = ({ cookies }) => {
                 </div>
               </div>
             ) : (
-              <></>
-            )}
+                <></>
+              )}
           </div>
           {/*하단 comment 부분 */}
           <div className='plantpage__bottom'>
             <div className='create__comment'>
-              <div>{title}</div>
+              <div className='mainTitle'>{title}</div>
               <div className='mainDescription'>{content}</div>
               <form>
                 <input
@@ -222,6 +224,9 @@ const Plant = ({ cookies }) => {
               .plantpage__bottom {
                 border: solid, 10px;
               }
+              .mainTitle {
+                font-size: 2em;
+              }
               .mainDescription {
                 padding: 15vh;
               }
@@ -231,12 +236,14 @@ const Plant = ({ cookies }) => {
                 text-align: center;
               }
               .comment__list {
-                width: 50vw;
+                width: 70vw;
                 display: flex;
                 text-align: center;
                 justify-content: space-between;
                 margin: auto;
                 margin-top: 5vh;
+                padding-bottom: 2vh;
+                border-bottom: 1px solid darkgray;
               }
               input {
                 width: 25vw;
@@ -246,6 +253,7 @@ const Plant = ({ cookies }) => {
               }
               .comment__photo {
                 height: 5vh;
+                width:5vw
               }
             `}
           </style>
