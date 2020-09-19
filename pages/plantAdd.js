@@ -234,7 +234,7 @@ const start = ({ cookies }) => {
       Data.append("title", state.title);
       Data.append("level", state.level);
       Data.append("season", state.season);
-      console.log(Data.get("img", state.img));
+      console.log(Data.get("title", state.title));
       axios
         .post("https://greeneachdomain.tk/content", Data, {
           headers: { token: cookies.get("userInfo") },
@@ -465,15 +465,13 @@ const start = ({ cookies }) => {
               {/* <Title onChange={state.onChangeTitle}></Title> */}
               <InputGroup size="lg">
                 <InputGroup.Prepend>
-                  <InputGroup.Text
-                    id="inputGroup-sizing-lg"
-                    onChange={state.onChangeTitle}
-                  >
+                  <InputGroup.Text id="inputGroup-sizing-lg">
                     Title
                   </InputGroup.Text>
                 </InputGroup.Prepend>
                 <Col sm={30}>
                   <FormControl
+                    onChange={state.onChangeTitle}
                     className={styles.form_control}
                     aria-label="Large"
                     aria-describedby="inputGroup-sizing-sm"
@@ -481,19 +479,19 @@ const start = ({ cookies }) => {
                 </Col>
               </InputGroup>
               <Content onChange={state.onChangeContent}></Content>
-              <Loading
+              {/* <Loading
                 className={styles.create_button}
                 type="submit"
                 onClick={() => onClick}
-              ></Loading>
+              ></Loading> */}
               {/*Select적용한것처럼다시해보기<ㅡ보류*/}
-              {/* <Send
-            className={styles.create_button}
-            type="submit"
-            onClick={onClick}
-          >
-            POST!
-          </Send> */}{" "}
+              <Send
+                className={styles.create_button}
+                type="submit"
+                onClick={onClick}
+              >
+                POST!
+              </Send>
               <div className={styles.step2}>
                 <Steps
                   size="larger"
