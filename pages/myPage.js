@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from "react";
 import styles from "../styles/myPage.module.css";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Table } from "react-bootstrap";
 import { observer, useObserver, useLocalStore } from "mobx-react";
 import Axios from "axios";
 import { Cookies, withCookies } from "react-cookie";
@@ -32,29 +32,7 @@ const myPage = ({ cookies }) => {
 
   state.email = JSON.parse(jsonPayload).email
 
-  const userInfoUpdate = useCallback(() => {
-    if (!state.username) {
-      alert("이메일을 입력해주세요.")
-    } else if (!state.password) {
-      alert("패스워드를 입력해주세요.");
-    } else if (!state.password2) {
-      alert("패스워드2를 입력해주세요.");
-    } else {
-      return Axios.post('https://greeneachdomain.tk/sign/mypage',
-        {
-          ...state
-        },
-        { headers: { token: cookies.get("userInfo") } },
-      )
-        .then((response) => {
-          alert("회원정보가 변경되었습니다.")
-          console.log(response)
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  })
+  
 
   const getCommentsContents = () =>{
     Axios.post('http://18.191.16.175:3000/sign/mypage',
@@ -100,11 +78,24 @@ const myPage = ({ cookies }) => {
  
   const contentsList = () =>{
    return state.contents.map(
-      (data, i) =>
-        (
-         
-        <div className={styles.contentsList}> {console.log(data)}{i+1}{"."}{data}</div>
-        )
+      (data, i) => {
+        let yearMonthDay = data[3].substring(0, 10);
+        let hour = data[3].substring(11, 13);
+        let min = data[3].substring(14, 16);
+        return(
+          <tbody>
+          <tr>
+          {console.log(data)}
+            <td>{i+1}</td>
+            <td>{data[0]}</td>
+            <td>{data[1]}</td>
+            <td>{data[2]}</td>
+            <td> {yearMonthDay}일 {"" + hour}시 {"" + min}분</td>
+          </tr>
+        </tbody>
+        )  
+      }
+       
     )
   }
 
@@ -114,11 +105,25 @@ const myPage = ({ cookies }) => {
 
     const commentsList = () =>{
       return state.comments.map(
-          (data, i) => 
-            (
-            <div className={styles.comentssList}>{i+1}{"."}{data}</div>
+          (data, i) => {
+            let yearMonthDay = data[1].substring(0, 10);
+            let hour = data[1].substring(11, 13);
+            let min = data[1].substring(14, 16);
+            return(
+              <tbody>
+              <tr>
+                <td>{i+1}</td>
+                <td>{data[0]}</td>
+                <td> {yearMonthDay}일 {"" + hour}시 {"" + min}분</td>
+              </tr>
+            </tbody>
             )
-        )
+             
+        
+          
+          }
+            )
+        
     }
 
     useEffect(() => {
@@ -128,55 +133,45 @@ const myPage = ({ cookies }) => {
 
   return useObserver(() => {
     return (
-      <div className={styles.flex_container}>
-         <div className={styles.flex_item2}>
-           <div className={styles.userInfoUpdateContainer}>
-             <div className={styles.userInfoUpdateTitle}>
-              email {state.email}
-             </div>
-             <div>
-              <Form>
-              <Form.Group  controlId="formBasicEmail">
-                <Form.Label>이름</Form.Label>
-                <Form.Control type="username" placeholder="username" value={state.username} onChange={state.onChangeUserName} />
-              </Form.Group>
-              <Form.Group controlId="formBasicPassword">
-                <Form.Label>비밀번호</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Password"
-                  value={state.password}
-                  onChange={state.onChangePassword}
-                />
-              </Form.Group>
-              <Form.Group controlId="formBasicPassword">
-                <Form.Label>비밀번호 확인</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Password"
-                  value={state.password2}
-                  onChange={state.onChangePassword2}
-                />
-              </Form.Group>
-              <Button variant="primary" onClick={userInfoUpdate}>
-                변경하기
-              </Button>
-            </Form>
-              </div>
-            </div>
-        </div>
-
-        <div className={styles.flex_item1}>
-          <div className={styles.contentsContainer}>
+      <div className={styles.myPage_container}>
+        {/* <div className={styles.userInfoContainer}>
+           <div className={styles.userInfoTitle}>회원 정보</div>
+           <div className={styles.userInfoEmail}>email : {state.email}</div>
+          
+        </div> */}
+         <div className={styles.flex_item1}></div>
+        <div className={styles.contentsContainer}>
             <div className={styles.title}>내가 쓴 글</div>
             <div className={styles.item1_contents}>
+            <Table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Title</th>
+                  <th>Level</th>
+                  <th>Weather</th>
+                  <th>Update</th>
+                </tr>
+              </thead>
               {contentsList()}
+            </Table>
             </div>
           </div>
+
+        <div className={styles.flex_item2}>
           <div className={styles.commentsContainer}>
-             <div className={styles.title}>내가 쓴 댓글</div>
+            <div className={styles.title}>내가 쓴 댓글</div>
             <div className={styles.item1_comments}>
+            <Table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Comments</th>
+                  <th>Update</th>
+                </tr>
+              </thead>
               {commentsList()}
+            </Table>
             </div>
           </div>
         </div>

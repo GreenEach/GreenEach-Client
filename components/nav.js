@@ -4,6 +4,7 @@ import { useObserver, useLocalStore } from "mobx-react";
 import Link from "next/link";
 import SignUp from "./modal/signUpModal";
 import SignIn from "./modal/signInModal";
+import UserInfoUpdate from "./modal/userInfoUpdateModal";
 import { modalShowState, userState } from "../store/homeStore/sign";
 import styles from "../styles/Nav.module.css";
 import Axios from "axios";
@@ -27,6 +28,10 @@ const nav = ({ cookies }) => {
 
   const signInModalOpen = useCallback(() => {
     modalShowState.signInshow = true;
+  });
+
+  const infoUpdateshowOpen = useCallback(() => {
+    modalShowState.infoUpdateshow = true;
   });
 
   const logOut = useCallback(() => {
@@ -67,8 +72,8 @@ const nav = ({ cookies }) => {
             <div className={styles.flex_item1}>
               {state.isEditMode ? (
                 <div>
-                  <a onClick={signInModalOpen}>Edit</a>
-                  <SignIn />
+                  <a onClick={infoUpdateshowOpen}>Edit</a>
+                  <UserInfoUpdate />
                 </div>
               ) : (
                 <Link href="/myPage">
