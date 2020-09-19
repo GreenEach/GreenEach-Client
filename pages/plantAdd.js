@@ -14,6 +14,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import Loading from "../components/loading";
 import Col from "react-bootstrap/Col";
+import { Input } from "antd";
 // const background = styled.div;
 // const Container = styled.div`
 //   width: 745px;
@@ -100,44 +101,52 @@ const Send = styled.button`
   border: 1px solid #000000;
   box-sizing: border-box;
 `;
-const Delete1 = styled.div`
-  display: none;
-  top: 300px;
-`;
 const Thumb1 = styled.img`
   display: none;
-`;
-const Delete2 = styled.div`
-  display: none;
+  border-radius: 10px;
 `;
 const Thumb2 = styled.img`
   display: none;
   margin-top: -150px;
   margin-left: 160px;
-`;
-const Delete3 = styled.div`
-  display: none;
+  border-radius: 10px;
 `;
 const Thumb3 = styled.img`
   display: none;
   margin-top: -150px;
+  border-radius: 10px;
   margin-left: 320px;
-`;
-const Delete4 = styled.div`
-  display: none;
 `;
 const Thumb4 = styled.img`
   display: none;
   margin-top: -150px;
   margin-left: 480px;
-`;
-const Delete5 = styled.div`
-  display: none;
+  border-radius: 10px;
 `;
 const Thumb5 = styled.img`
   display: none;
   margin-top: -150px;
   margin-left: 640px;
+  border-radius: 10px;
+`;
+const Delete1 = styled.button`
+  display: none;
+`;
+
+const Delete2 = styled.button`
+  display: none;
+`;
+
+const Delete3 = styled.button`
+  display: none;
+`;
+
+const Delete4 = styled.button`
+  display: none;
+`;
+
+const Delete5 = styled.button`
+  display: none;
 `;
 
 const Line = styled.img`
@@ -151,6 +160,7 @@ const Line = styled.img`
 //
 
 const start = ({ cookies }) => {
+  const { TextArea } = Input;
   const { Option } = Select;
   const { Step } = Steps;
   const currentTime = new Date();
@@ -321,6 +331,7 @@ const start = ({ cookies }) => {
     document.querySelector(".delButton5").style.display = "block";
   };
   const thumbDel1 = (e) => {
+    e.preventDefault();
     let thumbImg = e.target.previousElementSibling; //직전요소의 이벤트 객체 = 생성된 썸네일
     thumbImg.src = "";
     document.querySelector(".IMG").value = "";
@@ -329,6 +340,7 @@ const start = ({ cookies }) => {
     alert("사진을 다시 선택해주세요");
   };
   const thumbDel2 = (e) => {
+    e.preventDefault();
     let thumbImg = e.target.previousElementSibling; //직전요소의 이벤트 객체 = 생성된 썸네일
     thumbImg.src = "";
     let newFileList = Array.from(document.querySelector(".IMG").files);
@@ -337,9 +349,9 @@ const start = ({ cookies }) => {
     document.querySelector(".delButton2").style.display = "none";
     document.querySelector(".thumbImg2").style.display = "none";
     document.querySelector(".delButton1").style.display = "block";
-    alert("두번째 이미지가 삭제되었습니다.");
   };
   const thumbDel3 = (e) => {
+    e.preventDefault();
     let thumbImg = e.target.previousElementSibling; //직전요소의 이벤트 객체 = 생성된 썸네일
     thumbImg.src = "";
     let newFileList = Array.from(document.querySelector(".IMG").files);
@@ -348,9 +360,9 @@ const start = ({ cookies }) => {
     document.querySelector(".delButton3").style.display = "none";
     document.querySelector(".thumbImg3").style.display = "none";
     document.querySelector(".delButton2").style.display = "block";
-    alert("세번째 이미지가 삭제되었습니다.");
   };
   const thumbDel4 = (e) => {
+    e.preventDefault();
     let thumbImg = e.target.previousElementSibling; //직전요소의 이벤트 객체 = 생성된 썸네일
     thumbImg.src = "";
     let newFileList = Array.from(document.querySelector(".IMG").files);
@@ -359,9 +371,9 @@ const start = ({ cookies }) => {
     document.querySelector(".delButton4").style.display = "none";
     document.querySelector(".thumbImg4").style.display = "none";
     document.querySelector(".delButton3").style.display = "block";
-    alert("네번째 이미지가 삭제되었습니다.");
   };
   const thumbDel5 = (e) => {
+    e.preventDefault();
     let thumbImg = e.target.previousElementSibling; //직전요소의 이벤트 객체 = 생성된 썸네일
     thumbImg.src = "";
     let newFileList = Array.from(document.querySelector(".IMG").files);
@@ -378,21 +390,32 @@ const start = ({ cookies }) => {
     return (
       <div className={styles.Container}>
         <div className={styles.bothContainer}>
-          <img className={styles.leftSide} src={"../public/bg.png"}></img>
-          <div className={styles.contentContainer}>
-            <Jumbotron className={styles.Jumbotron}>
-              <h1>Lets, GreenEach!</h1>
+          <Jumbotron className={styles.Jumbotron}>
+            <h1>Lets, GreenEach!</h1>
 
-              <p> </p>
-              <h5>
-                그린이치에서 여러분들의 식물을 모두와 공유해보세요! 그린이치에서
-                여러분들의 식물을 모두와 공유해보세요!
-              </h5>
-              <p></p>
-              <p>
-                <button variant="primary">Learn more</button>
-              </p>
-            </Jumbotron>
+            <p> </p>
+            <h5>
+              그린이치에서 여러분들의 식물을 모두와 공유해보세요! 그린이치에서
+              여러분들의 식물을 모두와 공유해보세요!
+            </h5>
+            <p></p>
+            <p>
+              <button variant="primary">Learn more</button>
+            </p>
+
+            <iframe
+              className={styles.leftSide}
+              src="https://giphy.com/embed/xUA7aNCph54MS9Xco8"
+              width="743"
+              height="420"
+            ></iframe>
+          </Jumbotron>
+
+          <p>
+            <a href="https://giphy.com/gifs/cinemagraph-gif-artist-xUA7aNCph54MS9Xco8"></a>
+          </p>
+
+          <div className={styles.contentContainer}>
             <form enctype="multipart/form-data">
               <File
                 accept="image/jpeg, image/jpg, image/png"
@@ -405,26 +428,27 @@ const start = ({ cookies }) => {
               ></File>
               <div>
                 <Thumb1 src="" className="thumbImg1" />
+                <Delete1 className="delButton1" onClick={thumbDel1}>
+                  X
+                </Delete1>
                 <Thumb2 src="" className="thumbImg2" />
                 <Thumb3 src="" className="thumbImg3" />
                 <Thumb4 src="" className="thumbImg4" />
                 <Thumb5 src="" className="thumbImg5" />
+
+                <Delete2 className="delButton2" onClick={thumbDel2}>
+                  X
+                </Delete2>
+                <Delete3 className="delButton3" onClick={thumbDel3}>
+                  X
+                </Delete3>
+                <Delete4 className="delButton4" onClick={thumbDel4}>
+                  X
+                </Delete4>
+                <Delete5 className="delButton5" onClick={thumbDel5}>
+                  X
+                </Delete5>
               </div>
-              <Delete1 className="delButton1" onClick={thumbDel1}>
-                선택취소1
-              </Delete1>
-              <Delete2 className="delButton2" onClick={thumbDel2}>
-                선택취소2
-              </Delete2>
-              <Delete3 className="delButton3" onClick={thumbDel3}>
-                선택취소3
-              </Delete3>
-              <Delete4 className="delButton4" onClick={thumbDel4}>
-                선택취소4
-              </Delete4>
-              <Delete5 className="delButton5" onClick={thumbDel5}>
-                선택취소5
-              </Delete5>
               <Select
                 onChange={(value) => state.onChangeLevel(value)}
                 className={styles.Select1}
@@ -449,26 +473,15 @@ const start = ({ cookies }) => {
                 <Option value="fall">가을</Option>
                 <Option value="winter">겨울</Option>
               </Select>
-              {/* <Select1 onChange={state.onChangeLevel} className={styles.Select1}>
-            <option value="none">선택해주세요</option>
-            <option value="easy">초보자</option>
-            <option value="normal">경험자</option>
-            <option value="hard">숙련자</option>
-          </Select1>
-          <Select2 onChange={state.onChangeSeason} className={styles.Select2}>
-            <option value="any">선택해주세요</option>
-            <option value="spring">봄</option>
-            <option value="summer">여름</option>
-            <option value="fall">가을</option>
-            <option value="winter">겨울</option>
-          </Select2> */}
-              {/* <Title onChange={state.onChangeTitle}></Title> */}
+
               <InputGroup size="lg">
-                <InputGroup.Prepend>
-                  <InputGroup.Text id="inputGroup-sizing-lg">
-                    Title
-                  </InputGroup.Text>
-                </InputGroup.Prepend>
+                <Col sm={30}>
+                  <InputGroup.Prepend className="inputSize">
+                    <InputGroup.Text className="input-group-text">
+                      Title
+                    </InputGroup.Text>
+                  </InputGroup.Prepend>{" "}
+                </Col>
                 <Col sm={30}>
                   <FormControl
                     onChange={state.onChangeTitle}
@@ -478,20 +491,20 @@ const start = ({ cookies }) => {
                   />
                 </Col>
               </InputGroup>
-              <Content onChange={state.onChangeContent}></Content>
+
+              <TextArea
+                rows={25}
+                onChange={state.onChangeContent}
+                className="textContent"
+              />
+
+              {/* <Content ></Content> */}
               {/* <Loading
                 className={styles.create_button}
-                type="submit"
-                onClick={() => onClick}
+                type="button"
+                onClick={(e) => onClick(e)}
               ></Loading> */}
               {/*Select적용한것처럼다시해보기<ㅡ보류*/}
-              <Send
-                className={styles.create_button}
-                type="submit"
-                onClick={onClick}
-              >
-                POST!
-              </Send>
               <div className={styles.step2}>
                 <Steps
                   size="larger"
@@ -517,6 +530,13 @@ const start = ({ cookies }) => {
                     description="데이터를 전송중입니다."
                   />
                 </Steps>
+                <Send
+                  className={styles.create_button}
+                  type="submit"
+                  onClick={onClick}
+                >
+                  POST!
+                </Send>
               </div>
             </form>
           </div>

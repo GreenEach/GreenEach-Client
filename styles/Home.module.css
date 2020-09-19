@@ -93,6 +93,89 @@
   justify-content: center;
   align-items: center;
 }
+.intro_Container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.flex_introItem1{
+  border-radius: 70rem;
+  width: 15rem;
+  height: 15rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('/byeong.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.flex_introItem2{
+  border-radius: 70rem;
+  width: 15rem;
+  height: 15rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('/han.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  margin-right: 2rem;
+}
+
+.flex_introItem3{
+  border-radius: 70rem;
+  width: 15rem;
+  height: 15rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('/jun.jpeg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 12.5rem;
+  box-shadow: 0px 0px 20px 10px rgb(229, 227, 232);
+  
+}
+
+.flex_introItem4{
+  border-radius: 70rem;
+  width: 15rem;
+  height: 15rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('/jin.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  margin-right: 2rem;
+  margin-bottom: 5rem;
+}
+
+.introItemBox{
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.introBox{
+  width: 40rem;
+  height: 10rem;
+  border-radius: 1rem;
+  background-color: rgb(246, 245, 247);
+  margin-top: 5em;
+  margin-right: 2rem;
+  box-shadow: 0px 0px 20px 10px rgb(229, 227, 232);
+  
+}
+
+.introItemBox2{
+  display: flex;
+  flex-direction: row;
+}
 
 .benefit {
   margin-top: 3rem;
@@ -111,8 +194,8 @@
 }
 
 .image {
-  width: 5rem;
-  height: 5rem;
+  width: 19rem;
+  height: 15rem;
 }
 
 .a {
@@ -219,12 +302,7 @@
   transition: color 0.15s ease, border-color 0.15s ease;
 }
 
-.card:hover,
-.card:focus,
-.card:active {
-  color: #0070f3;
-  border-color: #0070f3;
-}
+
 
 .card h3 {
   margin: 0 0 1rem 0;
@@ -246,4 +324,18 @@
     width: 100%;
     flex-direction: column;
   }
+}
+
+.table {
+  display: table;
+  width: 100%;
+  border: 2px solid black;
+}
+.jb_table_row {
+  display: table-row;
+}
+.jb_table_cell {
+  display: table-cell;
+  padding: 0px 20px;
+  height: 150px;
 }

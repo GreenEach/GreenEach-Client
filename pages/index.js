@@ -23,8 +23,12 @@ const Home = ({ cookies }) => {
     }
     )
       .then((response) => {
-        state.img = JSON.parse(response.data[0].photoUrl)
-        console.log(JSON.parse(response.data[0].photoUrl))
+        let responseImgArr = [];
+        for(let i = 0; i < 4; i++){
+          responseImgArr.push((JSON.parse(response.data[i].photoUrl)[0]))
+          console.log(JSON.parse(response.data[i].photoUrl)[0])
+        }
+        state.img = responseImgArr;       
       })
       .catch((err) => {
         console.log(err);
@@ -34,12 +38,6 @@ const Home = ({ cookies }) => {
     getImage()
   }, [])
 
-  let imgmapping = state.img.map((data) => {
-
-    <img src={data} className={styles.image}></img>
-
-  })
-  console.log("img map = ", imgmapping)
   return useObserver(() => {
     return (
       <div className={styles.container}>
@@ -50,6 +48,7 @@ const Home = ({ cookies }) => {
             </p>
           </Link>
         </div>
+
         <div className={styles.flex_item2}>
           <p className={styles.benefit}> GreenEach Benefit</p>
           <div className={styles.flex_item2_container}>
@@ -69,9 +68,31 @@ const Home = ({ cookies }) => {
             <div className={styles.child3}>각종 게시글 및 데이터 활용</div>
           </div>
         </div>
-        <p className={styles.benefit}> GreenEach</p>
+
+        <div className={styles.intro_Container}>
+          <p className={styles.benefit}> GreenEach Introduce</p>
+            <div className={styles.introItemBox}>
+              <div className={styles.flex_introItem1}></div>
+              <div className={styles.introBox}>병관</div>
+            </div>
+            <div className={styles.introItemBox2}>
+              <div className={styles.flex_introItem2}></div>
+              <div className={styles.introBox}>병관</div>
+            </div>
+            <div className={styles.introItemBox}>
+              <div className={styles.flex_introItem3}></div>
+              <div className={styles.introBox}>병관</div>
+            </div>
+            <div className={styles.introItemBox2}>
+              <div className={styles.flex_introItem4}></div>
+              <div className={styles.introBox}>병관</div>
+            </div>
+        </div>
+        
+        
+        <p className={styles.benefit}> Notice Board</p>
         <div className={styles.flex_item3}>
-          {/* {console.log(imgmapping)} */}
+          {/* {console.log(state.img[0])} */}
           <img src={state.img[0]} className={styles.image}></img>
           <img src={state.img[1]} className={styles.image}></img>
           <img src={state.img[2]} className={styles.image}></img>
