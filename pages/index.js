@@ -50,20 +50,22 @@ const Home = ({ cookies }) => {
         </div>
         <div className={styles.intro_Container}>
           <p className={styles.benefit}> GreenEach Introduce</p>
-          <div className={styles.flex_item2_container}>
-            <div>
-              <div className={styles.flex_introItem}></div>
+            <div className={styles.introItemBox}>
+              <div className={styles.flex_introItem1}></div>
+              <div className={styles.introBox}>병관</div>
             </div>
-            <div>
-              <div className={styles.flex_introItem}></div>
+            <div className={styles.introItemBox2}>
+              <div className={styles.flex_introItem2}></div>
+              <div className={styles.introBox}>병관</div>
             </div>
-            <div>
-              <div className={styles.flex_introItem}></div>
+            <div className={styles.introItemBox}>
+              <div className={styles.flex_introItem3}></div>
+              <div className={styles.introBox}>병관</div>
             </div>
-            <div>
-              <div className={styles.flex_introItem}></div>
+            <div className={styles.introItemBox2}>
+              <div className={styles.flex_introItem4}></div>
+              <div className={styles.introBox}>병관</div>
             </div>
-           </div>
         </div>
         
         <div className={styles.flex_item2}>

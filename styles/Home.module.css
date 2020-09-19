@@ -98,8 +98,79 @@
   flex-direction: column;
  
 }
-.flex_introItem{
+.flex_introItem1{
+  
+  border: 1px solid black;
+  border-radius: 70rem;
+  width: 15rem;
+  height: 15rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('/byeong.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
 
+.flex_introItem2{
+  
+  border: 1px solid black;
+  border-radius: 70rem;
+  width: 15rem;
+  height: 15rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('/han.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.flex_introItem3{
+  
+  border: 1px solid black;
+  border-radius: 70rem;
+  width: 15rem;
+  height: 15rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('/han.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.flex_introItem4{
+  
+  border: 1px solid black;
+  border-radius: 70rem;
+  width: 15rem;
+  height: 15rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('/jin.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.introItemBox{
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.introBox{
+  width: 20rem;
+  border: 1px solid black;
+}
+
+.introItemBox2{
+  display: flex;
+  flex-direction: row;
 }
 
 .benefit {
@@ -249,4 +320,18 @@
     width: 100%;
     flex-direction: column;
   }
+}
+
+.table {
+  display: table;
+  width: 100%;
+  border: 2px solid black;
+}
+.jb_table_row {
+  display: table-row;
+}
+.jb_table_cell {
+  display: table-cell;
+  padding: 0px 20px;
+  height: 150px;
 }
