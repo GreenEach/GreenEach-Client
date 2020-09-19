@@ -52,7 +52,7 @@ const nav = ({ cookies }) => {
               <a onClick={signUpModalOpen}>SignUp</a>
               <SignUp />
             </div>
-            <div className={styles.flex_item2}>
+            <div className={styles.flex_item1}>
               <a onClick={signInModalOpen}>SignIn</a>
               <SignIn />
             </div>
@@ -62,7 +62,7 @@ const nav = ({ cookies }) => {
               <div className={styles.flex_item1}>
                 <a onClick={logOut}>LogOut</a>
               </div>
-              <div className={styles.flex_item2}>
+              <div className={styles.flex_item1}>
                 <Link href="/myPage"><a>myPage</a></Link>
               </div>
             </div>
