@@ -1,17 +1,27 @@
 .Container {
-  display: flex;
-  flex-flow: column nowrap;
-
-  justify-content: center;
+  background-image: url("/bgblur.png");
   align-content: center;
   align-items: center;
-  /* margin-top: 10rem; */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
-
+.bothContainer {
+  display: flex;
+}
+.leftSide {
+  flex-basis: 40%;
+}
+.contentContainer {
+  flex-basis: 60%;
+}
+.Jumbotron {
+  width: 40vw;
+}
 #IMG {
   color: black;
   font-size: 20px;
-  margin: 70px;
+  margin-bottom: 50px;
   padding: 15px 20px;
   border-radius: 10px;
 }
@@ -21,14 +31,6 @@
 
   width: 200px;
 
-  /* padding: 15px 20px; 
-  margin: 90px;
-  min-width: 200px;
-  display: flex;
-  border: none;
-  font-size: 20px;
-  padding: 7px 10px;
-  */
   margin: 10px;
 }
 .Select2 {
@@ -36,6 +38,9 @@
   font-size: 20px;
   width: 200px;
   margin: 10px;
+}
+.form_control {
+  width: 30vw;
 }
 .create_button {
   color: black;
@@ -50,4 +55,10 @@
 
 .Step {
   display: flex;
+  margin-top: 100px;
+  margin-bottom: 100px;
+  padding-inline: 20px;
+}
+.step2 {
+  width: 36vw;
 }
