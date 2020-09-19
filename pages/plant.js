@@ -28,7 +28,7 @@ const Plant = ({ cookies }) => {
   const [username, setUsername] = useState("");
   const [createdAt, setCreatedAt] = useState("");
   const router = useRouter();
-  // console.log(JSON.parse(router.query.id).id);
+
   const getIdPromise = new Promise((resolve, reject) => {
     const passedData = JSON.parse(router.query.id).id;
     if (passedData) {
@@ -38,7 +38,6 @@ const Plant = ({ cookies }) => {
     }
   });
   const fetchContentDetail = async (coolId) => {
-    // let id = plantListStore.listId;)
     const result = await axios.post(
       "https://greeneachdomain.tk/content/detail",
       { contentId: coolId },
