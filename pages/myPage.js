@@ -26,7 +26,7 @@ const myPage = ({ cookies }) => {
 
   const getCommentsContents = () => {
     Axios.post(
-      "http://18.191.16.175:3000/sign/mypage",
+      "https://greeneachdomain.tk/sign/mypage",
       {},
       { headers: { token: cookies.get("userInfo") } }
     )
