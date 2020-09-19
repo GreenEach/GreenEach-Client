@@ -48,6 +48,27 @@ const Home = ({ cookies }) => {
             </p>
           </Link>
         </div>
+
+        <div className={styles.flex_item2}>
+          <p className={styles.benefit}> GreenEach Benefit</p>
+          <div className={styles.flex_item2_container}>
+            <div className={styles.flex_item2_item}>
+              <img src="/login.png" className={styles.icon}></img>
+            </div>
+            <div className={styles.flex_item2_item}>
+              <img src="/social.png" className={styles.icon}></img>
+            </div>
+            <div className={styles.flex_item2_item}>
+              <img src="/board.png" className={styles.icon}></img>
+            </div>
+          </div>
+          <div className={styles.flex_item2_container2}>
+            <div className={styles.child1}>로그인 후 사용</div>
+            <div className={styles.child2}>다양한 유저들과 소통</div>
+            <div className={styles.child3}>각종 게시글 및 데이터 활용</div>
+          </div>
+        </div>
+
         <div className={styles.intro_Container}>
           <p className={styles.benefit}> GreenEach Introduce</p>
             <div className={styles.introItemBox}>
@@ -68,25 +89,7 @@ const Home = ({ cookies }) => {
             </div>
         </div>
         
-        <div className={styles.flex_item2}>
-          <p className={styles.benefit}> GreenEach Benefit</p>
-          <div className={styles.flex_item2_container}>
-            <div className={styles.flex_item2_item}>
-              <img src="/login.png" className={styles.icon}></img>
-            </div>
-            <div className={styles.flex_item2_item}>
-              <img src="/social.png" className={styles.icon}></img>
-            </div>
-            <div className={styles.flex_item2_item}>
-              <img src="/board.png" className={styles.icon}></img>
-            </div>
-          </div>
-          <div className={styles.flex_item2_container2}>
-            <div className={styles.child1}>로그인 후 사용</div>
-            <div className={styles.child2}>다양한 유저들과 소통</div>
-            <div className={styles.child3}>각종 게시글 및 데이터 활용</div>
-          </div>
-        </div>
+        
         <p className={styles.benefit}> Notice Board</p>
         <div className={styles.flex_item3}>
           {/* {console.log(state.img[0])} */}

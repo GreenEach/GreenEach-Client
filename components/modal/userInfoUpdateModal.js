@@ -9,7 +9,7 @@ import SocialLogin from "../googleLogin";
 
 const userInfoUpdateModal = ({ cookies }) => {
   const handleClose = useCallback(() => {
-    modalShowState.signInshow = false;
+    modalShowState.infoUpdateshow = false;
   });
 
   const state = useLocalStore(() => ({
@@ -43,7 +43,8 @@ const userInfoUpdateModal = ({ cookies }) => {
         { headers: { token: cookies.get("userInfo") } },
       )
         .then((response) => {
-          alert("회원정보가 변경되었습니다.")
+          alert("회원정보가 변경되었습니다.");
+          modalShowState.infoUpdateshow = false;
           console.log(response)
         })
         .catch((err) => {
@@ -55,14 +56,14 @@ const userInfoUpdateModal = ({ cookies }) => {
   return useObserver(() => {
     return (
       <Modal
-        show={modalShowState.signInshow}
+        show={modalShowState.infoUpdateshow}
         onHide={handleClose}
         animation={false}
         backdrop="static"
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Sign In</Modal.Title>
+          <Modal.Title>UserInfo Update</Modal.Title>
         </Modal.Header>
         <Modal.Body>
             <Form>
