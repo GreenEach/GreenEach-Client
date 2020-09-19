@@ -67,7 +67,9 @@ const PlantList = ({ cookies }) => {
   return useObserver(() => {
     return (
       <div>
+        <div className={styles.gif}></div>
         <div className={styles.selectBar}>
+
           <div className={styles.choiceAndCreate}>
             <div className={styles.newContentText}>
               나에게 맞는 식물을 검색해보세요!
