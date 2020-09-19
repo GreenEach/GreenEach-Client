@@ -4,7 +4,12 @@ html body {
   font-family: "Do Hyeon", sans-serif;
   cursor: default;
 }
-
+html a{
+  color: inherit;
+}
+html a:hover{
+  color: inherit;
+}
 * {
   box-sizing: border-box;
 }
