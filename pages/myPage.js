@@ -24,8 +24,6 @@ const myPage = ({ cookies }) => {
     },
   }));
 
-  state.email = JSON.parse(jsonPayload).email;
-
   const getCommentsContents = () => {
     Axios.post(
       "http://18.191.16.175:3000/sign/mypage",
