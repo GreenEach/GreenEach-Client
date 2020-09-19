@@ -93,6 +93,14 @@
   justify-content: center;
   align-items: center;
 }
+.intro_Container{
+  display: flex;
+  flex-direction: column;
+ 
+}
+.flex_introItem{
+
+}
 
 .benefit {
   margin-top: 3rem;
