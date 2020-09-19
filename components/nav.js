@@ -11,9 +11,10 @@ import { Cookies, withCookies, removeCookie } from "react-cookie";
 
 const nav = ({ cookies }) => {
   const state = useLocalStore(() => ({
-    isLoggedIn: false
+    isLoggedIn: false,
+    isEditMode: false,
   }));
-
+  console.log("isEditMode", state.isEditMode);
   if (cookies.get("userInfo")) {
     state.isLoggedIn = true;
   } else {
@@ -35,6 +36,7 @@ const nav = ({ cookies }) => {
       { headers: { token: cookies.get("userInfo") } }
     ).then((response) => {
       cookies.remove("userInfo");
+      window.location = "/";
       alert("로그아웃 되었습니다.");
       console.log(response);
     });
@@ -44,7 +46,7 @@ const nav = ({ cookies }) => {
     return (
       <div className={styles.flex_container}>
         <a href="/">
-          <img src="greenEachLogo (1).png" className={styles.logo} ></img>
+          <img src="greenEachLogo (1).png" className={styles.logo}></img>
         </a>
         {!state.isLoggedIn ? (
           <div className={styles.flex_item3}>
@@ -58,15 +60,24 @@ const nav = ({ cookies }) => {
             </div>
           </div>
         ) : (
-            <div className={styles.flex_item3}>
-              <div className={styles.flex_item1}>
-                <a onClick={logOut}>LogOut</a>
-              </div>
-              <div className={styles.flex_item1}>
-                <Link href="/myPage"><a>myPage</a></Link>
-              </div>
+          <div className={styles.flex_item3}>
+            <div className={styles.flex_item1}>
+              <a onClick={logOut}>LogOut</a>
             </div>
-          )}
+            <div className={styles.flex_item1}>
+              {state.isEditMode ? (
+                <div>
+                  <a onClick={signInModalOpen}>Edit</a>
+                  <SignIn />
+                </div>
+              ) : (
+                <Link href="/myPage">
+                  <a onClick={() => (state.isEditMode = true)}>myPage</a>
+                </Link>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     );
   });
