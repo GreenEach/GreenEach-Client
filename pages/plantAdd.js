@@ -12,7 +12,6 @@ import { Select } from "antd";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
-import Loading from "../components/loading";
 import Col from "react-bootstrap/Col";
 import { Input } from "antd";
 // const background = styled.div;
@@ -498,13 +497,6 @@ const start = ({ cookies }) => {
                 className="textContent"
               />
 
-              {/* <Content ></Content> */}
-              {/* <Loading
-                className={styles.create_button}
-                type="button"
-                onClick={(e) => onClick(e)}
-              ></Loading> */}
-              {/*Select적용한것처럼다시해보기<ㅡ보류*/}
               <div className={styles.step2}>
                 <Steps
                   size="larger"
