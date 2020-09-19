@@ -496,7 +496,6 @@ const start = ({ cookies }) => {
                 onChange={state.onChangeContent}
                 className="textContent"
               />
-
               <div className={styles.step2}>
                 <Steps
                   size="larger"
