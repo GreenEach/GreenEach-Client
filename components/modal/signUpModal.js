@@ -41,6 +41,7 @@ const signUpModal = () => {
       })
       .catch((err) => {
         console.log(err);
+        alert("이미 회원가입 되어있는 이메일 입니다")
       });
   });
   return useObserver(() => {

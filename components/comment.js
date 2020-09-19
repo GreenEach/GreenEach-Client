@@ -136,9 +136,9 @@ const Comment = ({ com, writer, cookies }) => {
             src={JSON.parse(com.photoUrl)[0]}
             alt="사진"
           ></img>
-          {/* <Link onClick={() => patchCommentHandler()} href='/plantList'> */}
-          <button onClick={() => patchCommentHandler()}>완료</button>
-          {/* </Link> */}
+          <Link onClick={() => patchCommentHandler()} href="/plantList">
+            <button onClick={() => patchCommentHandler()}>완료</button>
+          </Link>
           <button onClick={() => setIsReviseMode(!isReviseMode)}>취소</button>
         </div>
         <style jsx="true">
@@ -259,7 +259,7 @@ const Comment = ({ com, writer, cookies }) => {
         </style>
       </div>
     )
-  ) : isClick ? ( //내글(x) , 클릭(ㅇ)
+  ) : isClick ? (
     <div onClick={() => setIsClick(!isClick)}>
       <div className="comment__list">
         <div className="comment__userinfo">

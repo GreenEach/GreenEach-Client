@@ -113,7 +113,7 @@ const signInModal = ({ cookies }) => {
           >
             SignIn
           </Button>
-          <SocialLogin></SocialLogin>
+          <SocialLogin/>
         </Modal.Footer>
       </Modal>
     );
