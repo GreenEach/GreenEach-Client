@@ -410,23 +410,22 @@ const start = ({ cookies }) => {
     document.querySelector(".delButton4").style.display = "block";
     alert("마지막 이미지가 삭제되었습니다.");
   };
-  // var number = 0;
-  // var animations = [
-  //   "https://image.ibb.co/epha5A/giphy.gif",
-  //   "https://image.ibb.co/epha5A/giphy.gif",
-  //   "https://image.ibb.co/epha5A/giphy.gif",
-  // ];
+  var number = 0;
+  var animations = [
+    "https://image.ibb.co/epha5A/giphy.gif",
+    "https://image.ibb.co/epha5A/giphy.gif",
+    "https://image.ibb.co/epha5A/giphy.gif",
+  ];
 
   // let refreshIntervalId = setInterval(() => {
-  //   let image;
-  //   image = document.querySelector("#hiddenimageid");
+  //   let image = document.querySelector("#hiddenimageid");
   //   image.src = animations[number];
   // }, 1);
 
   // const character = () => {
   //   clearInterval(refreshIntervalId);
-  //   let image;
-  //   image = document.querySelector("#hiddenimageid");
+
+  //   let image = document.querySelector("#hiddenimageid");
   //   image.src = animations[number];
   //   console.log(number);
   //   number++;
@@ -517,7 +516,6 @@ const start = ({ cookies }) => {
                     숙련자
                   </Option>
                 </Select>
-
                 <Select
                   onChange={(value) => state.onChangeSeason(value)}
                   className={styles.Select2}
@@ -598,11 +596,11 @@ const start = ({ cookies }) => {
                 >
                   Greenach!
                 </Send>
-                {/* <div onclick={character()}>
+                <div>
                   <div class="board">
                     <img src="" id="hiddenimageid" />
                   </div>
-                </div> */}
+                </div>
               </div>
             </form>
           </div>
