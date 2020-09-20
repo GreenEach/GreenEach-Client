@@ -42,11 +42,13 @@ const Plant = ({ cookies }) => {
 
   const fetchContentDetail = async (coolId) => {
     // let id = plantListStore.listId;)
+    console.log(coolId);
     const result = await axios.post(
       "https://greeneachdomain.tk/content/detail",
       { contentId: coolId },
       { headers: { token: cookies.get("userInfo") } }
     );
+    console.log(result);
     let rowCreatedAt = result.data.contentInfo[0].createdAt;
     let createdAt = `${rowCreatedAt.substring(0, 4)}년 ${rowCreatedAt.substring(
       5,
