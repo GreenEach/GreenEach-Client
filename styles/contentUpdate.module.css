@@ -1,0 +1,111 @@
+.Container {
+    background-image: url("/bgblur.png");
+    align-content: center;
+    align-items: center;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+  .bothContainer {
+    display: flex;
+    margin: 60px;
+  }
+  .leftSide {
+    border-radius: 10px;
+    margin-top: 200px;
+    margin-right: 200px;
+  
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+  }
+  .contentContainer {
+    flex-basis: 55%;
+  }
+  
+  .Jumbotron {
+    width: 40vw;
+    border-radius: 10px;
+    flex-basis: 45%;
+    margin-bottom: 105px;
+    margin-right: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  #IMG {
+    color: black;
+    font-size: 20px;
+    margin-bottom: 50px;
+    padding: 15px 20px;
+    border-radius: 10px;
+  }
+  .Select1 {
+    display: flex;
+    font-size: 20px;
+  
+    width: 200px;
+  
+    margin: 10px;
+  }
+  .Select2 {
+    display: flex;
+    font-size: 20px;
+    width: 200px;
+    margin: 10px;
+  }
+  .input-group-text {
+    padding-bottom: 30px;
+    padding-top: 5px;
+  
+    margin-bottom: 20px;
+  }
+  .inputSize {
+    margin-bottom: 20px;
+    height: 10vh;
+  }
+  .form_control {
+    width: 30vw;
+  }
+  .textContent {
+    height: 30vh;
+    font-size: 200px;
+  }
+  .create_button {
+    color: black;
+    font-size: 20px;
+    margin: 30px;
+    padding: 15px 20px;
+    border: 3px solid grey;
+    border-radius: 5px;
+    text-align: center;
+    display: flex;
+  }
+  
+  .Step {
+    display: flex;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    padding-inline: 20px;
+  }
+  .step2 {
+    width: 36vw;
+  }
+  .delButton1 {
+    border-radius: 10px;
+  }
+  .delButton2 {
+    font-size: 20px;
+  }
+  .delButton3 {
+    font-size: 20px;
+  }
+  .delButton4 {
+    font-size: 20px;
+  }
+  .delButton5 {
+    font-size: 20px;
+  }
+  
