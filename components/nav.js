@@ -15,7 +15,7 @@ const nav = ({ cookies }) => {
     isLoggedIn: false,
     isEditMode: false,
   }));
-  console.log("isEditMode", state.isEditMode);
+
   if (cookies.get("userInfo")) {
     state.isLoggedIn = true;
   } else {
@@ -43,7 +43,6 @@ const nav = ({ cookies }) => {
       cookies.remove("userInfo");
       window.location = "/";
       alert("로그아웃 되었습니다.");
-      console.log(response);
     });
   });
 
