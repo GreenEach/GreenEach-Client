@@ -27,9 +27,7 @@ const Plant = ({ cookies }) => {
   const [content, setContent] = useState("");
   const [username, setUsername] = useState("");
   const [createdAt, setCreatedAt] = useState("");
-
   const router = useRouter();
-  // console.log(JSON.parse(router.query.id).id);
 
   const getIdPromise = new Promise((resolve, reject) => {
     const passedData = JSON.parse(router.query.id).id;
@@ -39,10 +37,7 @@ const Plant = ({ cookies }) => {
       reject(error);
     }
   });
-
   const fetchContentDetail = async (coolId) => {
-    // let id = plantListStore.listId;)
-    console.log(coolId);
     const result = await axios.post(
       "https://greeneachdomain.tk/content/detail",
       { contentId: coolId },
@@ -65,7 +60,6 @@ const Plant = ({ cookies }) => {
       setIsMyContent(true);
     }
   };
-
   const deleteContentHandler = () => {
     let id = plantListStore.listId;
     axios({
@@ -84,7 +78,6 @@ const Plant = ({ cookies }) => {
         console.log(err);
       });
   };
-
   useEffect(() => {
     getIdPromise.then((passedData) => {
       fetchContentDetail(passedData);
