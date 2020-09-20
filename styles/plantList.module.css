@@ -1,12 +1,13 @@
 .gif{
         width: 60vw;
-        height: 50vh;
-        background-image: url('/main.gif');
+        height: 80vh;
+        background-image: url('/final.gif');
         margin: auto;
         margin-top: 3vh;
         border: 0.5rem solid rgb(38, 132, 102);
-        
+        overflow: hidden;
         border-radius: 10px;
+        object-fit: cover;
 }
 .lists{
     display: flex;
