@@ -100,6 +100,11 @@ const Send = styled.button`
   border: 1px solid #000000;
   box-sizing: border-box;
 `;
+const ThumbDiv1 = styled.div``;
+const ThumbDiv2 = styled.div``;
+const ThumbDiv3 = styled.div``;
+const ThumbDiv4 = styled.div``;
+const ThumbDiv5 = styled.div``;
 const Thumb1 = styled.img`
   display: none;
   border-radius: 10px;
@@ -127,25 +132,47 @@ const Thumb5 = styled.img`
   margin-top: -150px;
   margin-left: 640px;
   border-radius: 10px;
+  position: relative;
 `;
 const Delete1 = styled.button`
   display: none;
+  position: absolute;
+  border-radius: 10px;
+  position: absolute;
+  top: 210px;
+  left: 1040px;
 `;
 
 const Delete2 = styled.button`
   display: none;
+  border-radius: 10px;
+  position: absolute;
+  top: 210px;
+  left: 1200px;
 `;
 
 const Delete3 = styled.button`
   display: none;
+  border-radius: 10px;
+  position: absolute;
+  top: 210px;
+  left: 1360px;
 `;
 
 const Delete4 = styled.button`
   display: none;
+  border-radius: 10px;
+  position: absolute;
+  top: 210px;
+  left: 1520px;
 `;
 
 const Delete5 = styled.button`
   display: none;
+  border-radius: 10px;
+  position: absolute;
+  top: 210px;
+  left: 1680px;
 `;
 
 const Line = styled.img`
@@ -383,8 +410,27 @@ const start = ({ cookies }) => {
     document.querySelector(".delButton4").style.display = "block";
     alert("마지막 이미지가 삭제되었습니다.");
   };
-  const date = new Date();
+  // var number = 0;
+  // var animations = [
+  //   "https://image.ibb.co/epha5A/giphy.gif",
+  //   "https://image.ibb.co/epha5A/giphy.gif",
+  //   "https://image.ibb.co/epha5A/giphy.gif",
+  // ];
 
+  // let refreshIntervalId = setInterval(() => {
+  //   let image;
+  //   image = document.querySelector("#hiddenimageid");
+  //   image.src = animations[number];
+  // }, 1);
+
+  // const character = () => {
+  //   clearInterval(refreshIntervalId);
+  //   let image;
+  //   image = document.querySelector("#hiddenimageid");
+  //   image.src = animations[number];
+  //   console.log(number);
+  //   number++;
+  // };
   return useObserver(() => {
     return (
       <div className={styles.Container}>
@@ -410,10 +456,6 @@ const start = ({ cookies }) => {
             ></iframe>
           </Jumbotron>
 
-          <p>
-            <a href="https://giphy.com/gifs/cinemagraph-gif-artist-xUA7aNCph54MS9Xco8"></a>
-          </p>
-
           <div className={styles.contentContainer}>
             <form enctype="multipart/form-data">
               <File
@@ -425,57 +467,84 @@ const start = ({ cookies }) => {
                 onChange={state.onAddedImg}
                 multiple
               ></File>
-              <div>
+
+              <ThumbDiv1>
                 <Thumb1 src="" className="thumbImg1" />
                 <Delete1 className="delButton1" onClick={thumbDel1}>
                   X
                 </Delete1>
+              </ThumbDiv1>
+              <ThumbDiv2>
                 <Thumb2 src="" className="thumbImg2" />
-                <Thumb3 src="" className="thumbImg3" />
-                <Thumb4 src="" className="thumbImg4" />
-                <Thumb5 src="" className="thumbImg5" />
-
                 <Delete2 className="delButton2" onClick={thumbDel2}>
                   X
                 </Delete2>
+              </ThumbDiv2>
+              <ThumbDiv3>
+                <Thumb3 src="" className="thumbImg3" />
                 <Delete3 className="delButton3" onClick={thumbDel3}>
                   X
                 </Delete3>
+              </ThumbDiv3>
+              <ThumbDiv4>
+                <Thumb4 src="" className="thumbImg4" />
                 <Delete4 className="delButton4" onClick={thumbDel4}>
                   X
                 </Delete4>
+              </ThumbDiv4>
+              <ThumbDiv5>
+                <Thumb5 src="" className="thumbImg5" />
                 <Delete5 className="delButton5" onClick={thumbDel5}>
                   X
                 </Delete5>
-              </div>
-              <Select
-                onChange={(value) => state.onChangeLevel(value)}
-                className={styles.Select1}
-              >
-                <Option value="disabled" disabled>
-                  선택해주세요
-                </Option>
-                <Option value="easy">초보자</Option>
-                <Option value="normal">경험자</Option>
-                <Option value="hard">숙련자</Option>
-              </Select>
-              <Select
-                onChange={(value) => state.onChangeSeason(value)}
-                className={styles.Select2}
-              >
-                <Option value="disabled" disabled>
-                  선택해주세요
-                </Option>
-                <Option value="any">사계절</Option>
-                <Option value="spring">봄</Option>
-                <Option value="summer">여름</Option>
-                <Option value="fall">가을</Option>
-                <Option value="winter">겨울</Option>
-              </Select>
+              </ThumbDiv5>
 
+              <div>
+                <Select
+                  onChange={(value) => state.onChangeLevel(value)}
+                  className={styles.Select1}
+                >
+                  <Option className="Option" value="disabled" disabled>
+                    선택해주세요
+                  </Option>
+                  <Option className="Option" value="easy">
+                    초보자
+                  </Option>
+                  <Option className="Option" value="normal">
+                    경험자
+                  </Option>
+                  <Option className="Option" value="hard">
+                    숙련자
+                  </Option>
+                </Select>
+
+                <Select
+                  onChange={(value) => state.onChangeSeason(value)}
+                  className={styles.Select2}
+                >
+                  <Option className="Option" value="disabled" disabled>
+                    선택해주세요
+                  </Option>
+                  <Option className="Option" value="any">
+                    사계절
+                  </Option>
+                  <Option className="Option" value="spring">
+                    봄
+                  </Option>
+                  <Option className="Option" value="summer">
+                    여름
+                  </Option>
+                  <Option className="Option" value="fall">
+                    가을
+                  </Option>
+                  <Option className="Option" value="winter">
+                    겨울
+                  </Option>
+                </Select>
+              </div>
               <InputGroup size="lg">
                 <Col sm={30}>
-                  <InputGroup.Prepend className="inputSize">
+                  <InputGroup.Prepend>
                     <InputGroup.Text className="input-group-text">
                       Title
                     </InputGroup.Text>
@@ -492,9 +561,9 @@ const start = ({ cookies }) => {
               </InputGroup>
 
               <TextArea
-                rows={25}
+                rows={6}
                 onChange={state.onChangeContent}
-                className="textContent"
+                className={styles.textContent}
               />
               <div className={styles.step2}>
                 <Steps
@@ -502,9 +571,10 @@ const start = ({ cookies }) => {
                   className={styles.Step}
                   current={progress}
                   status={error}
-                // direction="vertical"
+                  // direction="vertical"
                 >
                   <Step
+                    className={styles.Step1}
                     title="In Progress"
                     subTitle=""
                     description="게시글을 작성해주세요."
@@ -526,8 +596,13 @@ const start = ({ cookies }) => {
                   type="submit"
                   onClick={onClick}
                 >
-                  POST!
+                  Greenach!
                 </Send>
+                {/* <div onclick={character()}>
+                  <div class="board">
+                    <img src="" id="hiddenimageid" />
+                  </div>
+                </div> */}
               </div>
             </form>
           </div>

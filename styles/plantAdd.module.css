@@ -8,14 +8,16 @@
 }
 .bothContainer {
   display: flex;
-  margin: 60px;
+  /* margin-top: 30px; */
+
+  margin-left: 60px;
 }
 .leftSide {
   border-radius: 10px;
   margin-top: 200px;
   margin-right: 200px;
 
-  position: absolute;
+  position: relative;
   top: 0;
   left: 0;
   bottom: 0;
@@ -27,84 +29,97 @@
 }
 
 .Jumbotron {
+  margin-top: 60px;
   width: 40vw;
   border-radius: 10px;
   flex-basis: 45%;
-  margin-bottom: 105px;
+  margin-bottom: 100px;
   margin-right: 40px;
   position: relative;
   overflow: hidden;
 }
 #IMG {
+  margin-top: 60px;
   color: black;
   font-size: 20px;
-  margin-bottom: 50px;
+  margin-bottom: 15px;
   padding: 15px 20px;
   border-radius: 10px;
 }
 .Select1 {
   display: flex;
-  font-size: 20px;
-
+  font-size: 20px !important;
   width: 200px;
 
-  margin: 10px;
+  top: 42px;
+  display: flex;
 }
 .Select2 {
   display: flex;
+  left: 210px;
   font-size: 20px;
   width: 200px;
   margin: 10px;
+  display: flex;
 }
-.input-group-text {
+.Option {
+  font-size: 20px !important;
+}
+.input-group {
   padding-bottom: 30px;
   padding-top: 5px;
-
-  margin-bottom: 20px;
+  margin: 10px;
 }
+
 .inputSize {
-  margin-bottom: 20px;
-  height: 10vh;
+  margin-bottom: 40px;
+  height: 20vh;
 }
 .form_control {
-  width: 30vw;
+  width: 20vw;
 }
 .textContent {
-  height: 30vh;
-  font-size: 200px;
+  height: 5vh;
+  margin-top: 10px;
+  width: 35vw;
+  font-size: 30px;
+  resize: none;
 }
 .create_button {
   color: black;
   font-size: 20px;
   margin: 30px;
+  margin-top: 50px;
+  margin-left: 300px;
   padding: 15px 20px;
-  border: 3px solid grey;
+  border: 30px solid grey;
   border-radius: 5px;
+
   text-align: center;
   display: flex;
 }
-
+.Stpe1 {
+  font-size: 40px;
+}
 .Step {
   display: flex;
-  margin-top: 100px;
-  margin-bottom: 100px;
-  padding-inline: 20px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+
+  /* padding-inline: 20px; */
 }
 .step2 {
   width: 36vw;
 }
-.delButton1 {
-  border-radius: 10px;
+.board {
+  position: absolute;
+  top: 4.3vh;
+  left: 10vw;
+  cursor: pointer;
 }
-.delButton2 {
-  font-size: 20px;
-}
-.delButton3 {
-  font-size: 20px;
-}
-.delButton4 {
-  font-size: 20px;
-}
-.delButton5 {
-  font-size: 20px;
+
+.board img {
+  width: 35.3vw;
+  height: 45.5vh;
+  border-radius: 15%;
 }
