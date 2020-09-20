@@ -45,6 +45,18 @@
   
 }
 
+.flex_item4 {
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
+  
+  width: 100vw;
+  text-align: center;
+  display: flex;
+  height: auto;
+  flex-direction: column;
+}
+
 .flex_item2_container {
   display: flex;
   flex-direction: row;
@@ -98,6 +110,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  background-color: #f6f8fc;
 }
 .flex_introItem1{
   border-radius: 70rem;
@@ -136,7 +150,7 @@
   background-image: url('/jun.jpeg');
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 12.5rem;
+  background-size: cover;
   box-shadow: 0px 0px 20px 10px rgb(229, 227, 232);
   
 }
@@ -338,4 +352,29 @@
   display: table-cell;
   padding: 0px 20px;
   height: 150px;
+}
+.github_img{
+  width: 3em;
+  height: 3em;
+  margin-right: 1rem;
+}
+.insta_img{
+  width: 7em;
+  height: 4.5em;
+  margin-left: -15px;
+}
+
+.vel_img{
+  width: 3em;
+  height: 3em;
+}
+
+.tstory_img{
+  width: 3em;
+  height: 3em;
+}
+
+.intro_text{
+  font-size: 1.2rem;
+  margin-bottom: 4rem;
 }
