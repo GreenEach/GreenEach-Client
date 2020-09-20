@@ -43,6 +43,7 @@ const Plant = ({ cookies }) => {
       { contentId: coolId },
       { headers: { token: cookies.get("userInfo") } }
     );
+    console.log(result);
     let rowCreatedAt = result.data.contentInfo[0].createdAt;
     let createdAt = `${rowCreatedAt.substring(0, 4)}년 ${rowCreatedAt.substring(
       5,
