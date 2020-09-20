@@ -17,7 +17,7 @@
   align-items: center;
   width: 100vw;
   height: 45em;
-  background-image: url('/bg.png');
+  background-image: url("/bg.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -41,15 +41,15 @@
   order: 0;
   flex: 0 1 auto;
   align-self: auto;
+
   width: 100vw;
-  
 }
 
 .flex_item4 {
   order: 0;
   flex: 0 1 auto;
   align-self: auto;
-  
+
   width: 100vw;
   text-align: center;
   display: flex;
@@ -73,27 +73,26 @@
   margin-bottom: 2rem;
 }
 
-.child1{
+.child1 {
   order: 0;
   flex: 0 1 auto;
   align-self: auto;
-  margin-left: 2.6rem;
-  }
+  margin-left: 1.9rem;
+}
 
 .child2 {
   order: 0;
   flex: 0 1 auto;
   align-self: auto;
   margin-left: 5.2rem;
-  }
+}
 
 .child3 {
   order: 0;
   flex: 0 1 auto;
   align-self: auto;
   margin-left: 2.7rem;
-  }
-
+}
 
 .flex_item2_item {
   text-align: left;
@@ -105,7 +104,7 @@
   justify-content: center;
   align-items: center;
 }
-.intro_Container{
+.intro_Container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -113,91 +112,95 @@
   width: 100%;
   background-color: #f6f8fc;
 }
-.flex_introItem1{
+.flex_introItem1 {
   border-radius: 70rem;
   width: 15rem;
   height: 15rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url('/byeong.jpg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-}
-
-.flex_introItem2{
-  border-radius: 70rem;
-  width: 15rem;
-  height: 15rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-image: url('/han.jpg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  margin-right: 2rem;
-}
-
-.flex_introItem3{
-  border-radius: 70rem;
-  width: 15rem;
-  height: 15rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-image: url('/jun.jpeg');
+  background-image: url("/byeong.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
   box-shadow: 0px 0px 20px 10px rgb(229, 227, 232);
-  
 }
 
-.flex_introItem4{
+.flex_introItem2 {
   border-radius: 70rem;
   width: 15rem;
   height: 15rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url('/jin.jpg');
+  background-image: url("/han.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  margin-right: 2rem;
+  box-shadow: 0px 0px 20px 10px rgb(229, 227, 232);
+}
+
+.flex_introItem3 {
+  border-radius: 70rem;
+  width: 15rem;
+  height: 15rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("/jun.jpeg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  box-shadow: 0px 0px 20px 10px rgb(229, 227, 232);
+}
+
+.flex_introItem4 {
+  border-radius: 70rem;
+  width: 15rem;
+  height: 15rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("/jin.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
   margin-right: 2rem;
   margin-bottom: 5rem;
+  box-shadow: 0px 0px 20px 10px rgb(229, 227, 232);
 }
 
-.introItemBox{
+.introItemBox {
   display: flex;
   flex-direction: row-reverse;
 }
 
-.introBox{
+.introBox {
   width: 40rem;
   height: 10rem;
   border-radius: 1rem;
   background-color: rgb(246, 245, 247);
-  margin-top: 5em;
-  margin-right: 2rem;
+  margin-top: 2em;
+  padding-top: 15px;
+  padding-left: 20px;
+  margin-right: 1rem;
   box-shadow: 0px 0px 20px 10px rgb(229, 227, 232);
-  
+  font-size: 22px;
 }
 
-.introItemBox2{
+.introItemBox2 {
   display: flex;
   flex-direction: row;
 }
 
 .benefit {
   margin-top: 3rem;
-  font-size: 2rem;
+  font-size: 3rem;
 }
 
 .icon {
-  width: 8em;
+  width: 13em;
 }
 
 .page {
@@ -316,8 +319,6 @@
   transition: color 0.15s ease, border-color 0.15s ease;
 }
 
-
-
 .card h3 {
   margin: 0 0 1rem 0;
   font-size: 1.5rem;
@@ -353,28 +354,29 @@
   padding: 0px 20px;
   height: 150px;
 }
-.github_img{
+.github_img {
   width: 3em;
   height: 3em;
+
   margin-right: 1rem;
 }
-.insta_img{
+.insta_img {
   width: 7em;
   height: 4.5em;
   margin-left: -15px;
 }
 
-.vel_img{
+.vel_img {
   width: 3em;
   height: 3em;
 }
 
-.tstory_img{
+.tstory_img {
   width: 3em;
   height: 3em;
 }
 
-.intro_text{
+.intro_text {
   font-size: 1.2rem;
   margin-bottom: 4rem;
 }
